@@ -1,2 +1,4 @@
 # fastTopics-experiments
-Empirical comparisons of algorithms for fitting topic models.
+
+Numerical experiments on fitting non-negative matrix factorizations
+and topic models.
