@@ -72,8 +72,6 @@ print(plot_progress(list(em       = fit1,
                          "em+scd" = fit3),
                     x = "iter",add.point.every = 100,e = 0.1))
 
-stop()
-
 plot(fit1$L,fit2$L,pch = 20)
 abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
 i <- c(3,5)
