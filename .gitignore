@@ -1,2 +1,5 @@
 data/newsgroups.RData
 data/nips.RData
+output/nips/fits-nips.RData
+output/nips/rds/prefit-nips-k=*.rds
+output/nips/rds/fit-nips-*.rds

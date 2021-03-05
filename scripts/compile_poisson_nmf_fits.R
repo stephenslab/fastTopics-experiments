@@ -5,7 +5,7 @@ library(stringr)
 
 # Combine results from all files of the form fit-*.rds in this
 # directory.
-out.dir <- "../output/droplet/rds"
+out.dir <- "../output/nips/rds"
   
 # List all the RDS files containing the model fits.
 files <- Sys.glob(file.path(out.dir,"fit-*.rds"))
