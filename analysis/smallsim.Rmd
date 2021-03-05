@@ -44,6 +44,8 @@ s <- simulate_sizes(n)
 X <- simulate_multinom_counts(L,F,s)
 ```
 
+TO DO: Plot mixture proportions for topics 5 and 6.
+
 Remove any columns that are all zeros.
 
 ```{r filter-data-1}
@@ -78,7 +80,7 @@ fit3 <- fit_poisson_nmf(X,fit0 = fit1,numiter = 50,method = "scd",
 
 *Add text here.*
 
-```{r plot-1, fig.width=4, fig.height=3}
+```{r plot-progress-1, fig.width=4, fig.height=3}
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
 fit3 <- poisson2multinom(fit3)
@@ -92,4 +94,34 @@ Correlated topics scenario
 *Add text here.*
 
 ```{r simulate-data-2}
+S[5,6] <- 9
+S[6,5] <- 9
+L <- simulate_loadings(n,k,S)
+X <- simulate_multinom_counts(L,F,s)
+X <- X[,colSums(X > 0) > 0]
+```
+
+TO DO: Plot mixture proportions for topics 5 and 6.
+
+*Add text here.*
+
+```{r fit-5, results="hide", message=FALSE}
+fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
+                        control = list(extrapolate = FALSE,numiter = 4))
+fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "em",
+                        control = list(extrapolate = FALSE,numiter = 4))
+fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "scd",
+                        control = list(extrapolate = FALSE,numiter = 4))
+fit3 <- fit_poisson_nmf(X,fit0 = fit1,numiter = 50,method = "scd",
+                        control = list(extrapolate = FALSE,numiter = 4))
+```
+
+*Add text here.*
+
+```{r plot-progress-2, fig.width=4, fig.height=3}
+fit1 <- poisson2multinom(fit1)
+fit2 <- poisson2multinom(fit2)
+fit3 <- poisson2multinom(fit3)
+plot_progress(list(em = fit1,scd = fit2,"em+scd" = fit3),
+              x = "iter",add.point.every = 100)
 ```
