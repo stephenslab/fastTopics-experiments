@@ -55,19 +55,21 @@ F <- F[i,]
 # Fit a Poisson non-negative matrix factorization using EM and
 # extrapolated SCD updates.
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
-                        control = list(numiter = 4,nc = 4))
+                        control = list(extrapolate = FALSE,numiter = 4,nc = 4))
 fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "em",
-                        control = list(numiter = 4,nc = 4))
+                        control = list(extrapolate = FALSE,numiter = 4,nc = 4))
 fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "scd",
-                        control = list(extrapolate = TRUE,numiter = 4,nc = 4))
+                        control = list(extrapolate = FALSE,numiter = 4,nc = 4))
 fit3 <- fit_poisson_nmf(X,fit0 = fit1,numiter = 50,method = "scd",
-                        control = list(extrapolate = TRUE,numiter = 4,nc = 4))
+                        control = list(extrapolate = FALSE,numiter = 4,nc = 4))
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
 fit3 <- poisson2multinom(fit3)
 
 # Plot the improvement in the solution over time.
-print(plot_progress(list(em = fit1,scd = fit2,"em+scd" = fit3),
+print(plot_progress(list(em       = fit1,
+                         scd      = fit2,
+                         "em+scd" = fit3),
                     x = "iter",add.point.every = 100,e = 0.1))
 
 stop()
