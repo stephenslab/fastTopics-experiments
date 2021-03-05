@@ -31,7 +31,7 @@ echo outfile=${OUTFILE}
 
 DATFILE=../data/${DAT}.RData
 PREFIT=${DAT//"_"/"-"}
-PREFIT=../output/${PREFIT}/rds/prefit-${PREFIT}-k=${K}.rds
+PREFIT=prefit-${PREFIT}-k=${K}.rds
 
 # For reproducibility, I add version numbers to the "module load" calls.
 module load R/3.5.1
