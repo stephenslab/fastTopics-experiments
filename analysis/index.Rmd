@@ -1,11 +1,8 @@
 ---
-title: "Home"
+title: Numerical experiments on fitting non-negative matrix factorizations and topic models
+author: Peter Carbonetto
 site: workflowr::wflow_site
-output:
-  workflowr::wflow_html:
-    toc: false
-editor_options:
-  chunk_output_type: console
+output: workflowr::wflow_html
 ---
 
-Welcome to my research website.
+*Add links to analyses here.*
