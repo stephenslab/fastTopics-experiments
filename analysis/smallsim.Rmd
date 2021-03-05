@@ -3,3 +3,37 @@ title: Add title here
 author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
+
+*Add text here.*
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below, as well as additional
+functions that we will use to simulate the data.
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+source("../code/smallsim_functions.R")
+```
+
+Independent topics scenario
+---------------------------
+
+*Add text here.*
+
+```{r simulate-data-ind}
+n <- 100
+m <- 400
+k <- 6
+S <- matrix(-2,k,k) + 13*diag(k)
+F <- simulate_factors(n,k)
+s <- simulate_sizes(n)
+```
+
+Correlated topics scenario
+--------------------------
