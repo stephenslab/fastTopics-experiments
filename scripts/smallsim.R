@@ -1,5 +1,6 @@
 # TO DO: Explain here what this script does, and how to use it.
 library(fastTopics)
+library(mvtnorm)
 library(MCMCpack)
 set.seed(1)
 
@@ -8,6 +9,7 @@ set.seed(1)
 n <- 100
 m <- 1000
 k <- 6
+S <- 4*diag(k)
 
 # SIMULATE DATA
 # -------------
@@ -25,13 +27,20 @@ F <- t(t(F)/colSums(F))
 rm(a,s,u,z,j)
 
 # Generate the topic mixture proportions.
+# L  <- matrix(0,n,k)
+# k1 <- sample(k,n,replace = TRUE,prob = 2^(-seq(1,k)))
+# for (i in 1:n) {
+#   j      <- sample(k,k1[i])
+#   L[i,j] <- rdirichlet(1,rep(1,k1[i]))
+# }
+# rm(i,j,k1)
 L  <- matrix(0,n,k)
-k1 <- sample(k,n,replace = TRUE,prob = 2^(-seq(1,k)))
 for (i in 1:n) {
-  j      <- sample(k,k1[i])
-  L[i,j] <- rdirichlet(1,rep(1,k1[i]))
+  u <- rmvnorm(1,sigma = S)
+  u <- u - max(u)
+  L[i,] <- exp(u)/sum(exp(u))
 }
-rm(i,j,k1)
+rm(i,u)
 
 # Generate the total counts.
 s <- ceiling(10^rnorm(n,3,0.2))
@@ -50,9 +59,9 @@ X <- X[,colSums(X > 0) > 0]
 # extrapolated SCD updates.
 fit0 <- fit_poisson_nmf(X,k,numiter = 20,method = "em",
                         control = list(numiter = 4,nc = 4))
-fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 250,method = "em",
+fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = "em",
                         control = list(numiter = 4,nc = 4))
-fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 250,method = "scd",
+fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = "scd",
                         control = list(extrapolate = TRUE,numiter = 4,nc = 4))
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
