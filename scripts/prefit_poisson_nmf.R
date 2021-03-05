@@ -1,7 +1,7 @@
 #! /usr/bin/env Rscript
 #
 # Script for "prefitting" a Poisson non-negative factorization to one
-# of the single-cell RNA-seq data sets.
+# of the data sets.
 #
 # This script is intended to be run from the command-line shell, with
 # options that are processed using the optparse package. For example,

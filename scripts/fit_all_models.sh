@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # The shell commands below will submit Slurm jobs to perform the
-# Poisson NMF model fitting for all single-cell RNA-seq data sets, and
-# for different choices of the model parameters and optimization
-# settings.
+# Poisson NMF model fitting for all data sets, and for different
+# choices of the model parameters and optimization settings.
 SCRIPT_PREFIT=prefit_poisson_nmf.sbatch
 SCRIPT_FIT=fit_poisson_nmf.sbatch
 
