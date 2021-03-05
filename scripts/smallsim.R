@@ -68,7 +68,7 @@ fit3 <- poisson2multinom(fit3)
 
 # Plot the improvement in the solution over time.
 print(plot_progress(list(em = fit1,scd = fit2,"em+scd" = fit3),
-                    x = "iter",add.point.every = 100))
+                    x = "iter",add.point.every = 100,e = 0.1))
 
 stop()
 
