@@ -7,4 +7,4 @@ output: workflowr::wflow_html
 
 Follow the links to below to review the numerical experiments.
 
-+ [A small simulation.](smallsim.R)
++ [A small simulation.](smallsim.html)
