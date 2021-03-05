@@ -72,7 +72,8 @@ control <- list(extrapolate = extrapolate,nc = nc,
                 numiter = ifelse(method == "ccd",1,4))
 timing <- system.time({
   fit <- fit_poisson_nmf(counts,fit0 = fit0,numiter = numiter,
-                         method = method,control = control)
+                         method = method,control = control,
+                         verbose = "detailed")
 })
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 

@@ -61,7 +61,8 @@ cat(sprintf("Running %d EM updates to identify a good initialization.\n",
             numiter))
 timing <- system.time(
   fit <- fit_poisson_nmf(counts,k = k,numiter = numiter,method = "em",
-                         control = list(numiter = 4,nc = nc)))
+                         control = list(numiter = 4,nc = nc),
+                         verbose = "detailed"))
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 
 # SAVE RESULTS
