@@ -5,6 +5,6 @@ site: workflowr::wflow_site
 output: workflowr::wflow_html
 ---
 
-Follow the links to below to review the numerical experiments.
+Follow the links below to see the numerical experiments.
 
-+ [A small simulation.](smallsim.html)
++ [A small simulation illustrating the trouble with EM.](smallsim.html)

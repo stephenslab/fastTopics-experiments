@@ -1,5 +1,5 @@
 ---
-title: Add title here
+title: A small simulation illustrating the trouble with EM
 author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
@@ -31,53 +31,56 @@ set.seed(1)
 Independent topics scenario
 ---------------------------
 
-*Add text here.*
+In this first example, we simulate counts from a multinomial topic
+model with 6 topics.
 
 ```{r simulate-data-1}
 n <- 100
 m <- 400
 k <- 6
-S <- matrix(-2,k,k) + 13*diag(k)
+S <- 13*diag(k) - 2
 F <- simulate_factors(m,k)
 L <- simulate_loadings(n,k,S)
 s <- simulate_sizes(n)
 X <- simulate_multinom_counts(L,F,s)
-```
-
-TO DO: Plot mixture proportions for topics 5 and 6.
-
-Remove any columns that are all zeros.
-
-```{r filter-data-1}
 X <- X[,colSums(X > 0) > 0]
 ```
 
-*Add text here.*
+The topic proportions for each sample are randomly drawn from the
+[correlated topic model](https://doi.org/10.1214/07-AOAS114) in which
+$\eta_i$ for each sample $i$ is drawn from the multivariate normal
+with mean zero and covariance matrix $S$, such that $s_{kk} = 11$,
+$s_{jk} = -2$ for all $j \neq k$. Generated in this way, the topic
+proportions tend to be roughly *orthogonal*. For example, compare the
+proportions for topics 5 and 6:
+
+```{r plot-loadings-1, fig.width=3, fig.height=2.75}
+ggplot(data.frame(x = L[,5],y = L[,6]),aes(x = x,y = y)) +
+  geom_point(shape = 21,size = 1.75,color = "white",fill = "black") +
+  labs(x = "topic 5 proportion",y = "topic 6 proportion") +
+  theme_cowplot(font_size = 10)
+```
+
+We compare two different updates for fitting a Poisson NMF model to
+the simulated counts: the EM updates, and the sequential coordinate
+descent (SCD) updates. We initialize the model fitting by first
+running 50 EM updates so that the updates are more likely to be moving
+toward the same local maximum of the Poisson NMF likelihood surface.
 
 ```{r fit-1, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-```
-
-*Add text here.*
-
-```{r fit-2, results="hide", message=FALSE}
 fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-```
-
-*Add text here.*
-
-```{r fit-3, results="hide", message=FALSE}
 fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "scd",
                         control = list(extrapolate = FALSE,numiter = 4))
+fit1 <- poisson2multinom(fit1)
+fit2 <- poisson2multinom(fit2)
 ```
 
 *Add text here.*
 
 ```{r plot-progress-1, fig.width=4, fig.height=3}
-fit1 <- poisson2multinom(fit1)
-fit2 <- poisson2multinom(fit2)
 plot_progress(list(em = fit1,scd = fit2),x = "iter",add.point.every = 100)
 ```
 

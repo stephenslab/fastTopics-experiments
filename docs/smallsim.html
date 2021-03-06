@@ -305,7 +305,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -314,7 +314,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -323,10 +323,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-05
+<strong>Last updated:</strong> 2021-03-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>fastTopics-experiments/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -342,12 +342,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1a59342981f0e27b6ff1414acb0dd56739cd13fdtargetblank1a59342a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1a59342981f0e27b6ff1414acb0dd56739cd13fd" target="_blank">1a59342</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreee05365430c34a59f65be9517bbda215fe7b0d6cbtargetblanke053654a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/e05365430c34a59f65be9517bbda215fe7b0d6cb" target="_blank">e053654</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1a59342981f0e27b6ff1414acb0dd56739cd13fdtargetblank1a59342a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreee05365430c34a59f65be9517bbda215fe7b0d6cbtargetblanke053654a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1a59342981f0e27b6ff1414acb0dd56739cd13fd" target="_blank">1a59342</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/e05365430c34a59f65be9517bbda215fe7b0d6cb" target="_blank">e053654</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -432,7 +432,11 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    data/newsgroups.RData
     Ignored:    data/nips.RData
+    Ignored:    output/newsgroups/fits-newsgroups.RData
     Ignored:    output/nips/fits-nips.RData
+
+Unstaged changes:
+    Modified:   analysis/smallsim.Rmd
 
 </code></pre>
 <p>
@@ -471,6 +475,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/59a85948be8fa2d1ea13ad13b5c9f5d8c3590700/docs/smallsim.html" target="_blank">59a8594</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-05
+</td>
+<td>
+Revised the simulations slightly.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -625,31 +646,33 @@ source(&quot;../code/smallsim_functions.R&quot;)</code></pre>
 <pre class="r"><code>set.seed(1)</code></pre>
 <div id="independent-topics-scenario" class="section level2">
 <h2>Independent topics scenario</h2>
-<p><em>Add text here.</em></p>
+<p>In this first example, we simulate counts from a multinomial topic model with 6 topics.</p>
 <pre class="r"><code>n &lt;- 100
 m &lt;- 400
 k &lt;- 6
-S &lt;- matrix(-2,k,k) + 13*diag(k)
+S &lt;- 13*diag(k) - 2
 F &lt;- simulate_factors(m,k)
 L &lt;- simulate_loadings(n,k,S)
 s &lt;- simulate_sizes(n)
-X &lt;- simulate_multinom_counts(L,F,s)</code></pre>
-<p>TO DO: Plot mixture proportions for topics 5 and 6.</p>
-<p>Remove any columns that are all zeros.</p>
-<pre class="r"><code>X &lt;- X[,colSums(X &gt; 0) &gt; 0]</code></pre>
-<p><em>Add text here.</em></p>
+X &lt;- simulate_multinom_counts(L,F,s)
+X &lt;- X[,colSums(X &gt; 0) &gt; 0]</code></pre>
+<p>The topic proportions for each sample are randomly drawn from the <a href="https://doi.org/10.1214/07-AOAS114">correlated topic model</a> in which <span class="math inline">\(\eta_i\)</span> for each sample <span class="math inline">\(i\)</span> is drawn from the multivariate normal with mean zero and covariance matrix <span class="math inline">\(S\)</span>, such that <span class="math inline">\(s_{kk} = 11\)</span>, <span class="math inline">\(s_{jk} = -2\)</span> for all <span class="math inline">\(j \neq k\)</span>. Generated in this way, the topic proportions tend to be roughly <em>orthogonal</em>. For example, compare the proportions for topics 5 and 6:</p>
+<pre class="r"><code>ggplot(data.frame(x = L[,5],y = L[,6]),aes(x = x,y = y)) +
+  geom_point(shape = 21,size = 1.75,color = &quot;white&quot;,fill = &quot;black&quot;) +
+  labs(x = &quot;topic 5 proportion&quot;,y = &quot;topic 6 proportion&quot;) +
+  theme_cowplot(font_size = 10)</code></pre>
+<p><img src="figure/smallsim.Rmd/plot-loadings-1-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p>We compare two different updates for fitting a Poisson NMF model to the simulated counts: the EM updates, and the sequential coordinate descent (SCD) updates. We initialize the model fitting by first running 50 EM updates so that the updates are more likely to be moving toward the same local maximum of the Poisson NMF likelihood surface.</p>
 <pre class="r"><code>fit0 &lt;- fit_poisson_nmf(X,k,numiter = 50,method = &quot;em&quot;,
-                        control = list(extrapolate = FALSE,numiter = 4))</code></pre>
+                        control = list(extrapolate = FALSE,numiter = 4))
+fit1 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = &quot;em&quot;,
+                        control = list(extrapolate = FALSE,numiter = 4))
+fit2 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = &quot;scd&quot;,
+                        control = list(extrapolate = FALSE,numiter = 4))
+fit1 &lt;- poisson2multinom(fit1)
+fit2 &lt;- poisson2multinom(fit2)</code></pre>
 <p><em>Add text here.</em></p>
-<pre class="r"><code>fit1 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = &quot;em&quot;,
-                        control = list(extrapolate = FALSE,numiter = 4))</code></pre>
-<p><em>Add text here.</em></p>
-<pre class="r"><code>fit2 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = &quot;scd&quot;,
-                        control = list(extrapolate = FALSE,numiter = 4))</code></pre>
-<p><em>Add text here.</em></p>
-<pre class="r"><code>fit1 &lt;- poisson2multinom(fit1)
-fit2 &lt;- poisson2multinom(fit2)
-plot_progress(list(em = fit1,scd = fit2),x = &quot;iter&quot;,add.point.every = 100)</code></pre>
+<pre class="r"><code>plot_progress(list(em = fit1,scd = fit2),x = &quot;iter&quot;,add.point.every = 100)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-1-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-1-1">
@@ -673,6 +696,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/59a85948be8fa2d1ea13ad13b5c9f5d8c3590700/docs/figure/smallsim.Rmd/plot-progress-1-1.png" target="_blank">59a8594</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/ffad4713d65648d04dd584a5153ef38fc195ed81/docs/figure/smallsim.Rmd/plot-progress-1-1.png" target="_blank">ffad471</a>
@@ -739,6 +773,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/59a85948be8fa2d1ea13ad13b5c9f5d8c3590700/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">59a8594</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/ffad4713d65648d04dd584a5153ef38fc195ed81/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">ffad471</a>
