@@ -109,8 +109,8 @@ Correlated topics scenario
 
 ```{r simulate-data-2}
 set.seed(1)
-S[5,6] <- 10
-S[6,5] <- 10
+S[5,6] <- 8
+S[6,5] <- 8
 L <- simulate_loadings(n,k,S)
 X <- simulate_multinom_counts(L,F,s)
 X <- X[,colSums(X > 0) > 0]
