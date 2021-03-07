@@ -31,8 +31,8 @@ set.seed(1)
 Independent topics scenario
 ---------------------------
 
-In this first example, we simulate counts from a multinomial topic
-model with 6 topics.
+In this first example, we simulate a $100 \times 400$ counts matrix
+from a multinomial topic model with 6 topics.
 
 ```{r simulate-data-1}
 n <- 100
@@ -46,7 +46,8 @@ X <- simulate_multinom_counts(L,F,s)
 X <- X[,colSums(X > 0) > 0]
 ```
 
-The topic proportions for each sample are randomly drawn from the
+The topic proportions for each sample---*i.e.*, a row of the counts
+matrix---are randomly drawn from the
 [correlated topic model](https://doi.org/10.1214/07-AOAS114) in which
 $\eta_i$ for each sample $i$ is drawn from the multivariate normal
 with mean zero and covariance matrix $S$, such that $s_{kk} = 11$,
@@ -62,17 +63,16 @@ ggplot(data.frame(x = L[,5],y = L[,6]),aes(x = x,y = y)) +
 ```
 
 We compare two different updates for fitting a Poisson NMF model to
-the simulated counts: the EM updates, and the sequential coordinate
-descent (SCD) updates. We initialize the model fitting by first
-running 50 EM updates so that the updates are more likely to be moving
-toward the same local maximum of the Poisson NMF likelihood surface.
+the simulated counts: EM and sequential coordinate descent (SCD). We
+initialize the model fitting by first running 50 EM updates to better
+ensure that the same local maximum is recovered by both runs.
 
-```{r fit-1, results="hide", message=FALSE}
+```{r fit-1, message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "em",
+fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "scd",
+fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = "scd",
                         control = list(extrapolate = FALSE,numiter = 4))
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
@@ -81,7 +81,16 @@ fit2 <- poisson2multinom(fit2)
 *Add text here.*
 
 ```{r plot-progress-1, fig.width=4, fig.height=3}
-plot_progress(list(em = fit1,scd = fit2),x = "iter",add.point.every = 100)
+pdat <- rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method="em"),
+              data.frame(x=1:500,y=fit2$progress$loglik.multinom,method="scd"))
+pdat <- transform(pdat,y = max(y) - y + 0.01)
+pdat <- subset(pdat,x > 50)
+ggplot(pdat,aes(x = x,y = y,color = method)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-2,3)) +
+  scale_color_manual(values = c("dodgerblue","darkorange")) +
+  labs(x = "iteration",y = "distance from best loglik") +
+  theme_cowplot(font_size = 10)
 ```
 
 Correlated topics scenario
