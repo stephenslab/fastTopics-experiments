@@ -78,7 +78,8 @@ fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
 ```
 
-*Add text here.*
+This next plot shows the improvement in the solution over time for the
+EM and SCD updates.
 
 ```{r plot-progress-1, fig.width=4, fig.height=3}
 pdat <- rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method="em"),
@@ -92,6 +93,11 @@ ggplot(pdat,aes(x = x,y = y,color = method)) +
   labs(x = "iteration",y = "distance from best loglik") +
   theme_cowplot(font_size = 10)
 ```
+
+Although the SCD progresses very rapidly toward a solution, the EM
+also recovers the same solution after a reasonable number of
+iterations. In the next example, we will see that the EM updates fail
+to make reasonable progress.
 
 Correlated topics scenario
 --------------------------
