@@ -32,7 +32,7 @@ Independent topics scenario
 ---------------------------
 
 In this first example, we simulate a $100 \times 400$ counts matrix
-from a multinomial topic model with 6 topics.
+from a multinomial topic model with $K = 6$ topics.
 
 ```{r simulate-data-1}
 n <- 100
@@ -46,28 +46,31 @@ X <- simulate_multinom_counts(L,F,s)
 X <- X[,colSums(X > 0) > 0]
 ```
 
-The topic proportions for each sample---*i.e.*, a row of the counts
-matrix---are randomly drawn from the
-[correlated topic model](https://doi.org/10.1214/07-AOAS114) in which
-$\eta_i$ for each sample $i$ is drawn from the multivariate normal
-with mean zero and covariance matrix $S$, such that $s_{kk} = 11$,
-$s_{jk} = -2$ for all $j \neq k$. Generated in this way, the topic
-proportions tend to be roughly *orthogonal*. For example, compare the
-proportions for topics 5 and 6:
+The topic proportions for each of the 100 samples---that is, a row of
+the counts matrix---are randomly drawn according to the
+[correlated topic model](https://doi.org/10.1214/07-AOAS114): $\eta_i$
+for row $i$ is drawn from the multivariate normal with mean zero and
+covariance matrix $S$, such that $s_{kk} = 11$, $s_{jk} = -2$ for all
+$j \neq k$. Generated in this way, the topic proportions tend to be
+roughly orthogonal:
 
-```{r plot-loadings-1, fig.width=3, fig.height=2.75}
-ggplot(data.frame(x = L[,5],y = L[,6]),aes(x = x,y = y)) +
-  geom_point(shape = 21,size = 1.75,color = "white",fill = "black") +
-  labs(x = "topic 5 proportion",y = "topic 6 proportion") +
-  theme_cowplot(font_size = 10)
+```{r structure-plot-1, fig.width=6, fig.height=1.5, message=FALSE}
+y <- apply(L,1,which.max)
+y <- rank(y,ties.method = "random")
+y <- qqnorm(y,plot.it = FALSE)$x
+fit <- list(L = L)
+class(fit) <- c("multinom_topic_model_fit","list")
+structure_plot(fit,topics = 1:6,perplexity = 30,Y_init = matrix(y),
+               verbose = FALSE)
 ```
 
-We compare two different updates for fitting a Poisson NMF model to
-the simulated counts: EM and sequential coordinate descent (SCD). We
-initialize the model fitting by first running 50 EM updates to better
-ensure that the same local maximum is recovered by both runs.
+Here we compare two different updates for fitting a Poisson NMF model
+to the simulated counts: EM updates, and sequential coordinate descent
+(SCD). The model fitting is initialized by first running 50 EM
+updates, with the aim of better ensuring that the same local maximum
+is recovered by both runs.
 
-```{r fit-1, message=FALSE}
+```{r fit-1, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
 fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = "em",
@@ -81,7 +84,7 @@ fit2 <- poisson2multinom(fit2)
 This next plot shows the improvement in the solution over time for the
 EM and SCD updates.
 
-```{r plot-progress-1, fig.width=4, fig.height=3}
+```{r plot-progress-1, fig.width=3.5, fig.height=2.5}
 pdat <- rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method="em"),
               data.frame(x=1:500,y=fit2$progress$loglik.multinom,method="scd"))
 pdat <- transform(pdat,y = max(y) - y + 0.01)
@@ -94,10 +97,10 @@ ggplot(pdat,aes(x = x,y = y,color = method)) +
   theme_cowplot(font_size = 10)
 ```
 
-Although the SCD progresses very rapidly toward a solution, the EM
-also recovers the same solution after a reasonable number of
-iterations. In the next example, we will see that the EM updates fail
-to make reasonable progress.
+Among the two methods compared, the SCD updates progresses more
+rapidly toward a solution. Still, the EM updates recover the same
+solution after a reasonable number of iterations. Next we will see an
+example in which EM updates fail to make reasonable progress.
 
 Correlated topics scenario
 --------------------------
@@ -115,7 +118,15 @@ X <- X[,colSums(X > 0) > 0]
 
 TO DO: Plot mixture proportions for topics 5 and 6.
 
-*Add text here.*
+```{r structure-plot-2, fig.width=6, fig.height=1.5, message=FALSE}
+y <- apply(L,1,which.max)
+y <- rank(y,ties.method = "random")
+y <- qqnorm(y,plot.it = FALSE)$x
+fit <- list(L = L)
+class(fit) <- c("multinom_topic_model_fit","list")
+structure_plot(fit,topics = 1:6,perplexity = 30,Y_init = matrix(y),
+               verbose = FALSE)
+```
 
 ```{r fit-5, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
