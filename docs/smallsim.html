@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreec4b4f750a0c57db7ca4bc48f3a1b0ea7b7fda14ctargetblankc4b4f75a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/c4b4f750a0c57db7ca4bc48f3a1b0ea7b7fda14c" target="_blank">c4b4f75</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree858b366f47fe17f7c3433a79824df368539d1daftargetblank858b366a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/858b366f47fe17f7c3433a79824df368539d1daf" target="_blank">858b366</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreec4b4f750a0c57db7ca4bc48f3a1b0ea7b7fda14ctargetblankc4b4f75a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree858b366f47fe17f7c3433a79824df368539d1daftargetblank858b366a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/c4b4f750a0c57db7ca4bc48f3a1b0ea7b7fda14c" target="_blank">c4b4f75</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/858b366f47fe17f7c3433a79824df368539d1daf" target="_blank">858b366</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -472,6 +472,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/858b366f47fe17f7c3433a79824df368539d1daf/analysis/smallsim.Rmd" target="_blank">858b366</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-08
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/87ef32eb7cb850c0cdd260e7517573ae0599b69e/docs/smallsim.html" target="_blank">87ef32e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-08
+</td>
+<td>
+Added some more plots to smallsim demo.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1169,7 +1203,44 @@ ggplot(pdat,aes(x = x,y = y)) +
   geom_abline(intercept = 0,slope = 1,color = &quot;skyblue&quot;,linetype = &quot;dotted&quot;) +
   labs(x = &quot;em&quot;,y = &quot;scd&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
-<p><img src="figure/smallsim.Rmd/loadings-scatterplot-1-1.png" width="300" style="display: block; margin: auto;" /></p>
+<p><img src="figure/smallsim.Rmd/loadings-scatterplot-1-1.png" width="330" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-loadings-scatterplot-1-1">
+Past versions of loadings-scatterplot-1-1.png
+</button>
+</p>
+<div id="fig-loadings-scatterplot-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/87ef32eb7cb850c0cdd260e7517573ae0599b69e/docs/figure/smallsim.Rmd/loadings-scatterplot-1-1.png" target="_blank">87ef32e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next we will see an example in which EM updates fail to make reasonable progress.</p>
 </div>
 <div id="correlated-topics-scenario" class="section level2">
@@ -1386,8 +1457,45 @@ ggplot(pdat,aes(x = x,y = y)) +
   geom_abline(intercept = 0,slope = 1,color = &quot;skyblue&quot;,linetype = &quot;dotted&quot;) +
   labs(x = &quot;em&quot;,y = &quot;scd&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
-<p><img src="figure/smallsim.Rmd/loadings-scatterplot-2-1.png" width="300" style="display: block; margin: auto;" /></p>
-<p>Most of the samples contributing to the large difference in likehood are samples generated from combinations of topics 5 and 6 (the X and Y axes show the log-likelihoods):</p>
+<p><img src="figure/smallsim.Rmd/loadings-scatterplot-2-1.png" width="330" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-loadings-scatterplot-2-1">
+Past versions of loadings-scatterplot-2-1.png
+</button>
+</p>
+<div id="fig-loadings-scatterplot-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/87ef32eb7cb850c0cdd260e7517573ae0599b69e/docs/figure/smallsim.Rmd/loadings-scatterplot-2-1.png" target="_blank">87ef32e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Most of the samples contributing to the large difference in likehood are samples generated from combinations of topics 5 and 6 (the X and Y axes in this scatterplot show the per-sample log-likelihoods):</p>
 <pre class="r"><code>pdat &lt;- data.frame(x = loglik_multinom_topic_model(X,fit1),
                    y = loglik_multinom_topic_model(X,fit2))
 ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
@@ -1398,7 +1506,44 @@ ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
   ylim(-700,-100) +
   labs(x = &quot;em&quot;,y = &quot;scd&quot;,fill = &quot;topic 5 + 6&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
-<p><img src="figure/smallsim.Rmd/likelihood-scatterplot-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p><img src="figure/smallsim.Rmd/likelihood-scatterplot-1.png" width="420" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-likelihood-scatterplot-1">
+Past versions of likelihood-scatterplot-1.png
+</button>
+</p>
+<div id="fig-likelihood-scatterplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/87ef32eb7cb850c0cdd260e7517573ae0599b69e/docs/figure/smallsim.Rmd/likelihood-scatterplot-1.png" target="_blank">87ef32e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These results suggest that the EM algorithm may perform poorly in settings where the topics are correlated, even if the correlations are quite modest.</p>
 <br>
 <p>
