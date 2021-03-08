@@ -4,7 +4,10 @@ author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-*Add text here.*
+This is a small numerical experiment to give some intuition for why
+the EM algorithm for Poisson NMF performs poorly in some settings.
+This example suggests that the EM updates have difficulty with
+correlations between topics, even when they are quite modest,
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
