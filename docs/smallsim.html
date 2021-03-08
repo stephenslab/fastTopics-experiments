@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef783c31d140e8c1936efe43eabbcdc9e4ad8a3f8targetblankf783c31a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f783c31d140e8c1936efe43eabbcdc9e4ad8a3f8" target="_blank">f783c31</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef5516ac2a3e5f55aca8eb3d3548130d74ef06d6btargetblankf5516aca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f5516ac2a3e5f55aca8eb3d3548130d74ef06d6b" target="_blank">f5516ac</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef783c31d140e8c1936efe43eabbcdc9e4ad8a3f8targetblankf783c31a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef5516ac2a3e5f55aca8eb3d3548130d74ef06d6btargetblankf5516aca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f783c31d140e8c1936efe43eabbcdc9e4ad8a3f8" target="_blank">f783c31</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f5516ac2a3e5f55aca8eb3d3548130d74ef06d6b" target="_blank">f5516ac</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -472,6 +472,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/f5516ac2a3e5f55aca8eb3d3548130d74ef06d6b/analysis/smallsim.Rmd" target="_blank">f5516ac</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/1185ab4c1aa3beb4b3565ee2c07c85f5f93c3c8e/docs/smallsim.html" target="_blank">1185ab4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+<td>
+Revised the progress plots in the “smallsim” demo.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -885,7 +919,7 @@ pdat &lt;- subset(pdat,x &gt;= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkorange&quot;)) +
-  labs(x = &quot;iteration&quot;,y = &quot;distance from best loglik&quot;) +
+  labs(x = &quot;iteration&quot;,y = &quot;negative log-likelihood&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-1-1.png" width="420" style="display: block; margin: auto;" /></p>
 <p>
@@ -910,6 +944,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1185ab4c1aa3beb4b3565ee2c07c85f5f93c3c8e/docs/figure/smallsim.Rmd/plot-progress-1-1.png" target="_blank">1185ab4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/913316c00a417f7344117f36b0ec2d1d28eef90a/docs/figure/smallsim.Rmd/plot-progress-1-1.png" target="_blank">913316c</a>
@@ -1026,7 +1071,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>As before, we run the EM and SCD updates to fit the multinomial topic model.</p>
+<p>As before, we run the EM and SCD updates to fit the multinomial topic model, with a twist that we perform another round of SCD updates after running the EM updates. This will be explained shortly.</p>
 <pre class="r"><code>fit0 &lt;- fit_poisson_nmf(X,k,numiter = 50,method = &quot;em&quot;,
                         control = list(extrapolate = FALSE,numiter = 4))
 fit1 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 800,method = &quot;em&quot;,
@@ -1040,7 +1085,7 @@ fit1 &lt;- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = &quot;em&quot;,
 fit1 &lt;- poisson2multinom(fit1)
 fit2 &lt;- poisson2multinom(fit2)
 fit3 &lt;- poisson2multinom(fit3)</code></pre>
-<p><em>Add text here.</em></p>
+<p>In this second example, after initially making good progress, the EM estimates remain very far from the solution achieved by SCD even after hundreds of EM updates. This isn’t a case where the EM updates have settled on a different local solution—the SCD updates quickly “rescue” the EM estimates.</p>
 <pre class="r"><code>pdat&lt;-rbind(data.frame(x=1:1050,y=-fit1$progress$loglik.multinom,method=&quot;em&quot;),
             data.frame(x=1:1050,y=-fit2$progress$loglik.multinom,method=&quot;scd&quot;),
             data.frame(x=851:1050,y=-fit3$progress[851:1050,&quot;loglik.multinom&quot;],
@@ -1049,9 +1094,9 @@ pdat &lt;- subset(pdat,x &gt;= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkorange&quot;,&quot;magenta&quot;)) +
-  labs(x = &quot;iteration&quot;,y = &quot;distance from best loglik&quot;) +
+  labs(x = &quot;iteration&quot;,y = &quot;negative log-likelihood&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
-<p><img src="figure/smallsim.Rmd/plot-progress-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/smallsim.Rmd/plot-progress-2-1.png" width="420" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-2-1">
 Past versions of plot-progress-2-1.png
@@ -1074,6 +1119,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1185ab4c1aa3beb4b3565ee2c07c85f5f93c3c8e/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">1185ab4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/7e3d55b7ab10297850f4cb9d7af726aee9bc676d/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">7e3d55b</a>
@@ -1122,6 +1178,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>This suggests that the EM algorithm may perform poorly in settings where the topics are correlated, even if the correlations are quite modest.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
