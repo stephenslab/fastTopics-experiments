@@ -171,7 +171,7 @@ pdat <- subset(pdat,x >= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
-  labs(x = "iteration",y = "negative log-likelihood") +
+  labs(x = "iteration",y = "log-likelihood difference") +
   theme_cowplot(font_size = 10)
 ```
 
