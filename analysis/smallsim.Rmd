@@ -85,13 +85,11 @@ This next plot shows the improvement in the solution over time for the
 EM and SCD updates.
 
 ```{r plot-progress-1, fig.width=3.5, fig.height=2.5}
-pdat <- rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method="em"),
-              data.frame(x=1:500,y=fit2$progress$loglik.multinom,method="scd"))
-pdat <- transform(pdat,y = max(y) - y + 0.01)
-pdat <- subset(pdat,x > 50)
+pdat<-rbind(data.frame(x=1:500,y=-fit1$progress$loglik.multinom,method="em"),
+            data.frame(x=1:500,y=-fit2$progress$loglik.multinom,method="scd"))
+pdat <- subset(pdat,x >= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
-  scale_y_continuous(trans = "log10",breaks = 10^seq(-2,3)) +
   scale_color_manual(values = c("dodgerblue","darkorange")) +
   labs(x = "iteration",y = "distance from best loglik") +
   theme_cowplot(font_size = 10)
@@ -105,7 +103,9 @@ example in which EM updates fail to make reasonable progress.
 Correlated topics scenario
 --------------------------
 
-*Add text here.*
+The count data in this second example are simulated as before, with
+one difference: by setting $s_{56} = s_{65} = 8$, the mixture
+proportions for topics 5 and 6 are no longer close to orthogonal.
 
 ```{r simulate-data-2}
 set.seed(1)
@@ -116,7 +116,8 @@ X <- simulate_multinom_counts(L,F,s)
 X <- X[,colSums(X > 0) > 0]
 ```
 
-TO DO: Plot mixture proportions for topics 5 and 6.
+Compare this Structure plot to the one above---there is more mixing of
+topics 5 and 6:
 
 ```{r structure-plot-2, fig.width=6, fig.height=1.5, message=FALSE}
 y <- apply(L,1,which.max)
@@ -128,6 +129,9 @@ structure_plot(fit,topics = 1:6,perplexity = 30,Y_init = matrix(y),
                verbose = FALSE)
 ```
 
+As before, we run the EM and SCD updates to fit the multinomial topic
+model.
+
 ```{r fit-5, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
@@ -137,16 +141,24 @@ fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "scd",
                         control = list(extrapolate = FALSE,numiter = 4))
 fit3 <- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = "scd",
                         control = list(extrapolate = FALSE,numiter = 4))
-fit1 <- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = "scd",
+fit1 <- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
+fit1 <- poisson2multinom(fit1)
+fit2 <- poisson2multinom(fit2)
+fit3 <- poisson2multinom(fit3)
 ```
 
 *Add text here.*
 
 ```{r plot-progress-2, fig.width=4, fig.height=3}
-fit1 <- poisson2multinom(fit1)
-fit2 <- poisson2multinom(fit2)
-fit3 <- poisson2multinom(fit3)
-plot_progress(list(em = fit1,scd = fit2,"scd+em" = fit3),
-              x = "iter",add.point.every = 100)
+pdat<-rbind(data.frame(x=1:1050,y=-fit1$progress$loglik.multinom,method="em"),
+            data.frame(x=1:1050,y=-fit2$progress$loglik.multinom,method="scd"),
+            data.frame(x=851:1050,y=-fit3$progress[851:1050,"loglik.multinom"],
+			           method = "em+scd"))
+pdat <- subset(pdat,x >= 50)
+ggplot(pdat,aes(x = x,y = y,color = method)) +
+  geom_line(size = 0.75) +
+  scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
+  labs(x = "iteration",y = "distance from best loglik") +
+  theme_cowplot(font_size = 10)
 ```
