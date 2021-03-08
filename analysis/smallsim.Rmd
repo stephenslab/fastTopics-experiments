@@ -58,13 +58,15 @@ $j \neq k$. Generated in this way, the topic proportions tend to be
 roughly orthogonal:
 
 ```{r structure-plot-1, fig.width=6, fig.height=1.5, message=FALSE}
+topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
+                  "gold","skyblue")
 y <- apply(L,1,which.max)
 y <- rank(y,ties.method = "random")
 y <- qqnorm(y,plot.it = FALSE)$x
 fit <- list(L = L)
 class(fit) <- c("multinom_topic_model_fit","list")
-structure_plot(fit,topics = 1:6,perplexity = 30,Y_init = matrix(y),
-               verbose = FALSE)
+structure_plot(fit,topics = 1:6,colors = topic_colors,perplexity = 30,
+               Y_init = matrix(y),verbose = FALSE)
 ```
 
 Here we compare two different updates for fitting a Poisson NMF model
@@ -89,7 +91,7 @@ EM and SCD updates. The Y axis shows the difference between the
 current log-likelihood and the best log-likelihood achieved by the two
 methods.
 
-```{r plot-progress-1, fig.width=3.5, fig.height=2.5}
+```{r plot-progress-1, fig.width=3.25, fig.height=2.5}
 pdat<-rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method="em"),
             data.frame(x=1:500,y=fit2$progress$loglik.multinom,method="scd"))
 pdat <- transform(pdat,y = max(y) - y)
@@ -106,11 +108,14 @@ toward a solution. Still, the EM updates recover the same solution
 after a reasonable number of iterations. Indeed, the EM and SCD
 estimates of the topic proportions are almost the same:
 
-```{r loadings-scatterplot-1, fig.width=2.75, fig.height=2.5}
-pdat <- data.frame(x = as.vector(fit1$L),y = as.vector(fit2$L))
-ggplot(pdat,aes(x = x,y = y)) +
-  geom_point(color = "white",fill = "black",shape = 21,size = 1.75) +
+```{r loadings-scatterplot-1, fig.width=3, fig.height=2.5}
+pdat <- data.frame(x = as.vector(fit1$L),
+                   y = as.vector(fit2$L),
+                   k = factor(rep(1:6,each = 100)))
+ggplot(pdat,aes(x = x,y = y,fill = k)) +
+  geom_point(color = "white",shape = 21,size = 1.75) +
   geom_abline(intercept = 0,slope = 1,color = "skyblue",linetype = "dotted") +
+  scale_fill_manual(values = topic_colors) +
   labs(x = "em",y = "scd") +
   theme_cowplot(font_size = 10)
 ```
@@ -143,8 +148,8 @@ y <- rank(y,ties.method = "random")
 y <- qqnorm(y,plot.it = FALSE)$x
 fit <- list(L = L)
 class(fit) <- c("multinom_topic_model_fit","list")
-structure_plot(fit,topics = 1:6,perplexity = 30,Y_init = matrix(y),
-               verbose = FALSE)
+structure_plot(fit,topics = 1:6,colors = topic_colors,perplexity = 30,
+               Y_init = matrix(y),verbose = FALSE)
 ```
 
 As before, we run the EM and SCD updates to fit the multinomial topic
@@ -191,11 +196,14 @@ This large difference in likelihood is not due to a trivial difference
 in solution---for example, there are many large differences in the
 topic proportion estimates:
 
-```{r loadings-scatterplot-2, fig.width=2.75, fig.height=2.5}
-pdat <- data.frame(x = as.vector(fit1$L),y = as.vector(fit2$L))
-ggplot(pdat,aes(x = x,y = y)) +
-  geom_point(color = "white",fill = "black",shape = 21,size = 1.75) +
+```{r loadings-scatterplot-2, fig.width=3, fig.height=2.5}
+pdat <- data.frame(x = as.vector(fit1$L),
+                   y = as.vector(fit2$L),
+                   k = factor(rep(1:6,each = 100)))
+ggplot(pdat,aes(x = x,y = y,fill = k)) +
+  geom_point(color = "white",shape = 21,size = 1.75) +
   geom_abline(intercept = 0,slope = 1,color = "skyblue",linetype = "dotted") +
+  scale_fill_manual(values = topic_colors) +
   labs(x = "em",y = "scd") +
   theme_cowplot(font_size = 10)
 ```
