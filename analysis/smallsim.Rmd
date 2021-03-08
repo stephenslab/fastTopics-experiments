@@ -106,7 +106,7 @@ toward a solution. Still, the EM updates recover the same solution
 after a reasonable number of iterations. Indeed, the EM and SCD
 estimates of the topic proportions are almost the same:
 
-```{r loadings-scatterplot-1, fig.width=2.5, fig.height=2.5}
+```{r loadings-scatterplot-1, fig.width=2.75, fig.height=2.5}
 pdat <- data.frame(x = as.vector(fit1$L),y = as.vector(fit2$L))
 ggplot(pdat,aes(x = x,y = y)) +
   geom_point(color = "white",fill = "black",shape = 21,size = 1.75) +
@@ -191,7 +191,7 @@ This large difference in likelihood is not due to a trivial difference
 in solution---for example, there are many large differences in the
 topic proportion estimates:
 
-```{r loadings-scatterplot-2, fig.width=2.5, fig.height=2.5}
+```{r loadings-scatterplot-2, fig.width=2.75, fig.height=2.5}
 pdat <- data.frame(x = as.vector(fit1$L),y = as.vector(fit2$L))
 ggplot(pdat,aes(x = x,y = y)) +
   geom_point(color = "white",fill = "black",shape = 21,size = 1.75) +
@@ -202,9 +202,9 @@ ggplot(pdat,aes(x = x,y = y)) +
 
 Most of the samples contributing to the large difference in likehood
 are samples generated from combinations of topics 5 and 6 (the X and Y
-axes show the log-likelihoods):
+axes in this scatterplot show the per-sample log-likelihoods):
 
-```{r likelihood-scatterplot, fig.width=3, fig.height=2.5}
+```{r likelihood-scatterplot, fig.width=3.5, fig.height=2.5}
 pdat <- data.frame(x = loglik_multinom_topic_model(X,fit1),
                    y = loglik_multinom_topic_model(X,fit2))
 ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
