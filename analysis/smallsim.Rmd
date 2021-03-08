@@ -85,16 +85,19 @@ fit2 <- poisson2multinom(fit2)
 ```
 
 This next plot shows the improvement in the solution over time for the
-EM and SCD updates.
+EM and SCD updates. The Y axis shows the difference between the
+current log-likelihood and the best log-likelihood achieved by the two
+methods.
 
 ```{r plot-progress-1, fig.width=3.5, fig.height=2.5}
-pdat<-rbind(data.frame(x=1:500,y=-fit1$progress$loglik.multinom,method="em"),
-            data.frame(x=1:500,y=-fit2$progress$loglik.multinom,method="scd"))
+pdat<-rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method="em"),
+            data.frame(x=1:500,y=fit2$progress$loglik.multinom,method="scd"))
+pdat <- transform(pdat,y = max(y) - y)
 pdat <- subset(pdat,x >= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange")) +
-  labs(x = "iteration",y = "negative log-likelihood") +
+  labs(x = "iteration",y = "log-likelihood difference") +
   theme_cowplot(font_size = 10)
 ```
 
@@ -159,10 +162,11 @@ settled on a different local solution---the SCD updates quickly
 "rescue" the EM estimates.
 
 ```{r plot-progress-2, fig.width=3.5, fig.height=2.5}
-pdat<-rbind(data.frame(x=1:1050,y=-fit1$progress$loglik.multinom,method="em"),
-            data.frame(x=1:1050,y=-fit2$progress$loglik.multinom,method="scd"),
-            data.frame(x=851:1050,y=-fit3$progress[851:1050,"loglik.multinom"],
+pdat<-rbind(data.frame(x=1:1050,y=fit1$progress$loglik.multinom,method="em"),
+            data.frame(x=1:1050,y=fit2$progress$loglik.multinom,method="scd"),
+            data.frame(x=851:1050,y=fit3$progress[851:1050,"loglik.multinom"],
 			           method = "em+scd"))
+pdat <- transform(pdat,y = max(y) - y)
 pdat <- subset(pdat,x >= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
