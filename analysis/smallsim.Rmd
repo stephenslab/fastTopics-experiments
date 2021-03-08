@@ -91,7 +91,7 @@ pdat <- subset(pdat,x >= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange")) +
-  labs(x = "iteration",y = "distance from best loglik") +
+  labs(x = "iteration",y = "negative log-likelihood") +
   theme_cowplot(font_size = 10)
 ```
 
@@ -130,7 +130,8 @@ structure_plot(fit,topics = 1:6,perplexity = 30,Y_init = matrix(y),
 ```
 
 As before, we run the EM and SCD updates to fit the multinomial topic
-model.
+model, with a twist that we perform another round of SCD updates after
+running the EM updates. This will be explained shortly.
 
 ```{r fit-5, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
@@ -148,9 +149,13 @@ fit2 <- poisson2multinom(fit2)
 fit3 <- poisson2multinom(fit3)
 ```
 
-*Add text here.*
+In this second example, after initially making good progress, the EM
+estimates remain very far from the solution achieved by SCD even after
+hundreds of EM updates. This isn't a case where the EM updates have
+settled on a different local solution---the SCD updates quickly
+"rescue" the EM estimates.
 
-```{r plot-progress-2, fig.width=4, fig.height=3}
+```{r plot-progress-2, fig.width=3.5, fig.height=2.5}
 pdat<-rbind(data.frame(x=1:1050,y=-fit1$progress$loglik.multinom,method="em"),
             data.frame(x=1:1050,y=-fit2$progress$loglik.multinom,method="scd"),
             data.frame(x=851:1050,y=-fit3$progress[851:1050,"loglik.multinom"],
@@ -159,6 +164,10 @@ pdat <- subset(pdat,x >= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
-  labs(x = "iteration",y = "distance from best loglik") +
+  labs(x = "iteration",y = "negative log-likelihood") +
   theme_cowplot(font_size = 10)
 ```
+
+This suggests that the EM algorithm may perform poorly in settings
+where the topics are correlated, even if the correlations are quite
+modest.
