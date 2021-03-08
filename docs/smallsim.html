@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree6e8a2c4d9fd69aa70b5612ce55ac89e95196cfc4targetblank6e8a2c4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/6e8a2c4d9fd69aa70b5612ce55ac89e95196cfc4" target="_blank">6e8a2c4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef783c31d140e8c1936efe43eabbcdc9e4ad8a3f8targetblankf783c31a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f783c31d140e8c1936efe43eabbcdc9e4ad8a3f8" target="_blank">f783c31</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree6e8a2c4d9fd69aa70b5612ce55ac89e95196cfc4targetblank6e8a2c4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef783c31d140e8c1936efe43eabbcdc9e4ad8a3f8targetblankf783c31a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/6e8a2c4d9fd69aa70b5612ce55ac89e95196cfc4" target="_blank">6e8a2c4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f783c31d140e8c1936efe43eabbcdc9e4ad8a3f8" target="_blank">f783c31</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -472,6 +472,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/f783c31d140e8c1936efe43eabbcdc9e4ad8a3f8/analysis/smallsim.Rmd" target="_blank">f783c31</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/7e3d55b7ab10297850f4cb9d7af726aee9bc676d/docs/smallsim.html" target="_blank">7e3d55b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+<td>
+Adjusted parameters for second simulation in “smallsim” demo.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -845,13 +879,11 @@ fit2 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = &quot;scd&quot;,
 fit1 &lt;- poisson2multinom(fit1)
 fit2 &lt;- poisson2multinom(fit2)</code></pre>
 <p>This next plot shows the improvement in the solution over time for the EM and SCD updates.</p>
-<pre class="r"><code>pdat &lt;- rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method=&quot;em&quot;),
-              data.frame(x=1:500,y=fit2$progress$loglik.multinom,method=&quot;scd&quot;))
-pdat &lt;- transform(pdat,y = max(y) - y + 0.01)
-pdat &lt;- subset(pdat,x &gt; 50)
+<pre class="r"><code>pdat&lt;-rbind(data.frame(x=1:500,y=-fit1$progress$loglik.multinom,method=&quot;em&quot;),
+            data.frame(x=1:500,y=-fit2$progress$loglik.multinom,method=&quot;scd&quot;))
+pdat &lt;- subset(pdat,x &gt;= 50)
 ggplot(pdat,aes(x = x,y = y,color = method)) +
   geom_line(size = 0.75) +
-  scale_y_continuous(trans = &quot;log10&quot;,breaks = 10^seq(-2,3)) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkorange&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;distance from best loglik&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
@@ -930,14 +962,14 @@ Peter Carbonetto
 </div>
 <div id="correlated-topics-scenario" class="section level2">
 <h2>Correlated topics scenario</h2>
-<p><em>Add text here.</em></p>
+<p>The count data in this second example are simulated as before, with one difference: by setting <span class="math inline">\(s_{56} = s_{65} = 8\)</span>, the mixture proportions for topics 5 and 6 are no longer close to orthogonal.</p>
 <pre class="r"><code>set.seed(1)
 S[5,6] &lt;- 8
 S[6,5] &lt;- 8
 L &lt;- simulate_loadings(n,k,S)
 X &lt;- simulate_multinom_counts(L,F,s)
 X &lt;- X[,colSums(X &gt; 0) &gt; 0]</code></pre>
-<p>TO DO: Plot mixture proportions for topics 5 and 6.</p>
+<p>Compare this Structure plot to the one above—there is more mixing of topics 5 and 6:</p>
 <pre class="r"><code>y &lt;- apply(L,1,which.max)
 y &lt;- rank(y,ties.method = &quot;random&quot;)
 y &lt;- qqnorm(y,plot.it = FALSE)$x
@@ -970,6 +1002,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/7e3d55b7ab10297850f4cb9d7af726aee9bc676d/docs/figure/smallsim.Rmd/structure-plot-2-1.png" target="_blank">7e3d55b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/913316c00a417f7344117f36b0ec2d1d28eef90a/docs/figure/smallsim.Rmd/structure-plot-2-1.png" target="_blank">913316c</a>
 </td>
 <td>
@@ -983,6 +1026,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>As before, we run the EM and SCD updates to fit the multinomial topic model.</p>
 <pre class="r"><code>fit0 &lt;- fit_poisson_nmf(X,k,numiter = 50,method = &quot;em&quot;,
                         control = list(extrapolate = FALSE,numiter = 4))
 fit1 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 800,method = &quot;em&quot;,
@@ -991,14 +1035,22 @@ fit2 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = &quot;scd&quot;
                         control = list(extrapolate = FALSE,numiter = 4))
 fit3 &lt;- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = &quot;scd&quot;,
                         control = list(extrapolate = FALSE,numiter = 4))
-fit1 &lt;- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = &quot;scd&quot;,
-                        control = list(extrapolate = FALSE,numiter = 4))</code></pre>
-<p><em>Add text here.</em></p>
-<pre class="r"><code>fit1 &lt;- poisson2multinom(fit1)
+fit1 &lt;- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = &quot;em&quot;,
+                        control = list(extrapolate = FALSE,numiter = 4))
+fit1 &lt;- poisson2multinom(fit1)
 fit2 &lt;- poisson2multinom(fit2)
-fit3 &lt;- poisson2multinom(fit3)
-plot_progress(list(em = fit1,scd = fit2,&quot;scd+em&quot; = fit3),
-              x = &quot;iter&quot;,add.point.every = 100)</code></pre>
+fit3 &lt;- poisson2multinom(fit3)</code></pre>
+<p><em>Add text here.</em></p>
+<pre class="r"><code>pdat&lt;-rbind(data.frame(x=1:1050,y=-fit1$progress$loglik.multinom,method=&quot;em&quot;),
+            data.frame(x=1:1050,y=-fit2$progress$loglik.multinom,method=&quot;scd&quot;),
+            data.frame(x=851:1050,y=-fit3$progress[851:1050,&quot;loglik.multinom&quot;],
+                       method = &quot;em+scd&quot;))
+pdat &lt;- subset(pdat,x &gt;= 50)
+ggplot(pdat,aes(x = x,y = y,color = method)) +
+  geom_line(size = 0.75) +
+  scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkorange&quot;,&quot;magenta&quot;)) +
+  labs(x = &quot;iteration&quot;,y = &quot;distance from best loglik&quot;) +
+  theme_cowplot(font_size = 10)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-2-1">
@@ -1022,6 +1074,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/7e3d55b7ab10297850f4cb9d7af726aee9bc676d/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">7e3d55b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-07
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/913316c00a417f7344117f36b0ec2d1d28eef90a/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">913316c</a>
