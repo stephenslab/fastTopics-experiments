@@ -71,16 +71,16 @@ structure_plot(fit,topics = 1:6,colors = topic_colors,perplexity = 30,
 
 Here we compare two different updates for fitting a Poisson NMF model
 to the simulated counts: EM updates, and sequential coordinate descent
-(SCD). The model fitting is initialized by first running 50 EM
-updates, with the aim of better ensuring that the same local maximum
-is recovered by both runs.
+(SCD). We perform 150 iterations of each. The model fitting is
+initialized by first running 50 EM updates, with the aim of better
+ensuring that the same local maximum is recovered by both runs.
 
 ```{r fit-1, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = "em",
+fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 150,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 450,method = "scd",
+fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 150,method = "scd",
                         control = list(extrapolate = FALSE,numiter = 4))
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
@@ -91,16 +91,28 @@ EM and SCD updates. The Y axis shows the difference between the
 current log-likelihood and the best log-likelihood achieved by the two
 methods.
 
-```{r plot-progress-1, fig.width=3.25, fig.height=2.5}
-pdat<-rbind(data.frame(x=1:500,y=fit1$progress$loglik.multinom,method="em"),
-            data.frame(x=1:500,y=fit2$progress$loglik.multinom,method="scd"))
-pdat <- transform(pdat,y = max(y) - y)
-pdat <- subset(pdat,x >= 50)
-ggplot(pdat,aes(x = x,y = y,color = method)) +
+```{r plot-progress-1, fig.width=6, fig.height=2.5}
+pdat <- rbind(data.frame(iter   = 1:200,
+                         loglik = fit1$progress$loglik.multinom,
+                         res    = fit1$progress$res,
+                         method = "em"),
+              data.frame(iter   = 1:200,
+						 loglik = fit2$progress$loglik.multinom,
+						 res    = fit2$progress$res,
+						 method = "scd"))
+pdat <- transform(pdat,loglik = max(loglik) - loglik)
+pdat <- subset(pdat,iter >= 50)
+p1 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange")) +
   labs(x = "iteration",y = "log-likelihood difference") +
   theme_cowplot(font_size = 10)
+p2 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
+  geom_line(size = 0.75) +
+  scale_color_manual(values = c("dodgerblue","darkorange")) +
+  labs(x = "iteration",y = "max KKT residual") +
+  theme_cowplot(font_size = 10)
+plot_grid(p1,p2)
 ```
 
 Among the two methods compared, the SCD updates progress more rapidly
@@ -159,9 +171,9 @@ running the EM updates. This will be explained shortly.
 ```{r fit-5, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 800,method = "em",
+fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 750,method = "em",
                         control = list(extrapolate = FALSE,numiter = 4))
-fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 1000,method = "scd",
+fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 950,method = "scd",
                         control = list(extrapolate = FALSE,numiter = 4))
 fit3 <- fit_poisson_nmf(X,fit0 = fit1,numiter = 200,method = "scd",
                         control = list(extrapolate = FALSE,numiter = 4))
@@ -178,18 +190,33 @@ hundreds of EM updates. This isn't a case where the EM updates have
 settled on a different local solution---the SCD updates quickly
 "rescue" the EM estimates.
 
-```{r plot-progress-2, fig.width=3.5, fig.height=2.5}
-pdat<-rbind(data.frame(x=1:1050,y=fit1$progress$loglik.multinom,method="em"),
-            data.frame(x=1:1050,y=fit2$progress$loglik.multinom,method="scd"),
-            data.frame(x=851:1050,y=fit3$progress[851:1050,"loglik.multinom"],
-			           method = "em+scd"))
-pdat <- transform(pdat,y = max(y) - y)
-pdat <- subset(pdat,x >= 50)
-ggplot(pdat,aes(x = x,y = y,color = method)) +
+```{r plot-progress-2, fig.width=6, fig.height=2.5}
+pdat <- rbind(data.frame(iter   = 1:1000,
+                         loglik = fit1$progress$loglik.multinom,
+                         res    = fit1$progress$res,
+                         method = "em"),
+              data.frame(iter   = 1:1000,
+                         loglik = fit2$progress$loglik.multinom,
+                         res    = fit2$progress$res,
+                         method = "scd"),
+              data.frame(iter   = 800:1000,
+                         loglik = fit3$progress[800:1000,"loglik.multinom"],
+                         res    = fit3$progress[800:1000,"res"],
+  			             method = "em+scd"))
+pdat <- transform(pdat,loglik = max(loglik) - loglik)
+pdat <- subset(pdat,iter >= 50)
+p3 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
   labs(x = "iteration",y = "log-likelihood difference") +
   theme_cowplot(font_size = 10)
+p4 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
+  geom_line(size = 0.75) +
+  scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
+  ylim(0,25) +
+  labs(x = "iteration",y = "max KKT residual") +
+  theme_cowplot(font_size = 10)
+plot_grid(p3,p4)
 ```
 
 This large difference in likelihood is not due to a trivial difference
