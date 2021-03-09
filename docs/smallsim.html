@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeeb495f3a50511b8ddfb7837e72bf8246e0c6dd85targetblankeb495f3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/eb495f3a50511b8ddfb7837e72bf8246e0c6dd85" target="_blank">eb495f3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1b18e2d2fbef4f0a76bd5fed0ce686b5e278591dtargetblank1b18e2da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1b18e2d2fbef4f0a76bd5fed0ce686b5e278591d" target="_blank">1b18e2d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeeb495f3a50511b8ddfb7837e72bf8246e0c6dd85targetblankeb495f3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1b18e2d2fbef4f0a76bd5fed0ce686b5e278591dtargetblank1b18e2da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/eb495f3a50511b8ddfb7837e72bf8246e0c6dd85" target="_blank">eb495f3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1b18e2d2fbef4f0a76bd5fed0ce686b5e278591d" target="_blank">1b18e2d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -472,6 +472,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1b18e2d2fbef4f0a76bd5fed0ce686b5e278591d/analysis/smallsim.Rmd" target="_blank">1b18e2d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-09
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/47ed42528e47fe3c678d410d38d0d9785d0ae054/docs/smallsim.html" target="_blank">47ed425</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-09
+</td>
+<td>
+Added KKT residual plots to “smallsim” example.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1210,6 +1244,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/47ed42528e47fe3c678d410d38d0d9785d0ae054/docs/figure/smallsim.Rmd/plot-progress-1-1.png" target="_blank">47ed425</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/907adddb3dee41410e261fd9869bbe798b3a748d/docs/figure/smallsim.Rmd/plot-progress-1-1.png" target="_blank">907addd</a>
 </td>
 <td>
@@ -1333,6 +1378,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/47ed42528e47fe3c678d410d38d0d9785d0ae054/docs/figure/smallsim.Rmd/loadings-scatterplot-1-1.png" target="_blank">47ed425</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/907adddb3dee41410e261fd9869bbe798b3a748d/docs/figure/smallsim.Rmd/loadings-scatterplot-1-1.png" target="_blank">907addd</a>
@@ -1486,7 +1542,7 @@ p3 &lt;- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
 p4 &lt;- ggplot(pdat,aes(x = iter,y = res,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkorange&quot;,&quot;magenta&quot;)) +
-  ylim(0,25) +
+  ylim(0,10) +
   labs(x = &quot;iteration&quot;,y = &quot;max KKT residual&quot;) +
   theme_cowplot(font_size = 10)
 plot_grid(p3,p4)</code></pre>
@@ -1513,6 +1569,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/47ed42528e47fe3c678d410d38d0d9785d0ae054/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">47ed425</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/a967f97bafc1ce31fecbc7b461ffebbd8ae0d6cc/docs/figure/smallsim.Rmd/plot-progress-2-1.png" target="_blank">a967f97</a>
@@ -1640,6 +1707,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/47ed42528e47fe3c678d410d38d0d9785d0ae054/docs/figure/smallsim.Rmd/loadings-scatterplot-2-1.png" target="_blank">47ed425</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/907adddb3dee41410e261fd9869bbe798b3a748d/docs/figure/smallsim.Rmd/loadings-scatterplot-2-1.png" target="_blank">907addd</a>
 </td>
 <td>
@@ -1709,6 +1787,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/47ed42528e47fe3c678d410d38d0d9785d0ae054/docs/figure/smallsim.Rmd/likelihood-scatterplot-1.png" target="_blank">47ed425</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/300faac4599c1d36307e46e46546b26a437646b5/docs/figure/smallsim.Rmd/likelihood-scatterplot-1.png" target="_blank">300faac</a>
