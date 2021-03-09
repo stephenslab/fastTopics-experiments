@@ -4,7 +4,7 @@ normalize.cols <- function (A)
 
 # Randomly generate samples sizes for the multinomial data simulation.
 simulate_sizes <- function (n)
-  ceiling(10^rnorm(n,3,0.2))
+  ceiling(10^rnorm(n,3,0.20))
 
 # Randomly generate an m x k factors matrix for a multinomial topic
 # model with k topics. Each row of the factors matrix are generated
