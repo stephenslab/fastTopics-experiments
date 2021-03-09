@@ -91,7 +91,7 @@ EM and SCD updates. The Y axis shows the difference between the
 current log-likelihood and the best log-likelihood achieved by the two
 methods.
 
-```{r plot-progress-1, fig.width=6, fig.height=2.5}
+```{r plot-progress-1, fig.width=6, fig.height=2}
 pdat <- rbind(data.frame(iter   = 1:200,
                          loglik = fit1$progress$loglik.multinom,
                          res    = fit1$progress$res,
@@ -190,7 +190,7 @@ hundreds of EM updates. This isn't a case where the EM updates have
 settled on a different local solution---the SCD updates quickly
 "rescue" the EM estimates.
 
-```{r plot-progress-2, fig.width=6, fig.height=2.5}
+```{r plot-progress-2, fig.width=6, fig.height=2}
 pdat <- rbind(data.frame(iter   = 1:1000,
                          loglik = fit1$progress$loglik.multinom,
                          res    = fit1$progress$res,
@@ -213,7 +213,7 @@ p3 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
 p4 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
-  ylim(0,25) +
+  ylim(0,10) +
   labs(x = "iteration",y = "max KKT residual") +
   theme_cowplot(font_size = 10)
 plot_grid(p3,p4)
