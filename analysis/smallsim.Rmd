@@ -57,6 +57,8 @@ covariance matrix $S$, such that $s_{kk} = 11$, $s_{jk} = -2$ for all
 $j \neq k$. Generated in this way, the topic proportions tend to be
 roughly orthogonal:
 
+TO DO: Hide code for plots inside functions.
+
 ```{r structure-plot-1, fig.width=6, fig.height=1.5, message=FALSE}
 topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
                   "gold","skyblue")
