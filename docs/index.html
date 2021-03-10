@@ -323,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-05
+<strong>Last updated:</strong> 2021-03-10
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -354,27 +354,29 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree65a2d61cbc151848f29eb319867ca68453a25c1etargetblank65a2d61a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/65a2d61cbc151848f29eb319867ca68453a25c1e" target="_blank">65a2d61</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreed9c5df90bce256f74f1122ab09adfcdcb9875571targetblankd9c5df9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/d9c5df90bce256f74f1122ab09adfcdcb9875571" target="_blank">d9c5df9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree65a2d61cbc151848f29eb319867ca68453a25c1etargetblank65a2d61a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreed9c5df90bce256f74f1122ab09adfcdcb9875571targetblankd9c5df9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/65a2d61cbc151848f29eb319867ca68453a25c1e" target="_blank">65a2d61</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/d9c5df90bce256f74f1122ab09adfcdcb9875571" target="_blank">d9c5df9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    data/newsgroups.RData
-    Ignored:    data/nips.RData
+    Ignored:    data/nips_1-17.mat
+    Ignored:    output/newsgroups/fits-newsgroups.RData
+    Ignored:    output/nips/fits-nips.RData
 
-Unstaged changes:
-    Modified:   scripts/smallsim.R
+Untracked files:
+    Untracked:  analysis/prepare_newsgroups.Rmd
+    Untracked:  data/newsgroups.RData
 
 </code></pre>
 <p>
@@ -413,6 +415,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/d9c5df90bce256f74f1122ab09adfcdcb9875571/analysis/index.Rmd" target="_blank">d9c5df9</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-10
+</td>
+<td>
+workflowr::wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/eff0954624ad6d61a3479b4037fb29294cfca200/analysis/index.Rmd" target="_blank">eff0954</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-06
+</td>
+<td>
+Added some explanatory text to smallsim.Rmd.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/619712db7412e8f95e17a5ae1a925efd0b02c285/docs/index.html" target="_blank">619712d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-05
+</td>
+<td>
+Fixed link.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -522,10 +575,20 @@ Added workflowr files.
 </div>
 </div>
 </div>
-<p>Follow the links to below to review the numerical experiments.</p>
+<p>Follow the links below to see the numerical experiments.</p>
+<div id="simulations" class="section level2">
+<h2>Simulations</h2>
 <ul>
-<li><a href="smallsim.html">A small simulation.</a></li>
+<li><a href="smallsim.html">A small simulation illustrating the trouble with EM.</a></li>
 </ul>
+</div>
+<div id="data-preparation" class="section level2">
+<h2>Data preparation</h2>
+<ul>
+<li><p><a href="prepare_nips_data.html">Prepare NIPS data.</a></p></li>
+<li><p><a href="prepare_20_newsgroups.html">Prepare Newsgroups data.</a></p></li>
+</ul>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
