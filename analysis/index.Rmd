@@ -1,5 +1,5 @@
 ---
-title: Numerical experiments on fitting non-negative matrix factorizations and topic models
+title: Empirical comparisons of algorithms for fitting Poisson non-negative matrix factorizations and multinomial topic models
 author: Peter Carbonetto
 site: workflowr::wflow_site
 output: workflowr::wflow_html
