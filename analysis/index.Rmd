@@ -7,4 +7,13 @@ output: workflowr::wflow_html
 
 Follow the links below to see the numerical experiments.
 
+## Simulations
+
 + [A small simulation illustrating the trouble with EM.](smallsim.html)
+
+## Data preparation
+
++ [Prepare NIPS data.](prepare_nips_data.html)
+
++ [Prepare Newsgroups data.](prepare_20_newsgroups.html)
+
