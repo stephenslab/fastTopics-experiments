@@ -1,11 +1,12 @@
 ---
-title: Empirical comparisons of algorithms for fitting Poisson non-negative matrix factorizations and multinomial topic models
+title: Empirical comparisons of algorithms for fitting Poisson NMF and topic models
 author: Peter Carbonetto
 site: workflowr::wflow_site
 output: workflowr::wflow_html
 ---
 
-Follow the links below to see the numerical experiments.
+Follow the links below to see the results of the numerical
+experiments, and the accompanying code.
 
 ## Simulations
 
