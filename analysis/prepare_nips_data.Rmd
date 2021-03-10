@@ -1,0 +1,63 @@
+---
+title: Prepare NIPS data for analysis with a topic model
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold")
+```
+
+Here we prepare the NIPS 1--17 data for subsequent topic modeling
+analyses. To run these data preparation steps, download the data from
+[here][nips-data] then save the downloaded MAT file as "nips.mat"
+inside the "data" directory. Note that it may be necessary to re-save
+the data in MATLAB by running `save nips.mat -v6` so that it can be
+successfully loaded by the `readMat` function from the R.matlab
+package:
+
+
+The R.matlab package is used to read the MATLAB data structures into
+R.
+
+```{r load-pkgs, warning=FALSE, message=FALSE}
+library(Matrix)
+library(R.matlab)
+```
+
+Documents with fewer than two nonzero counts are removed.
+
+```{r read-data}
+dat              <- readMat("../data/nips_1-17.mat")
+counts           <- t(dat$counts)
+rownames(counts) <- unlist(dat$docs.names)
+colnames(counts) <- unlist(dat$words)
+rows             <- which(rowSums(counts > 0) > 1)
+counts           <- counts[rows,]
+```
+
+The word counts data should be stored as a 2,483 x 14,036
+matrix. Approximately 4% of the word counts are positive.
+
+```{r summarize-data-1}
+n <- nrow(counts)
+m <- ncol(counts)
+cat(sprintf("Number of documents: %d\n",n))
+cat(sprintf("Number of words: %d\n",m))
+cat(sprintf("Rate of nonzero counts: %0.2f%%\n",100*nnzero(counts)/(n*m)))
+```
+
+Among the counts that are positive, the vast majority are small.
+
+```{r summarize-data-2}
+cat("The word counts are mostly small, with a small number of large counts:\n")
+print(quantile(summary(counts)$x,c(0,0.5,0.9,0.99,0.999,1)))
+```
+
+Write the counts to an RData file.
+
+```{r write-data}
+save(list = "counts",file = "nips.RData")
+```
+
+[nips-data]: http://ai.stanford.edu/~gal/data.html
