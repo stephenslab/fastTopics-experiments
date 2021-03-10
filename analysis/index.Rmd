@@ -16,5 +16,4 @@ experiments, and the accompanying code.
 
 + [Prepare NIPS data.](prepare_nips_data.html)
 
-+ [Prepare Newsgroups data.](prepare_20_newsgroups.html)
-
++ [Prepare Newsgroups data.](prepare_newsgroups.html)
