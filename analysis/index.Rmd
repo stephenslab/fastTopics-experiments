@@ -14,6 +14,11 @@ experiments, and the accompanying code.
 
 ## Data preparation
 
-+ [Prepare NIPS data.](prepare_nips_data.html)
++ [NIPS data](prepare_nips_data.html)
 
-+ [Prepare Newsgroups data.](prepare_newsgroups.html)
++ [Newsgroups data](prepare_newsgroups.html)
+
++ [Droplet](prepare_droplet.html)
+
++ [PBMC 68k](prepare_68k_pbmc.html)
+
