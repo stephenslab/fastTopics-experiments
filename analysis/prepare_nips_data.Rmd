@@ -10,8 +10,8 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold")
 
 Here we prepare the NIPS 1--17 data for subsequent topic modeling
 analyses. To run these data preparation steps, download the data from
-[here][nips-data] then save the downloaded MAT file as "nips.mat"
-inside the "data" directory. Note that it may be necessary to re-save
+[here][nips-data] then save the downloaded MAT file as `nips.mat`
+inside the `data` directory. Note that it may be necessary to re-save
 the data in MATLAB by running `save nips.mat -v6` so that it can be
 successfully loaded by the `readMat` function from the R.matlab
 package:
@@ -23,6 +23,7 @@ R.
 ```{r load-pkgs, warning=FALSE, message=FALSE}
 library(Matrix)
 library(R.matlab)
+library(tools)
 ```
 
 Documents with fewer than two nonzero counts are removed.
@@ -47,7 +48,7 @@ cat(sprintf("Number of words: %d\n",m))
 cat(sprintf("Rate of nonzero counts: %0.2f%%\n",100*nnzero(counts)/(n*m)))
 ```
 
-Among the counts that are positive, the vast majority are small.
+Among the word counts that are positive, the vast majority are small.
 
 ```{r summarize-data-2}
 cat("The word counts are mostly small, with a small number of large counts:\n")
@@ -58,6 +59,7 @@ Write the counts to an RData file.
 
 ```{r write-data}
 save(list = "counts",file = "nips.RData")
+resaveRdaFiles("nips.RData")
 ```
 
 [nips-data]: http://ai.stanford.edu/~gal/data.html
