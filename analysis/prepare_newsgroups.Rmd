@@ -18,6 +18,7 @@ The Matrix package is used to create a sparse matrix.
 ```{r load-pkgs, warning=FALSE, message=FALSE}
 library(Matrix)
 library(readr)
+library(tools)
 ```
 
 The data were split into a "training" and "test" set. Here we combine
@@ -37,7 +38,6 @@ names(train)  <- c("document","word","count")
 names(test)   <- c("document","word","count")
 test$document <- test$document + max(train$document)
 dat           <- rbind(train,test)
-rm(train,test)
 ```
 
 Create the (sparse) counts matrix.
@@ -45,7 +45,6 @@ Create the (sparse) counts matrix.
 ```{r create-counts-matrix}
 counts           <- sparseMatrix(i = dat$document,j = dat$word,x = dat$count)
 colnames(counts) <- words
-rm(dat)
 ```
 
 Remove all words that appear in fewer than 2 documents.
@@ -84,6 +83,7 @@ Write the counts in an RData file.
 
 ```{r write-data}
 save(list = c("counts","topics"),file = "newsgroups.RData")
+resaveRdaFiles("newsgroups.RData")
 ```
 
 [20-newsgroups-data]: http://qwone.com/~jason/20Newsgroups
