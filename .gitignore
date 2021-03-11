@@ -2,6 +2,8 @@ data/nips_1-17.mat
 data/20news-bydate
 data/pbmc_68k
 data/pbmc_68k.RData
+data/GSE103354_Trachea_droplet_UMIcounts.txt.gz
+data/droplet.RData
 output/nips/fits-nips.RData
 output/newsgroups/fits-newsgroups.RData
 output/nips/rds/prefit-nips-k=*.rds
