@@ -1,13 +1,15 @@
 ---
-title: A small simulation illustrating the trouble with EM
+title: EM vs. SCD for fitting a Poisson NMF model and a topic model to a small, simulated data set
 author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-This is a small numerical experiment to give some intuition for why
-the EM algorithm for Poisson NMF performs poorly in some settings.
-This example suggests that the EM updates have difficulty with
-correlations between topics, even when they are quite modest,
+Here we perform a small experiment with simulated data to illustrate
+the behaviour of the EM and SCD algorithms for fitting Poisson NMF
+models. This example suggests that the EM updates have difficulty with
+correlations between topics, even when they are quite modest, The
+results also suggest that the basic variational EM for LDA also
+experiences similar difficulties.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -57,18 +59,11 @@ covariance matrix $S$, such that $s_{kk} = 11$, $s_{jk} = -2$ for all
 $j \neq k$. Generated in this way, the topic proportions tend to be
 roughly orthogonal:
 
-TO DO: Hide code for plots inside functions.
-
 ```{r structure-plot-1, fig.width=6, fig.height=1.5, message=FALSE}
 topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
                   "gold","skyblue")
-y <- apply(L,1,which.max)
-y <- rank(y,ties.method = "random")
-y <- qqnorm(y,plot.it = FALSE)$x
-fit <- list(L = L)
-class(fit) <- c("multinom_topic_model_fit","list")
-structure_plot(fit,topics = 1:6,colors = topic_colors,perplexity = 30,
-               Y_init = matrix(y),verbose = FALSE)
+p1 <- simdata_structure_plot(L,topic_colors)
+print(p1)
 ```
 
 Here we compare two different updates for fitting a Poisson NMF model
@@ -78,12 +73,10 @@ initialized by first running 50 EM updates, with the aim of better
 ensuring that the same local maximum is recovered by both runs.
 
 ```{r fit-1, results="hide", message=FALSE}
-fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",
-                        control = list(extrapolate = FALSE,numiter = 4))
-fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 150,method = "em",
-                        control = list(extrapolate = FALSE,numiter = 4))
-fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 150,method = "scd",
-                        control = list(extrapolate = FALSE,numiter = 4))
+control <- list(extrapolate = FALSE,numiter = 4)
+fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",control = control)
+fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=150,method="em",control=control)
+fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=150,method="scd",control=control)
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
 ```
@@ -102,19 +95,21 @@ pdat <- rbind(data.frame(iter   = 1:200,
 						 loglik = fit2$progress$loglik.multinom,
 						 res    = fit2$progress$res,
 						 method = "scd"))
-pdat <- transform(pdat,loglik = max(loglik) - loglik)
 pdat <- subset(pdat,iter >= 50)
-p1 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
+pdat <- transform(pdat,
+                  iter   = iter - 50,
+                  loglik = max(loglik) - loglik)
+p2 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange")) +
-  labs(x = "iteration",y = "log-likelihood difference") +
+  labs(x = "iteration",y = "loglik difference") +
   theme_cowplot(font_size = 10)
-p2 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
+p3 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange")) +
   labs(x = "iteration",y = "max KKT residual") +
   theme_cowplot(font_size = 10)
-plot_grid(p1,p2)
+plot_grid(p2,p3)
 ```
 
 Among the two methods compared, the SCD updates progress more rapidly
@@ -123,19 +118,20 @@ after a reasonable number of iterations. Indeed, the EM and SCD
 estimates of the topic proportions are almost the same:
 
 ```{r loadings-scatterplot-1, fig.width=3, fig.height=2.5}
-pdat <- data.frame(x = as.vector(fit1$L),
-                   y = as.vector(fit2$L),
-                   k = factor(rep(1:6,each = 100)))
-ggplot(pdat,aes(x = x,y = y,fill = k)) +
-  geom_point(color = "white",shape = 21,size = 1.75) +
-  geom_abline(intercept = 0,slope = 1,color = "skyblue",linetype = "dotted") +
-  scale_fill_manual(values = topic_colors) +
-  labs(x = "em",y = "scd") +
-  theme_cowplot(font_size = 10)
+p4 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
+print(p4)
 ```
+
+TO DO: Run LDA on this same data set.
 
 Next we will see an example in which EM updates fail to make
 reasonable progress.
+
+```{r plots-for-paper-1, echo=FALSE, results="hide"}
+ggsave("../plots/structure_plot_sim1.pdf",p1,width = 4,height = 1.25)
+ggsave("../plots/progress_plot_sim1.pdf",plot_grid(p2,p3),width=5,height=1.7)
+ggsave("../plots/loadings_scatterplot_sim1.pdf",p4,width = 2.5,height = 2)
+```
 
 Correlated topics scenario
 --------------------------

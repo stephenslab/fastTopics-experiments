@@ -49,3 +49,33 @@ simulate_multinom_counts <- function (L, F, s) {
     X[i,] <- rmultinom(1,s[i],P[i,])
   return(X)
 }
+
+# Create a Structure plot to visualize the mixture proportions L.
+simdata_structure_plot <- function (L, colors) {
+  k <- ncol(L)
+  y <- apply(L,1,which.max)
+  y <- rank(y,ties.method = "random")
+  y <- qqnorm(y,plot.it = FALSE)$x
+  fit <- list(L = L)
+  class(fit) <- c("multinom_topic_model_fit","list")
+  return(structure_plot(fit,topics = 1:k,colors = colors,perplexity = 30,
+                        Y_init = matrix(y),verbose = FALSE))
+}
+
+# Compare two estimates of L (the topic proportions matrix) in a
+# scatterplot.
+loadings_scatterplot <- function (fit1, fit2, colors, xlab = "fit1",
+                                  ylab = "fit2") {
+  n <- nrow(fit1$L)
+  k <- ncol(fit1$L)
+  pdat <- data.frame(x = as.vector(fit1$L),
+                     y = as.vector(fit2$L),
+                     k = factor(rep(1:k,each = n)))
+  return(ggplot(pdat,aes(x = x,y = y,fill = k)) +
+         geom_point(color = "white",shape = 21,size = 1.75) +
+         geom_abline(intercept = 0,slope = 1,color = "black",
+                     linetype = "dotted") +
+         scale_fill_manual(values = colors) +
+         labs(x = xlab,y = ylab) +
+         theme_cowplot(font_size = 10))
+}
