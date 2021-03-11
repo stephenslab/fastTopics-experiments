@@ -1,5 +1,6 @@
 data/nips_1-17.mat
 data/20news-bydate
+data/pbmc_68k
 output/nips/fits-nips.RData
 output/newsgroups/fits-newsgroups.RData
 output/nips/rds/prefit-nips-k=*.rds
