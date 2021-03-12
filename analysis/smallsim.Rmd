@@ -151,12 +151,12 @@ pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p5 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
-             geom_line(size = 0.75) +
-			 scale_y_continuous(trans = "log10") +
-		 scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
-			 labs(x = "iteration",y = "ELBO difference") +
-			 theme_cowplot(font_size = 10)
+p5<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+           geom_line(size = 0.75) +
+		   scale_y_continuous(trans = "log10") +
+		   scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
+		   labs(x = "iteration",y = "ELBO difference") +
+		   theme_cowplot(font_size = 10)
 print(p5)
 ```
 
@@ -277,7 +277,32 @@ These results suggest that the EM algorithm may perform poorly in
 settings where the topics are correlated, even if the correlations are
 modest.
 
-TO DO: Run LDA on this data set.
+*Add text here.*
+
+```{r fit-lda-1}
+lda0 <- run_lda(X,fit0,numiter = 400)
+lda1 <- run_lda(X,fit1,numiter = 400)
+lda2 <- run_lda(X,fit2,numiter = 400)
+```
+
+*Add text here.*
+
+```{r plot-progress-lda-2, fig.width=3.25, fig.height=2.5}
+pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
+              data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
+              data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
+pdat <- transform(pdat,
+                  iter = iter - 50,
+				  elbo = max(elbo) - elbo)
+p10<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+            geom_line(size = 0.75) +
+			scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
+			labs(x = "iteration",y = "ELBO difference") +
+			theme_cowplot(font_size = 10)
+print(p10)
+```
+
+*Add text here.*
 
 ```{r plots-for-paper-2, echo=FALSE, results="hide"}
 ggsave("../plots/structure_plot_sim2.pdf",p6,width = 4,height = 1.25)
