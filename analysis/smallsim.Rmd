@@ -311,4 +311,5 @@ initialization of the LDA model fit.
 ggsave("../plots/structure_plot_sim2.pdf",p6,width = 4,height = 1.25)
 ggsave("../plots/progress_plot_sim2.pdf",plot_grid(p7,p8),width=5.5,height=1.7)
 ggsave("../plots/loadings_scatterplot_sim2.pdf",p9,width = 2.5,height = 2)
+ggsave("../plots/progress_plot_lda_sim2.pdf",p10,width = 2.5,height = 1.7)
 ```
