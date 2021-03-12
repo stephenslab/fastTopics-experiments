@@ -232,9 +232,10 @@ pdat <- rbind(data.frame(iter   = 1:1000,
 pdat <- subset(pdat,iter >= 50)
 pdat <- transform(pdat,
 				  iter   = iter - 50,
-                  loglik = max(loglik) - loglik)
+                  loglik = max(loglik) - loglik + 0.1)
 p7 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
   labs(x = "iteration",y = "loglik difference") +
   theme_cowplot(font_size = 10)
@@ -277,15 +278,15 @@ These results suggest that the EM algorithm may perform poorly in
 settings where the topics are correlated, even if the correlations are
 modest.
 
-*Add text here.*
+Let's see how this relates to fitting an LDA model:
 
-```{r fit-lda-1}
+```{r fit-lda-2}
 lda0 <- run_lda(X,fit0,numiter = 400)
 lda1 <- run_lda(X,fit1,numiter = 400)
 lda2 <- run_lda(X,fit2,numiter = 400)
 ```
 
-*Add text here.*
+This plot shows the improvement in the objective (the ELBO) over time:
 
 ```{r plot-progress-lda-2, fig.width=3.25, fig.height=2.5}
 pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
@@ -293,16 +294,18 @@ pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,
                   iter = iter - 50,
-				  elbo = max(elbo) - elbo)
+				  elbo = max(elbo) - elbo + 0.1)
 p10<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
             geom_line(size = 0.75) +
+			scale_y_continuous(trans = "log10") +
 			scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
 			labs(x = "iteration",y = "ELBO difference") +
 			theme_cowplot(font_size = 10)
 print(p10)
 ```
 
-*Add text here.*
+In this second example, the SCD estimates provide by far the best
+initialization of the LDA model fit.
 
 ```{r plots-for-paper-2, echo=FALSE, results="hide"}
 ggsave("../plots/structure_plot_sim2.pdf",p6,width = 4,height = 1.25)
