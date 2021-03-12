@@ -20,6 +20,8 @@ Load the packages used in the analysis below, as well as additional
 functions that we will use to simulate the data.
 
 ```{r load-pkgs, message=FALSE}
+library(tm)
+library(topicmodels)
 library(fastTopics)
 library(mvtnorm)
 library(ggplot2)
@@ -68,15 +70,16 @@ print(p1)
 
 Here we compare two different updates for fitting a Poisson NMF model
 to the simulated counts: EM updates, and sequential coordinate descent
-(SCD). We perform 150 iterations of each. The model fitting is
+(SCD). We perform 100 iterations of each. The model fitting is
 initialized by first running 50 EM updates, with the aim of better
 ensuring that the same local maximum is recovered by both runs.
 
 ```{r fit-1, results="hide", message=FALSE}
 control <- list(extrapolate = FALSE,numiter = 4)
 fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",control = control)
-fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=150,method="em",control=control)
-fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=150,method="scd",control=control)
+fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=100,method="em",control=control)
+fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=100,method="scd",control=control)
+fit0 <- poisson2multinom(fit0)
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
 ```
@@ -87,20 +90,21 @@ current log-likelihood and the best log-likelihood achieved by the two
 methods.
 
 ```{r plot-progress-1, fig.width=6, fig.height=2}
-pdat <- rbind(data.frame(iter   = 1:200,
+pdat <- rbind(data.frame(iter   = 1:150,
                          loglik = fit1$progress$loglik.multinom,
                          res    = fit1$progress$res,
                          method = "em"),
-              data.frame(iter   = 1:200,
+              data.frame(iter   = 1:150,
 						 loglik = fit2$progress$loglik.multinom,
 						 res    = fit2$progress$res,
 						 method = "scd"))
 pdat <- subset(pdat,iter >= 50)
 pdat <- transform(pdat,
                   iter   = iter - 50,
-                  loglik = max(loglik) - loglik)
+                  loglik = max(loglik) - loglik + 0.1)
 p2 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
   scale_color_manual(values = c("dodgerblue","darkorange")) +
   labs(x = "iteration",y = "loglik difference") +
   theme_cowplot(font_size = 10)
@@ -122,7 +126,39 @@ p4 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
 print(p4)
 ```
 
-TO DO: Run LDA on this same data set.
+Next, we turn to the problem of fitting an LDA model to the same
+data. Although the LDA fitting problem is different---we are now
+fitting a (approximate) posterior distribution, and so the estimates
+are approximate posterior means rather than MELs---initializing the
+LDA fit using the MLEs greatly improves the LDA model fitting, as we
+will see here.
+
+We perform 400 iterations of variational EM, initializing the LDA
+model fits using the MLEs computed above.
+
+```{r fit-lda-1}
+lda0 <- run_lda(X,fit0,numiter = 400)
+lda1 <- run_lda(X,fit1,numiter = 400)
+lda2 <- run_lda(X,fit2,numiter = 400)
+```
+
+Even after 400 iterations, variational EM without a good
+initialization does not approach the quality of the LDA model fits
+initialized using the EM and SCD estimates.
+
+```{r plot-progress-lda-1, fig.width=2.5, fig.height=2}
+pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
+              data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
+              data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
+pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
+p5 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+             geom_line(size = 0.75) +
+			 scale_y_continuous(trans = "log10") +
+		 scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
+			 labs(x = "iteration",y = "ELBO difference") +
+			 theme_cowplot(font_size = 10)
+print(p5)
+```
 
 Next we will see an example in which EM updates fail to make
 reasonable progress.
@@ -131,6 +167,7 @@ reasonable progress.
 ggsave("../plots/structure_plot_sim1.pdf",p1,width = 4,height = 1.25)
 ggsave("../plots/progress_plot_sim1.pdf",plot_grid(p2,p3),width=5,height=1.7)
 ggsave("../plots/loadings_scatterplot_sim1.pdf",p4,width = 2.5,height = 2)
+ggsave("../plots/progress_plot_lda_sim1.pdf",p5,width = 2.5,height = 1.7)
 ```
 
 Correlated topics scenario
