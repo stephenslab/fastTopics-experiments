@@ -26,6 +26,9 @@ fit2 <- suppressWarnings(nnmf(X,k = 3,init = list(W = fit0$L,H = t(fit0$F)),
                               trace = 1,rel.tol = 0,inner.max.iter = 1,
                               n.threads = 1))
 
+print(range(fit2$W - fit3$W))
+print(range(fit2$H - fit3$H))
+
 y0 <- min(c(fit1$mkl,fit2$mkl,fit3$obj))
 y1 <- diff(range(c(fit1$mkl,fit2$mkl,fit3$obj)))
 iter <- 1:40
