@@ -36,7 +36,7 @@ double obj(int n, int m, double *V, double *WH)
 
 void update(int m, int k, double *Wt, double *WHt, double *Vt, double *H)
 {
-	int maxinner = 2;
+	int maxinner = 1;
 	for ( int q=0 ; q<k ; q++ )
 	{
 		for (int inneriter =0 ; inneriter<maxinner ; inneriter++)
