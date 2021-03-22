@@ -4,7 +4,8 @@ author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-*Add text here.*
+Here we show in a small, simulated data set that the SCD and CCD
+algorithms produce the exact same sequence of iterates.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -82,9 +83,12 @@ fit4 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 40,method = "scd",
                         control = list(extrapolate = TRUE,numiter = 1))
 ```
 
-This plot shows the improvement in the solutions over time:
+This plot shows the improvement in the solutions over time. (Some
+adjustments need to be made to the `fit_poisson_nmf` output as it
+outputs log-likelihoods, whereas the others output generalized
+KL-divergences.)
 
-```{r plot-progrss, fig.width=3, fig.height=2}
+```{r plot-progrss, fig.width=4, fig.height=3}
 y <- fit4$progress[21:60,"loglik"]
 y <- sum(X*log(X + 1e-15) - X) - y + sum(fastTopics:::loglik_poisson_const(X))
 y <- y/(100*200)
