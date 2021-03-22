@@ -323,16 +323,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree508368d1974aa3a7596c496624c12015c5a3ad75targetblank508368da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/508368d1974aa3a7596c496624c12015c5a3ad75" target="_blank">508368d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree37a695a5fdffd5dbaa9abe9ad4dd589d6aea783ctargetblank37a695aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/37a695a5fdffd5dbaa9abe9ad4dd589d6aea783c" target="_blank">37a695a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree508368d1974aa3a7596c496624c12015c5a3ad75targetblank508368da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree37a695a5fdffd5dbaa9abe9ad4dd589d6aea783ctargetblank37a695aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/508368d1974aa3a7596c496624c12015c5a3ad75" target="_blank">508368d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/37a695a5fdffd5dbaa9abe9ad4dd589d6aea783c" target="_blank">37a695a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -347,10 +347,6 @@ Ignored files:
     Ignored:    output/newsgroups/rds/
     Ignored:    output/nips/fits-nips.RData
     Ignored:    output/nips/rds/
-
-Unstaged changes:
-    Modified:   analysis/scd_vs_ccd.R
-    Modified:   matlab/dat100x200.mat
 
 </code></pre>
 <p>
@@ -389,6 +385,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/37a695a5fdffd5dbaa9abe9ad4dd589d6aea783c/analysis/scd_vs_ccd.Rmd" target="_blank">37a695a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-22
+</td>
+<td>
+workflowr::wflow_publish(“scd_vs_ccd.Rmd”, verbose = TRUE, view = FALSE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/323bf3ad9ed5f2018419e90b1fed01352ce96091/docs/scd_vs_ccd.html" target="_blank">323bf3a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-22
+</td>
+<td>
+Added progress plot to scd_vs_ccd example.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -481,7 +511,7 @@ Added link to overview page.
 </div>
 </div>
 </div>
-<p><em>Add text here.</em></p>
+<p>Here we show in a small, simulated data set that the SCD and CCD algorithms produce the exact same sequence of iterates.</p>
 <p>Load the packages used in the analysis below.</p>
 <pre class="r"><code>library(R.matlab)
 library(NNLM)
@@ -517,7 +547,7 @@ print(range(fit2$H - fit3$H))
 <p>Finally, I compare against SCD with extrapolation, as implemented in fastTopics.</p>
 <pre class="r"><code>fit4 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 40,method = &quot;scd&quot;,
                         control = list(extrapolate = TRUE,numiter = 1))</code></pre>
-<p>This plot shows the improvement in the solutions over time:</p>
+<p>This plot shows the improvement in the solutions over time. (Some adjustments need to be made to the <code>fit_poisson_nmf</code> output as it outputs log-likelihoods, whereas the others output generalized KL-divergences.)</p>
 <pre class="r"><code>y &lt;- fit4$progress[21:60,&quot;loglik&quot;]
 y &lt;- sum(X*log(X + 1e-15) - X) - y + sum(fastTopics:::loglik_poisson_const(X))
 y &lt;- y/(100*200)
@@ -533,7 +563,44 @@ ggplot(pdat,aes(x = iter,y = loss,color = method,linetype = method)) +
   scale_linetype_manual(values = c(&quot;solid&quot;,&quot;solid&quot;,&quot;dashed&quot;,&quot;solid&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;loss&quot;) +
   theme_cowplot(font_size = 12)</code></pre>
-<p><img src="figure/scd_vs_ccd.Rmd/plot-progrss-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p><img src="figure/scd_vs_ccd.Rmd/plot-progrss-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progrss-1">
+Past versions of plot-progrss-1.png
+</button>
+</p>
+<div id="fig-plot-progrss-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/323bf3ad9ed5f2018419e90b1fed01352ce96091/docs/figure/scd_vs_ccd.Rmd/plot-progrss-1.png" target="_blank">323bf3a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The EM (multiplicative) updates progress much more slowly than the others.</p>
 <p>The CCD and SCD updates overlap exactly.</p>
 <p>And the extrapolation accelerates convergence of the SCD updates.</p>
