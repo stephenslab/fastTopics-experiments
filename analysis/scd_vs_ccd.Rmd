@@ -34,7 +34,8 @@ Simulate a 100 x 200 counts matrix.
 X <- simulate_count_data(100,200,3)$X
 ```
 
-*Add text here.*
+"Pre-fit" t he model with the aim of better ensuring that the same
+local maximum is recovered by all runs below.
 
 ```{r init-fit, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k = 3,numiter = 20,method = "mu",
