@@ -1,4 +1,7 @@
 /*
+ *  This file was downloaded from http://www.cs.utexas.edu/~cjhsieh/nmf.
+ *  See the COPYRIGHT file for information about redistribution.
+ * 
  *  Usage: [W H objKL timeKL] = ccd_KL(V, k, max_iter, Winit, Hinit, trace);
  *
  * Given the nonnegative input matrix V, this code solves the following KL-NMF problem to find the low-rank approximation WH for V. 
@@ -20,6 +23,7 @@
  *  	objKL: objective values.
  *  	timeKL: time taken by this algorithm. 
  *
+ * Downloaded from 
  */
 
 #include "math.h"
@@ -120,7 +124,6 @@ int newKL(int n, int m, int k, int maxiter, double *V, double *W, double *H, int
 			// printf will not flush the output buffer
 			sprintf(matlab_output, "display('Iteration %d Objective: %lf Time taken: %lf');", iter, objlist[iter], timelist[iter]);
 			mexEvalString(matlab_output);
-//			printf("Iteration %d Objective: %lf Time taken: %lf\n", iter, objlist[iter], timelist[iter]);
 		}
 		else {
 			sprintf(matlab_output, "display('Iteration %d')", iter);
