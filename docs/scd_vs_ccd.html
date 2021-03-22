@@ -232,7 +232,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-21
+<strong>Last updated:</strong> 2021-03-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -323,16 +323,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree833235b4a1867e46faa14c90cb4edebb6d17f1e8targetblank833235ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/833235b4a1867e46faa14c90cb4edebb6d17f1e8" target="_blank">833235b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree508368d1974aa3a7596c496624c12015c5a3ad75targetblank508368da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/508368d1974aa3a7596c496624c12015c5a3ad75" target="_blank">508368d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree833235b4a1867e46faa14c90cb4edebb6d17f1e8targetblank833235ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree508368d1974aa3a7596c496624c12015c5a3ad75targetblank508368da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/833235b4a1867e46faa14c90cb4edebb6d17f1e8" target="_blank">833235b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/508368d1974aa3a7596c496624c12015c5a3ad75" target="_blank">508368d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -394,6 +394,57 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/508368d1974aa3a7596c496624c12015c5a3ad75/analysis/scd_vs_ccd.Rmd" target="_blank">508368d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-22
+</td>
+<td>
+workflowr::wflow_publish(“scd_vs_ccd.Rmd”, verbose = TRUE, view = FALSE)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c480a00e78b56dbb0f7d12ece99ca1aed5e5e02b/analysis/scd_vs_ccd.Rmd" target="_blank">c480a00</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-21
+</td>
+<td>
+Made a few improvements to the scd_vs_ccd example.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/4fe5ac7c1364bfba4cac505436a6b7159c42d036/docs/scd_vs_ccd.html" target="_blank">4fe5ac7</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-21
+</td>
+<td>
+First build of scd_vs_ccd example.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/833235b4a1867e46faa14c90cb4edebb6d17f1e8/analysis/scd_vs_ccd.Rmd" target="_blank">833235b</a>
 </td>
 <td>
@@ -434,7 +485,9 @@ Added link to overview page.
 <p>Load the packages used in the analysis below.</p>
 <pre class="r"><code>library(R.matlab)
 library(NNLM)
-library(fastTopics)</code></pre>
+library(fastTopics)
+library(ggplot2)
+library(cowplot)</code></pre>
 <p>Set the seed so that the results can be reproduced.</p>
 <pre class="r"><code>set.seed(1)</code></pre>
 <p>Simulate a 100 x 200 counts matrix.</p>
@@ -442,37 +495,48 @@ library(fastTopics)</code></pre>
 <p><em>Add text here.</em></p>
 <pre class="r"><code>fit0 &lt;- fit_poisson_nmf(X,k = 3,numiter = 20,method = &quot;mu&quot;,
                         control = list(numiter = 1))
-# Using 56 RcppParallel threads.
-# Using 56 RcppParallel threads.
-writeMat(&quot;../matlab/dat100x200.mat&quot;,X = X,L0 = fit0$L,F0 = fit0$F)
-# Initializing factors using Topic SCORE algorithm.
-# Initializing loadings by running 10 SCD updates.
-# Fitting rank-3 Poisson NMF to 100 x 200 dense matrix.
-# Running 20 multiplicative updates, without extrapolation (fastTopics 0.5-24).</code></pre>
-<p>Run 40 multiplicative (EM) updates as implemented in the NNLM package.</p>
+writeMat(&quot;../matlab/dat100x200.mat&quot;,X = X,L0 = fit0$L,F0 = fit0$F)</code></pre>
+<p>Run 40 multiplicative (EM) updates (as implemented in NNLM).</p>
 <pre class="r"><code>fit1 &lt;- suppressWarnings(nnmf(X,k = 3,init = list(W = fit0$L,H = t(fit0$F)),
                               method = &quot;lee&quot;,loss = &quot;mkl&quot;,max.iter = 40,
                               trace = 1,rel.tol = 0,inner.max.iter = 1,
                               inner.rel.tol = 0,n.threads = 1))</code></pre>
-<p>Run 40 SCD updates as implemented in the NNLM package.</p>
+<p>Run 40 SCD updates (as implemented in NNLM).</p>
 <pre class="r"><code>fit2 &lt;- suppressWarnings(nnmf(X,k = 3,init = list(W = fit0$L,H = t(fit0$F)),
                               method = &quot;scd&quot;,loss = &quot;mkl&quot;,max.iter = 40,
                               trace = 1,rel.tol = 0,inner.max.iter = 1,
                               n.threads = 1))</code></pre>
-<p>Load the output of running 40 updates of the CCD algorithm in MATLAB.</p>
+<p>Load the result of running 40 CCD updates on the same data set in MATLAB.</p>
 <pre class="r"><code>fit3 &lt;- readMat(&quot;../matlab/ccd100x200.mat&quot;)
 fit3$obj &lt;- drop(fit3$obj)</code></pre>
-<p>The CCD and SCD parameter estimates are nearly the same:</p>
+<p>The estimates obtained after running the CCD and SCD updates are nearly the same:</p>
 <pre class="r"><code>print(range(fit2$W - fit3$W))
 print(range(fit2$H - fit3$H))
 # [1] -1.116106e-09  1.565456e-09
 # [1] -9.941866e-10  1.446030e-09</code></pre>
-<p>Finally, I compare these results against SCD with extrapolation implemented in the fastTopics package.</p>
+<p>Finally, I compare against SCD with extrapolation, as implemented in fastTopics.</p>
 <pre class="r"><code>fit4 &lt;- fit_poisson_nmf(X,fit0 = fit0,numiter = 40,method = &quot;scd&quot;,
-                        control = list(extrapolate = TRUE,numiter = 1))
-# Using 56 RcppParallel threads.
-# Fitting rank-3 Poisson NMF to 100 x 200 dense matrix.
-# Running 40 SCD updates, with extrapolation (fastTopics 0.5-24).</code></pre>
+                        control = list(extrapolate = TRUE,numiter = 1))</code></pre>
+<p>This plot shows the improvement in the solutions over time:</p>
+<pre class="r"><code>y &lt;- fit4$progress[21:60,&quot;loglik&quot;]
+y &lt;- sum(X*log(X + 1e-15) - X) - y + sum(fastTopics:::loglik_poisson_const(X))
+y &lt;- y/(100*200)
+pdat &lt;- rbind(data.frame(iter = 1:40,loss = fit1$mkl,method = &quot;em&quot;),
+              data.frame(iter = 1:40,loss = fit2$mkl,method = &quot;scd&quot;),
+              data.frame(iter = 1:40,loss = fit3$obj,method = &quot;ccd&quot;),
+              data.frame(iter = 1:40,loss = y,method = &quot;scd+ex&quot;))
+pdat &lt;- transform(pdat,loss = loss - min(loss))
+ggplot(pdat,aes(x = iter,y = loss,color = method,linetype = method)) +
+  geom_line(size = 1) +
+  scale_color_manual(values = c(&quot;darkblue&quot;,&quot;darkorange&quot;,&quot;dodgerblue&quot;,
+                                &quot;tomato&quot;)) +
+  scale_linetype_manual(values = c(&quot;solid&quot;,&quot;solid&quot;,&quot;dashed&quot;,&quot;solid&quot;)) +
+  labs(x = &quot;iteration&quot;,y = &quot;loss&quot;) +
+  theme_cowplot(font_size = 12)</code></pre>
+<p><img src="figure/scd_vs_ccd.Rmd/plot-progrss-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p>The EM (multiplicative) updates progress much more slowly than the others.</p>
+<p>The CCD and SCD updates overlap exactly.</p>
+<p>And the extrapolation accelerates convergence of the SCD updates.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -500,36 +564,37 @@ print(range(fit2$H - fit3$H))
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] fastTopics_0.5-24 NNLM_0.4.4        R.matlab_3.6.2   
+# [1] cowplot_1.1.1     ggplot2_3.3.3     fastTopics_0.5-24 NNLM_0.4.4       
+# [5] R.matlab_3.6.2   
 # 
 # loaded via a namespace (and not attached):
-#  [1] ggrepel_0.9.1      Rcpp_1.0.4.6       invgamma_1.1      
-#  [4] lattice_0.20-38    tidyr_0.8.3        prettyunits_1.0.2 
-#  [7] assertthat_0.2.0   rprojroot_1.3-2    digest_0.6.18     
-# [10] utf8_1.1.4         truncnorm_1.0-8    R6_2.3.0          
-# [13] backports_1.1.2    MatrixModels_0.4-1 evaluate_0.12     
-# [16] coda_0.19-2        httr_1.4.2         ggplot2_3.3.3     
-# [19] pillar_1.5.0       progress_1.2.0     rlang_0.4.10      
-# [22] lazyeval_0.2.1     data.table_1.12.0  irlba_2.3.3       
-# [25] SparseM_1.77       whisker_0.3-2      R.utils_2.7.0     
-# [28] R.oo_1.22.0        Matrix_1.2-15      rmarkdown_1.10    
-# [31] Rtsne_0.15         stringr_1.3.1      htmlwidgets_1.5.3 
-# [34] munsell_0.5.0      mixsqp_0.3-46      compiler_3.5.1    
-# [37] httpuv_1.4.5       pkgconfig_2.0.2    SQUAREM_2017.10-1 
-# [40] mcmc_0.9-7         htmltools_0.3.6    tidyselect_1.1.0  
-# [43] tibble_3.1.0       workflowr_1.6.2    quadprog_1.5-5    
-# [46] viridisLite_0.3.0  fansi_0.4.0        crayon_1.3.4      
-# [49] dplyr_1.0.5        later_0.7.5        MASS_7.3-51.1     
-# [52] R.methodsS3_1.7.1  grid_3.5.1         jsonlite_1.6      
-# [55] gtable_0.2.0       lifecycle_1.0.0    DBI_1.0.0         
-# [58] git2r_0.26.1       magrittr_1.5       scales_1.0.0      
-# [61] RcppParallel_5.0.1 stringi_1.2.4      fs_1.3.1          
-# [64] promises_1.0.1     ellipsis_0.2.0.1   vctrs_0.3.6       
-# [67] generics_0.0.2     cowplot_1.1.1      tools_3.5.1       
-# [70] glue_1.4.2         purrr_0.3.2        hms_0.4.2         
-# [73] yaml_2.2.0         colorspace_1.3-2   ashr_2.2-51       
-# [76] plotly_4.9.3       knitr_1.20         quantreg_5.36     
-# [79] MCMCpack_1.4-4</code></pre>
+#  [1] httr_1.4.2         tidyr_0.8.3        jsonlite_1.6      
+#  [4] viridisLite_0.3.0  R.utils_2.7.0      RcppParallel_5.0.1
+#  [7] assertthat_0.2.0   mixsqp_0.3-46      yaml_2.2.0        
+# [10] progress_1.2.0     ggrepel_0.9.1      pillar_1.5.0      
+# [13] backports_1.1.2    lattice_0.20-38    quantreg_5.36     
+# [16] glue_1.4.2         quadprog_1.5-5     digest_0.6.18     
+# [19] promises_1.0.1     colorspace_1.3-2   htmltools_0.3.6   
+# [22] httpuv_1.4.5       Matrix_1.2-15      R.oo_1.22.0       
+# [25] pkgconfig_2.0.2    invgamma_1.1       SparseM_1.77      
+# [28] purrr_0.3.2        scales_1.0.0       whisker_0.3-2     
+# [31] later_0.7.5        Rtsne_0.15         MatrixModels_0.4-1
+# [34] git2r_0.26.1       tibble_3.1.0       generics_0.0.2    
+# [37] ellipsis_0.2.0.1   withr_2.1.2        ashr_2.2-51       
+# [40] lazyeval_0.2.1     magrittr_1.5       crayon_1.3.4      
+# [43] mcmc_0.9-7         evaluate_0.12      R.methodsS3_1.7.1 
+# [46] fs_1.3.1           fansi_0.4.0        MASS_7.3-51.1     
+# [49] truncnorm_1.0-8    tools_3.5.1        data.table_1.12.0 
+# [52] prettyunits_1.0.2  hms_0.4.2          lifecycle_1.0.0   
+# [55] stringr_1.3.1      MCMCpack_1.4-4     plotly_4.9.3      
+# [58] munsell_0.5.0      irlba_2.3.3        compiler_3.5.1    
+# [61] rlang_0.4.10       grid_3.5.1         htmlwidgets_1.5.3 
+# [64] labeling_0.3       rmarkdown_1.10     gtable_0.2.0      
+# [67] DBI_1.0.0          R6_2.3.0           knitr_1.20        
+# [70] dplyr_1.0.5        utf8_1.1.4         workflowr_1.6.2   
+# [73] rprojroot_1.3-2    stringi_1.2.4      SQUAREM_2017.10-1 
+# [76] Rcpp_1.0.4.6       vctrs_0.3.6        tidyselect_1.1.0  
+# [79] coda_0.19-2</code></pre>
 </div>
 
 
