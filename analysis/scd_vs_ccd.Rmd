@@ -33,13 +33,13 @@ X <- simulate_count_data(100,200,3)$X
 
 *Add text here.*
 
-```{r init-fit}
+```{r init-fit, results="hide", message=FALSE}
 fit0 <- fit_poisson_nmf(X,k = 3,numiter = 20,method = "mu",
                         control = list(numiter = 1))
 writeMat("../matlab/dat100x200.mat",X = X,L0 = fit0$L,F0 = fit0$F)
 ```
 
-Run 40 multiplicative (EM) updates as implemented in the NNLM package.
+Run 40 multiplicative (EM) updates (as implemented in NNLM).
 
 ```{r fit-em}
 fit1 <- suppressWarnings(nnmf(X,k = 3,init = list(W = fit0$L,H = t(fit0$F)),
@@ -48,7 +48,7 @@ fit1 <- suppressWarnings(nnmf(X,k = 3,init = list(W = fit0$L,H = t(fit0$F)),
                               inner.rel.tol = 0,n.threads = 1))
 ```
 
-Run 40 SCD updates as implemented in the NNLM package.
+Run 40 SCD updates (as implemented in NNLM).
 
 ```{r fit-scd}
 fit2 <- suppressWarnings(nnmf(X,k = 3,init = list(W = fit0$L,H = t(fit0$F)),
@@ -57,24 +57,25 @@ fit2 <- suppressWarnings(nnmf(X,k = 3,init = list(W = fit0$L,H = t(fit0$F)),
                               n.threads = 1))
 ```
 
-Load the output of running 40 updates of the CCD algorithm in MATLAB.
+Load the result of running 40 CCD updates on the same data set in MATLAB.
 
 ```{r fit-ccd}
 fit3 <- readMat("../matlab/ccd100x200.mat")
 fit3$obj <- drop(fit3$obj)
 ```
 
-The CCD and SCD parameter estimates are nearly the same:
+The estimates obtained after running the CCD and SCD updates are
+nearly the same:
 
 ```{r scd-vs-ccd} 
 print(range(fit2$W - fit3$W))
 print(range(fit2$H - fit3$H))
 ```
 
-Finally, I compare these results against SCD with extrapolation
-implemented in the fastTopics package.
+Finally, I compare against SCD with extrapolation, as implemented in
+fastTopics.
 
-```{r fit-scd-ex}
+```{r fit-scd-ex, results="hide", message=FALSE}
 fit4 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 40,method = "scd",
                         control = list(extrapolate = TRUE,numiter = 1))
 ```
