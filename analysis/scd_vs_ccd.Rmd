@@ -17,6 +17,8 @@ Load the packages used in the analysis below.
 library(R.matlab)
 library(NNLM)
 library(fastTopics)
+library(ggplot2)
+library(cowplot)
 ```
 
 Set the seed so that the results can be reproduced.
@@ -80,3 +82,29 @@ fit4 <- fit_poisson_nmf(X,fit0 = fit0,numiter = 40,method = "scd",
                         control = list(extrapolate = TRUE,numiter = 1))
 ```
 
+This plot shows the improvement in the solutions over time:
+
+```{r plot-progrss, fig.width=3, fig.height=2}
+y <- fit4$progress[21:60,"loglik"]
+y <- sum(X*log(X + 1e-15) - X) - y + sum(fastTopics:::loglik_poisson_const(X))
+y <- y/(100*200)
+pdat <- rbind(data.frame(iter = 1:40,loss = fit1$mkl,method = "em"),
+              data.frame(iter = 1:40,loss = fit2$mkl,method = "scd"),
+              data.frame(iter = 1:40,loss = fit3$obj,method = "ccd"),
+              data.frame(iter = 1:40,loss = y,method = "scd+ex"))
+pdat <- transform(pdat,loss = loss - min(loss))
+ggplot(pdat,aes(x = iter,y = loss,color = method,linetype = method)) +
+  geom_line(size = 1) +
+  scale_color_manual(values = c("darkblue","darkorange","dodgerblue",
+                                "tomato")) +
+  scale_linetype_manual(values = c("solid","solid","dashed","solid")) +
+  labs(x = "iteration",y = "loss") +
+  theme_cowplot(font_size = 12)
+```
+
+The EM (multiplicative) updates progress much more slowly than the
+others.
+
+The CCD and SCD updates overlap exactly.
+
+And the extrapolation accelerates convergence of the SCD updates.
