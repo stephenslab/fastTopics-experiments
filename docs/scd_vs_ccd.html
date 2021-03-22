@@ -323,16 +323,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree37a695a5fdffd5dbaa9abe9ad4dd589d6aea783ctargetblank37a695aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/37a695a5fdffd5dbaa9abe9ad4dd589d6aea783c" target="_blank">37a695a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeba11b8b64213a50498bfb861a441a96d9f86dc31targetblankba11b8ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/ba11b8b64213a50498bfb861a441a96d9f86dc31" target="_blank">ba11b8b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree37a695a5fdffd5dbaa9abe9ad4dd589d6aea783ctargetblank37a695aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeba11b8b64213a50498bfb861a441a96d9f86dc31targetblankba11b8ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/37a695a5fdffd5dbaa9abe9ad4dd589d6aea783c" target="_blank">37a695a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/ba11b8b64213a50498bfb861a441a96d9f86dc31" target="_blank">ba11b8b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -347,6 +347,9 @@ Ignored files:
     Ignored:    output/newsgroups/rds/
     Ignored:    output/nips/fits-nips.RData
     Ignored:    output/nips/rds/
+
+Unstaged changes:
+    Modified:   matlab/dat100x200.mat
 
 </code></pre>
 <p>
@@ -385,6 +388,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/ba11b8b64213a50498bfb861a441a96d9f86dc31/analysis/scd_vs_ccd.Rmd" target="_blank">ba11b8b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-22
+</td>
+<td>
+workflowr::wflow_publish(“scd_vs_ccd.Rmd”, verbose = TRUE, view = FALSE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/32b302fb3bcbdbbfdce2b0b1e63f5b379ffc9382/docs/scd_vs_ccd.html" target="_blank">32b302f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -522,7 +559,7 @@ library(cowplot)</code></pre>
 <pre class="r"><code>set.seed(1)</code></pre>
 <p>Simulate a 100 x 200 counts matrix.</p>
 <pre class="r"><code>X &lt;- simulate_count_data(100,200,3)$X</code></pre>
-<p><em>Add text here.</em></p>
+<p>“Pre-fit” t he model with the aim of better ensuring that the same local maximum is recovered by all runs below.</p>
 <pre class="r"><code>fit0 &lt;- fit_poisson_nmf(X,k = 3,numiter = 20,method = &quot;mu&quot;,
                         control = list(numiter = 1))
 writeMat(&quot;../matlab/dat100x200.mat&quot;,X = X,L0 = fit0$L,F0 = fit0$F)</code></pre>
@@ -586,6 +623,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/32b302fb3bcbdbbfdce2b0b1e63f5b379ffc9382/docs/figure/scd_vs_ccd.Rmd/plot-progrss-1.png" target="_blank">32b302f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/323bf3ad9ed5f2018419e90b1fed01352ce96091/docs/figure/scd_vs_ccd.Rmd/plot-progrss-1.png" target="_blank">323bf3a</a>
