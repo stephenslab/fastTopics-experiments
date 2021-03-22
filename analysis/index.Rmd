@@ -10,6 +10,9 @@ experiments, and the accompanying code.
 
 ## Simulations
 
++ [Example in which the SCD and CCD updates produce the same sequence of
+   iterates](scd_vs_ccd.html)
+
 + [A small simulation illustrating the trouble with EM.](smallsim.html)
 
 ## Data preparation
