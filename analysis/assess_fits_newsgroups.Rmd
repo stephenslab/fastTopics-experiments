@@ -44,7 +44,7 @@ $K$ from 2 to 12, using EM or SCD, with and without extrapolation. The
 quality of the fit is measured by the log-likelihood relative to the
 best log-likelihood that was identified among all methods compared.
 
-```{r plot-loglik, fig.height=6, fig.width=9}
+```{r plot-loglik, fig.height=6, fig.width=9, warning=FALSE}
 prune_prefit_iters <- function (fit) {
   n <- nrow(fit$progress)
   fit$progress <- fit$progress[1000:n,]
