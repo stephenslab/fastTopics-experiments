@@ -34,6 +34,34 @@ sbatch ${SCRIPT_PREFIT} newsgroups.RData 10 1000 prefit-newsgroups-k=10
 sbatch ${SCRIPT_PREFIT} newsgroups.RData 11 1000 prefit-newsgroups-k=11
 sbatch ${SCRIPT_PREFIT} newsgroups.RData 12 1000 prefit-newsgroups-k=12
 
+# "Pre-fit" factorizations to the droplet data.
+#                       data           k    n outfile
+sbatch ${SCRIPT_PREFIT} droplet.RData  2 1000 prefit-droplet-k=2
+sbatch ${SCRIPT_PREFIT} droplet.RData  3 1000 prefit-droplet-k=3
+sbatch ${SCRIPT_PREFIT} droplet.RData  4 1000 prefit-droplet-k=4
+sbatch ${SCRIPT_PREFIT} droplet.RData  5 1000 prefit-droplet-k=5
+sbatch ${SCRIPT_PREFIT} droplet.RData  6 1000 prefit-droplet-k=6
+sbatch ${SCRIPT_PREFIT} droplet.RData  7 1000 prefit-droplet-k=7
+sbatch ${SCRIPT_PREFIT} droplet.RData  8 1000 prefit-droplet-k=8
+sbatch ${SCRIPT_PREFIT} droplet.RData  9 1000 prefit-droplet-k=9
+sbatch ${SCRIPT_PREFIT} droplet.RData 10 1000 prefit-droplet-k=10
+sbatch ${SCRIPT_PREFIT} droplet.RData 11 1000 prefit-droplet-k=11
+sbatch ${SCRIPT_PREFIT} droplet.RData 12 1000 prefit-droplet-k=12
+
+# "Pre-fit" factorizations to the 68k pbmc data.
+#                       data            k    n outfile
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  2 1000 prefit-pbmc68k-k=2
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  3 1000 prefit-pbmc68k-k=3
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  4 1000 prefit-pbmc68k-k=4
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  5 1000 prefit-pbmc68k-k=5
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  6 1000 prefit-pbmc68k-k=6
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  7 1000 prefit-pbmc68k-k=7
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  8 1000 prefit-pbmc68k-k=8
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData  9 1000 prefit-pbmc68k-k=9
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData 10 1000 prefit-pbmc68k-k=10
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData 11 1000 prefit-pbmc68k-k=11
+sbatch ${SCRIPT_PREFIT} pbmc_68k.RData 12 1000 prefit-pbmc68k-k=12
+
 # Fit factorizations to nips data, with and without extrapolation.
 #                    data  k method    n  ex outfile
 sbatch ${SCRIPT_FIT} nips  2 em     1000  no fit-nips-em-k=2
