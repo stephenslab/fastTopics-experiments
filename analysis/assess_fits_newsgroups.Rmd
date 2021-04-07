@@ -34,7 +34,7 @@ This plot shows the improvement in the log-likelihood as the rank,
 $K$, is increased. The log-likelihoods are shown relative to the
 log-likelihood at $K = 2$. 
 
-```{r plot-loglik-vs-k, fig.height=3, fig.width=5}
+```{r plot-loglik-vs-k, fig.height=3, fig.width=3.5}
 plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)
 ```
@@ -44,40 +44,35 @@ $K$ from 2 to 12, using EM or SCD, with and without extrapolation. The
 quality of the fit is measured by the log-likelihood relative to the
 best log-likelihood that was identified among all methods compared.
 
-```{r plot-loglik, fig.height=6, fig.width=9, eval=FALSE}
+```{r plot-loglik, fig.height=6, fig.width=9}
 prune_prefit_iters <- function (fit) {
   n <- nrow(fit$progress)
-  fit$progress <- fit$progress[1000:n,] 
+  fit$progress <- fit$progress[1000:n,]
+  fit$progress <- transform(fit$progress,timing = timing/60^2)
   return(fit)
 }
-create_progress_plot <- function (fits)
+create_progress_plot <- function (fits, k)
   plot_progress(fits,add.point.every = 100,shapes = 21,
                 colors = c("dodgerblue","red","dodgerblue","red"),
                 fills = c("dodgerblue","red","white","white")) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-8,8)) +
   guides(color = "none",fill = "none",size = "none",
          shape = "none",linetype = "none") +
+  labs(x = "runtime (h)",title = paste("K =",k)) +
   theme_cowplot(font_size = 10) +
-  labs(x = "runtime (h)")
+  theme(plot.title = element_text(size = 10,face = "plain"))
 fits <- lapply(fits,prune_prefit_iters)
-p2  <- create_progress_plot(fits[dat$k == 2])
-p3  <- create_progress_plot(fits[dat$k == 3])
-p4  <- create_progress_plot(fits[dat$k == 4])
-p5  <- create_progress_plot(fits[dat$k == 5])
-p6  <- create_progress_plot(fits[dat$k == 6])
-p7  <- create_progress_plot(fits[dat$k == 7])
-p8  <- create_progress_plot(fits[dat$k == 8])
-p9  <- create_progress_plot(fits[dat$k == 9])
-p10 <- create_progress_plot(fits[dat$k == 10])
-p11 <- create_progress_plot(fits[dat$k == 11])
-p12 <- create_progress_plot(fits[dat$k == 12])
-plot_grid(p2,p3,p4,p5,
-          p6,p7,p8,p9,
-          p10,p11,p12,
+p <- vector("list",12)
+for (i in 2:12)
+  p[[i]] <- create_progress_plot(fits[dat$k == i],i)
+plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+          p[[6]],p[[7]],p[[8]],p[[9]],
+          p[[10]],p[[11]],p[[12]],
           nrow = 3,ncol = 4)
 ```
 
 The last set of plots shows the evolution of the KKT residuals over
 time.
 
-```{r plot-res, fig.height=6, fig.width=9, eval=FALSE}
+```{r plot-res, fig.height=6, fig.width=9}
 ```
