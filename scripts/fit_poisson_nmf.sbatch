@@ -30,7 +30,7 @@ echo extrapolate=${5}
 echo outfile=${OUTFILE}
 
 DATFILE=../data/${DAT}.RData
-PREFIT=${DAT//"_"/"-"}
+PREFIT=${DAT//"_"/""}
 PREFIT=prefit-${PREFIT}-k=${K}.rds
 
 # For reproducibility, I add version numbers to the "module load" calls.
