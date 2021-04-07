@@ -71,6 +71,15 @@ plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
           nrow = 3,ncol = 4)
 ```
 
+```{r plots-for-paper-1, message=FALSE, warning=FALSE, echo=FALSE}
+ggsave("../plots/progress_loglik_newsgroups.eps",
+       plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+                 p[[6]],p[[7]],p[[8]],p[[9]],
+                 p[[10]],p[[11]],p[[12]],
+                 nrow = 3,ncol = 4),
+   	   height = 6,width = 9)
+```
+
 The last set of plots shows the evolution of the KKT residuals over
 time.
 
