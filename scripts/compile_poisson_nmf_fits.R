@@ -35,7 +35,7 @@ for (i in 1:n) {
 }
 
 # Reorder the results in "fits" and "dat".
-dat  <- transform(dat,method = factor(method,c("em","ccd","scd")))
+dat  <- transform(dat,method = factor(method,c("em","scd")))
 i    <- with(dat,order(k,extrapolate,method))
 dat  <- dat[i,]
 fits <- fits[i]

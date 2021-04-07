@@ -67,8 +67,7 @@ fit0 <- readRDS(prefitfile)$fit
 # ---------------------------------------------
 # Now we are ready to perform the main model-fitting step.
 cat("Fitting Poisson NMF to count data.\n")
-control <- list(extrapolate = extrapolate,nc = nc,
-                numiter = ifelse(method == "ccd",1,4))
+control <- list(extrapolate = extrapolate,nc = nc,numiter = 4)
 timing <- system.time({
   fit <- fit_poisson_nmf(counts,fit0 = fit0,numiter = numiter,
                          method = method,control = control,
