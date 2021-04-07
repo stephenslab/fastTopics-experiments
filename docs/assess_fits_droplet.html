@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreea1e6c7dc9699d427a8eca0407aa6cbfbf02a8dfetargetblanka1e6c7da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/a1e6c7dc9699d427a8eca0407aa6cbfbf02a8dfe" target="_blank">a1e6c7d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree888f7462b94a17cf0aef1306d122f84806d21cb7targetblank888f746a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/888f7462b94a17cf0aef1306d122f84806d21cb7" target="_blank">888f746</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreea1e6c7dc9699d427a8eca0407aa6cbfbf02a8dfetargetblanka1e6c7da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree888f7462b94a17cf0aef1306d122f84806d21cb7targetblank888f746a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/a1e6c7dc9699d427a8eca0407aa6cbfbf02a8dfe" target="_blank">a1e6c7d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/888f7462b94a17cf0aef1306d122f84806d21cb7" target="_blank">888f746</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -481,6 +481,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/888f7462b94a17cf0aef1306d122f84806d21cb7/analysis/assess_fits_droplet.Rmd" target="_blank">888f746</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-07
+</td>
+<td>
+workflowr::wflow_publish(“assess_fits_droplet.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/c0cbe8c2c6ccfc4255bfb03d5e3f1435846d621b/docs/assess_fits_droplet.html" target="_blank">c0cbe8c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-07
+</td>
+<td>
+First build of assess_fits_droplet analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/a1e6c7dc9699d427a8eca0407aa6cbfbf02a8dfe/analysis/assess_fits_droplet.Rmd" target="_blank">a1e6c7d</a>
 </td>
 <td>
@@ -512,6 +546,43 @@ fits &lt;- lapply(fits,poisson2multinom)</code></pre>
 <pre class="r"><code>plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)</code></pre>
 <p><img src="figure/assess_fits_droplet.Rmd/plot-loglik-vs-k-1.png" width="336" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-loglik-vs-k-1">
+Past versions of plot-loglik-vs-k-1.png
+</button>
+</p>
+<div id="fig-plot-loglik-vs-k-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c0cbe8c2c6ccfc4255bfb03d5e3f1435846d621b/docs/figure/assess_fits_droplet.Rmd/plot-loglik-vs-k-1.png" target="_blank">c0cbe8c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The next set of plots shows the improvement in the fit over time, for <span class="math inline">\(K\)</span> from 2 to 12, using EM or SCD, with and without extrapolation. The quality of the fit is measured by the log-likelihood relative to the best log-likelihood that was identified among all methods compared.</p>
 <pre class="r"><code>prune_prefit_iters &lt;- function (fit) {
   n &lt;- nrow(fit$progress)
@@ -533,11 +604,51 @@ fits &lt;- lapply(fits,prune_prefit_iters)
 p &lt;- vector(&quot;list&quot;,12)
 for (i in 2:12)
   p[[i]] &lt;- create_progress_plot(fits[dat$k == i],i)
+p[[2]] &lt;- p[[2]] + scale_y_continuous()
+p[[3]] &lt;- p[[3]] + scale_y_continuous()
+p[[4]] &lt;- p[[4]] + scale_y_continuous()
 plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
           p[[6]],p[[7]],p[[8]],p[[9]],
           p[[10]],p[[11]],p[[12]],
           nrow = 3,ncol = 4)</code></pre>
 <p><img src="figure/assess_fits_droplet.Rmd/plot-loglik-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-loglik-1">
+Past versions of plot-loglik-1.png
+</button>
+</p>
+<div id="fig-plot-loglik-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c0cbe8c2c6ccfc4255bfb03d5e3f1435846d621b/docs/figure/assess_fits_droplet.Rmd/plot-loglik-1.png" target="_blank">c0cbe8c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>These plots shows the evolution of the KKT residuals over time.</p>
 <pre class="r"><code>for (i in 2:12)
   p[[i]] &lt;- create_progress_plot(fits[dat$k == i],i,y = &quot;res&quot;)
@@ -546,6 +657,43 @@ plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
           p[[10]],p[[11]],p[[12]],
           nrow = 3,ncol = 4)</code></pre>
 <p><img src="figure/assess_fits_droplet.Rmd/plot-res-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-res-1">
+Past versions of plot-res-1.png
+</button>
+</p>
+<div id="fig-plot-res-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c0cbe8c2c6ccfc4255bfb03d5e3f1435846d621b/docs/figure/assess_fits_droplet.Rmd/plot-res-1.png" target="_blank">c0cbe8c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
