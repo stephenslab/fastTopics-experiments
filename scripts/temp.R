@@ -1,3 +1,4 @@
+# TO DO: Try with k = 6 and/or k = 7.
 library(fastTopics)
 library(cowplot)
 load("../data/newsgroups.RData")
