@@ -6,7 +6,10 @@ data/GSE103354_Trachea_droplet_UMIcounts.txt.gz
 data/droplet.RData
 output/nips/fits-nips.RData
 output/newsgroups/fits-newsgroups.RData
+output/droplet/fits-droplet.RData
 output/nips/rds/prefit-nips-k=*.rds
 output/nips/rds/fit-nips-*.rds
 output/newsgroups/rds/prefit-newsgroups-*.rds
 output/newsgroups/rds/fit-newsgroups-*.rds
+output/droplet/rds/prefit-droplet-*.rds
+output/droplet/rds/fit-droplet-*.rds
