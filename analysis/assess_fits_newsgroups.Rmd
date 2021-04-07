@@ -44,7 +44,7 @@ $K$ from 2 to 12, using EM or SCD, with and without extrapolation. The
 quality of the fit is measured by the log-likelihood relative to the
 best log-likelihood that was identified among all methods compared.
 
-```{r plot-loglik, fig.height=6, fig.width=9, warning=FALSE}
+```{r plot-loglik, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
 prune_prefit_iters <- function (fit) {
   n <- nrow(fit$progress)
   fit$progress <- fit$progress[1000:n,]
@@ -82,7 +82,7 @@ ggsave("../plots/progress_loglik_newsgroups.eps",
 
 These plots shows the evolution of the KKT residuals over time.
 
-```{r plot-res, fig.height=6, fig.width=9, warning=FALSE}
+```{r plot-res, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
 for (i in 2:12)
   p[[i]] <- create_progress_plot(fits[dat$k == i],i,y = "res")
 plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
