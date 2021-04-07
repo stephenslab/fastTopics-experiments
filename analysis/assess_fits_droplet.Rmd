@@ -1,0 +1,101 @@
+---
+title: Assess topic model fits in droplet data
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+Here we compare the quality of the fits obtained from the different
+updates (EM and SCD, with and without extrapolation), and with
+different numbers of topics, $K$.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center")
+```
+
+Load the packages used in the analysis below, as well as some
+additional functions for creating the plots.
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+```
+
+Load the results of running `fit_poisson_nmf` on the droplet data,
+with different algorithms, and for various settings of $K$.
+
+```{r load-results}
+load("../output/droplet/fits-droplet.RData")
+fits <- lapply(fits,poisson2multinom)
+```
+
+This plot shows the improvement in the log-likelihood as the rank,
+$K$, is increased. The log-likelihoods are shown relative to the
+log-likelihood at $K = 2$. 
+
+```{r plot-loglik-vs-k, fig.height=3, fig.width=3.5}
+plot_loglik_vs_rank(fits) +
+  theme_cowplot(font_size = 12)
+```
+
+The next set of plots shows the improvement in the fit over time, for
+$K$ from 2 to 12, using EM or SCD, with and without extrapolation. The
+quality of the fit is measured by the log-likelihood relative to the
+best log-likelihood that was identified among all methods compared.
+
+```{r plot-loglik, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
+prune_prefit_iters <- function (fit) {
+  n <- nrow(fit$progress)
+  fit$progress <- fit$progress[1000:n,]
+  fit$progress <- transform(fit$progress,timing = timing/60^2)
+  return(fit)
+}
+create_progress_plot <- function (fits, k, y = "loglik")
+  plot_progress(fits,y = y,add.point.every = 100,shapes = 21,
+                colors = c("dodgerblue","red","dodgerblue","red"),
+                fills = c("dodgerblue","red","white","white")) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-8,8)) +
+  guides(color = "none",fill = "none",size = "none",
+         shape = "none",linetype = "none") +
+  labs(x = "runtime (h)",title = paste("K =",k)) +
+  theme_cowplot(font_size = 10) +
+  theme(plot.title = element_text(size = 10,face = "plain"))
+fits <- lapply(fits,prune_prefit_iters)
+p <- vector("list",12)
+for (i in 2:12)
+  p[[i]] <- create_progress_plot(fits[dat$k == i],i)
+plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+          p[[6]],p[[7]],p[[8]],p[[9]],
+          p[[10]],p[[11]],p[[12]],
+          nrow = 3,ncol = 4)
+```
+
+```{r plots-for-paper-1, message=FALSE, warning=FALSE, echo=FALSE}
+ggsave("../plots/progress_loglik_droplet.eps",
+       plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+                 p[[6]],p[[7]],p[[8]],p[[9]],
+                 p[[10]],p[[11]],p[[12]],
+                 nrow = 3,ncol = 4),
+   	   height = 6,width = 9)
+```
+
+These plots shows the evolution of the KKT residuals over time.
+
+```{r plot-res, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
+for (i in 2:12)
+  p[[i]] <- create_progress_plot(fits[dat$k == i],i,y = "res")
+plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+          p[[6]],p[[7]],p[[8]],p[[9]],
+          p[[10]],p[[11]],p[[12]],
+          nrow = 3,ncol = 4)
+```
+
+```{r plots-for-paper-2, message=FALSE, warning=FALSE, echo=FALSE}
+ggsave("../plots/progress_kkt_droplet.eps",
+       plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+                 p[[6]],p[[7]],p[[8]],p[[9]],
+                 p[[10]],p[[11]],p[[12]],
+                 nrow = 3,ncol = 4),
+   	   height = 6,width = 9)
+```
