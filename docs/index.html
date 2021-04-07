@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Peter Carbonetto" />
 
 
-<title>Empirical comparisons of algorithms for fitting Poisson NMF and topic models</title>
+<title>Empirical comparisons of Poisson NMF algorithms for fitting topic models</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -78,9 +78,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -94,7 +92,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -104,6 +101,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -119,7 +119,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -139,6 +138,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -160,19 +196,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -206,8 +297,8 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Empirical comparisons of algorithms for fitting Poisson NMF and topic models</h1>
-<h4 class="author"><em>Peter Carbonetto</em></h4>
+<h1 class="title toc-ignore">Empirical comparisons of Poisson NMF algorithms for fitting topic models</h1>
+<h4 class="author">Peter Carbonetto</h4>
 
 </div>
 
@@ -232,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-21
+<strong>Last updated:</strong> 2021-04-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -242,7 +333,7 @@ $(document).ready(function () {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -263,35 +354,32 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreea8c2422f87ec6a21ad57e533e3823574678be46ctargetblanka8c2422a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/a8c2422f87ec6a21ad57e533e3823574678be46c" target="_blank">a8c2422</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree8a38df27f6bd14fff2c5a39ef978119e558dc9eatargetblank8a38df2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/8a38df27f6bd14fff2c5a39ef978119e558dc9ea" target="_blank">8a38df2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreea8c2422f87ec6a21ad57e533e3823574678be46ctargetblanka8c2422a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree8a38df27f6bd14fff2c5a39ef978119e558dc9eatargetblank8a38df2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/a8c2422f87ec6a21ad57e533e3823574678be46c" target="_blank">a8c2422</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/8a38df27f6bd14fff2c5a39ef978119e558dc9ea" target="_blank">8a38df2</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    data/GSE103354_Trachea_droplet_UMIcounts.txt.gz
-    Ignored:    data/droplet.RData
-    Ignored:    data/pbmc_68k
-    Ignored:    data/pbmc_68k.RData
+    Ignored:    data/20news-bydate/
+    Ignored:    data/nips_1-17.mat
     Ignored:    output/newsgroups/fits-newsgroups.RData
-    Ignored:    output/newsgroups/rds/
     Ignored:    output/nips/fits-nips.RData
-    Ignored:    output/nips/rds/
+
+Untracked files:
+    Untracked:  plots/
 
 Unstaged changes:
-    Modified:   analysis/scd_vs_ccd.R
-    Modified:   analysis/scd_vs_ccd.Rmd
-    Modified:   matlab/dat100x200.mat
+    Modified:   analysis/smallsim.Rmd
 
 </code></pre>
 <p>
@@ -330,6 +418,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/8a38df27f6bd14fff2c5a39ef978119e558dc9ea/analysis/index.Rmd" target="_blank">8a38df2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-06
+</td>
+<td>
+workflowr::wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c480a00e78b56dbb0f7d12ece99ca1aed5e5e02b/analysis/index.Rmd" target="_blank">c480a00</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-21
+</td>
+<td>
+Made a few improvements to the scd_vs_ccd example.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/4e7f14f8b427ff4fdc67d08dd4fe71d2de83a673/docs/index.html" target="_blank">4e7f14f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-21
+</td>
+<td>
+Added link to overview page.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -660,12 +799,12 @@ Added workflowr files.
 </div>
 </div>
 </div>
-<p>Follow the links below to see the results of the numerical experiments, and the accompanying code.</p>
+<p>Follow the links below to see the results of the numerical experiments and the accompanying code.</p>
 <div id="simulations" class="section level2">
 <h2>Simulations</h2>
 <ul>
-<li><p><a href="scd_vs_ccd.html">Example in which the SCD and CCD updates produce the same sequence of iterates</a></p></li>
-<li><p><a href="smallsim.html">A small simulation illustrating the trouble with EM.</a></p></li>
+<li><p><a href="scd_vs_ccd.html">Example in which the SCD and CCD updates produce the same sequence of iterates.</a></p></li>
+<li><p><a href="smallsim.html">EM vs. SCD in a small, simulated data set.</a></p></li>
 </ul>
 </div>
 <div id="data-preparation" class="section level2">
@@ -707,6 +846,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
