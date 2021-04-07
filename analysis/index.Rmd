@@ -1,19 +1,19 @@
 ---
-title: Empirical comparisons of algorithms for fitting Poisson NMF and topic models
+title: Empirical comparisons of Poisson NMF algorithms for fitting topic models
 author: Peter Carbonetto
 site: workflowr::wflow_site
 output: workflowr::wflow_html
 ---
 
 Follow the links below to see the results of the numerical
-experiments, and the accompanying code.
+experiments and the accompanying code.
 
 ## Simulations
 
 + [Example in which the SCD and CCD updates produce the same sequence of
    iterates.](scd_vs_ccd.html)
 
-+ [A small simulation illustrating the trouble with EM.](smallsim.html)
++ [EM vs. SCD in a small, simulated data set.](smallsim.html)
 
 ## Data preparation
 
