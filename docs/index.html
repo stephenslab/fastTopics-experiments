@@ -323,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-06
+<strong>Last updated:</strong> 2021-04-07
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -354,16 +354,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree8a38df27f6bd14fff2c5a39ef978119e558dc9eatargetblank8a38df2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/8a38df27f6bd14fff2c5a39ef978119e558dc9ea" target="_blank">8a38df2</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb9fb27c52c777817bda6fc2ceb8846dcf3b5c42dtargetblankb9fb27ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b9fb27c52c777817bda6fc2ceb8846dcf3b5c42d" target="_blank">b9fb27c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree8a38df27f6bd14fff2c5a39ef978119e558dc9eatargetblank8a38df2a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb9fb27c52c777817bda6fc2ceb8846dcf3b5c42dtargetblankb9fb27ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/8a38df27f6bd14fff2c5a39ef978119e558dc9ea" target="_blank">8a38df2</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b9fb27c52c777817bda6fc2ceb8846dcf3b5c42d" target="_blank">b9fb27c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -372,14 +372,12 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    data/20news-bydate/
     Ignored:    data/nips_1-17.mat
+    Ignored:    output/droplet/fits-droplet.RData
     Ignored:    output/newsgroups/fits-newsgroups.RData
     Ignored:    output/nips/fits-nips.RData
 
 Untracked files:
     Untracked:  plots/
-
-Unstaged changes:
-    Modified:   analysis/smallsim.Rmd
 
 </code></pre>
 <p>
@@ -418,6 +416,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/b9fb27c52c777817bda6fc2ceb8846dcf3b5c42d/analysis/index.Rmd" target="_blank">b9fb27c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-07
+</td>
+<td>
+workflowr::wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/101a30f27f74c25616e95f60a775dabbd410baf8/docs/index.html" target="_blank">101a30f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-06
+</td>
+<td>
+Made a few small revisions to the overview page.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -813,7 +845,16 @@ Added workflowr files.
 <li><p><a href="prepare_nips_data.html">NIPS data</a></p></li>
 <li><p><a href="prepare_newsgroups.html">Newsgroups data</a></p></li>
 <li><p><a href="prepare_droplet.html">Droplet</a></p></li>
-<li><p><a href="prepare_68k_pbmc.html">PBMC 68k</a></p></li>
+<li><p><a href="prepare_68k_pbmc.html">68k PBMC</a></p></li>
+</ul>
+</div>
+<div id="assessment-of-model-fits" class="section level2">
+<h2>Assessment of model fits</h2>
+<ul>
+<li><p><a href="assess_fits_nips.html">NIPS data</a></p></li>
+<li><p><a href="assess_fits_newsgroups.html">Newsgroups data</a></p></li>
+<li><p><a href="assess_fits_droplet.html">Droplet</a></p></li>
+<li><p><a href="assess_fits_68k_pbmc.html">68k PBMC</a></p></li>
 </ul>
 </div>
 

@@ -8,14 +8,16 @@ output: workflowr::wflow_html
 Follow the links below to see the results of the numerical
 experiments and the accompanying code.
 
-## Simulations
+Simulations
+-----------
 
 + [Example in which the SCD and CCD updates produce the same sequence of
    iterates.](scd_vs_ccd.html)
 
 + [EM vs. SCD in a small, simulated data set.](smallsim.html)
 
-## Data preparation
+Data preparation
+----------------
 
 + [NIPS data](prepare_nips_data.html)
 
@@ -23,5 +25,15 @@ experiments and the accompanying code.
 
 + [Droplet](prepare_droplet.html)
 
-+ [PBMC 68k](prepare_68k_pbmc.html)
++ [68k PBMC](prepare_68k_pbmc.html)
 
+Assessment of model fits
+------------------------
+
++ [NIPS data](assess_fits_nips.html)
+
++ [Newsgroups data](assess_fits_newsgroups.html)
+
++ [Droplet](assess_fits_droplet.html)
+
++ [68k PBMC](assess_fits_68k_pbmc.html)
