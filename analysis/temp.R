@@ -1,23 +1,41 @@
+# Compare K = 10 topic models fit to NIPS data.
 library(fastTopics)
-load("../data/pbmc_68k.RData")
+library(cowplot)
+load("../output/nips/fits-nips.RData")
+fit1 <- poisson2multinom(fits[["fit-nips-em-k=10"]])
+fit2 <- poisson2multinom(fits[["fit-nips-scd-ex-k=10"]])
+plot(fit1$L,fit2$L,pch = 20)
+abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
+
+# Compare K = 7 topic models fit to trachea droplet data.
+load("../output/droplet/fits-droplet.RData")
+fit1 <- poisson2multinom(fits[["fit-droplet-em-k=7"]])
+fit2 <- poisson2multinom(fits[["fit-droplet-scd-ex-k=7"]])
+plot(fit1$L,fit2$L,pch = 20)
+abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
+
+# Compare K = 9 topic models fit to 20 Newsgroups data.
+load("../output/newsgroups/fits-newsgroups.RData")
+fit1 <- poisson2multinom(fits[["fit-newsgroups-em-k=9"]])
+fit2 <- poisson2multinom(fits[["fit-newsgroups-scd-ex-k=9"]])
+plot(fit1$L,fit2$L,pch = 20)
+abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
+
+# Compare K = 10 topic models fit to 20 Newsgroups data.
+fit1 <- poisson2multinom(fits[["fit-newsgroups-em-k=10"]])
+fit2 <- poisson2multinom(fits[["fit-newsgroups-scd-ex-k=10"]])
+plot(fit1$L,fit2$L,pch = 20)
+abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
+
+# Compare K = 7 topic models fit to 68k PBMC data.
 load("../output/pbmc68k/fits-pbmc68k.RData")
-fits <- lapply(fits,poisson2multinom)
-fit1 <- fits[["fit-pbmc68k-em-k=7"]]
-fit2 <- fits[["fit-pbmc68k-scd-ex-k=7"]]
-plot(fit1$L[,c(1:3,5)],fit2$L[,c(1:3,5)],pch = 20)
+fit1 <- poisson2multinom(fits[["fit-pbmc68k-em-k=7"]])
+fit2 <- poisson2multinom(fits[["fit-pbmc68k-scd-ex-k=7"]])
+plot(fit1$L,fit2$L,pch = 20)
 abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
-plot(fit1$L[,c(4,6,7)],fit2$L[,c(4,6,7)],pch = 20)
+
+# Compare K = 12 topic models fit to 68k PBMC data.
+fit1 <- poisson2multinom(fits[["fit-pbmc68k-em-k=12"]])
+fit2 <- poisson2multinom(fits[["fit-pbmc68k-scd-ex-k=12"]])
+plot(fit1$L,fit2$L,pch = 20)
 abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
-celltype <- as.character(samples$celltype)
-celltype[celltype == "CD56+ NK"] <- "NK"
-celltype[celltype == "CD14+ Monocyte"] <- "CD14+"
-celltype[celltype == "CD19+ B"] <- "B-cell"
-celltype[celltype == "CD4+ T Helper2"] <- "T-cell"
-celltype[celltype == "CD4+/CD25 T Reg"] <- "T-cell"
-celltype[celltype == "CD4+/CD45RA+/CD25- Naive T"] <- "T-cell"
-celltype[celltype == "CD8+ Cytotoxic T"] <- "T-cell"
-celltype[celltype == "CD4+/CD45RO+ Memory"] <- "T-cell"
-celltype[celltype == "CD8+/CD45RA+ Naive Cytotoxic"] <- "T-cell"
-celltype <- factor(celltype)
-loadings_plot(fit1,celltype)
-loadings_plot(fit2,celltype)
