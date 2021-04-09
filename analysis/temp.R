@@ -1,29 +1,7 @@
-# Compare K = 10 topic models fit to NIPS data.
-library(fastTopics)
-library(cowplot)
-load("../output/nips/fits-nips.RData")
-fit1 <- poisson2multinom(fits[["fit-nips-em-k=10"]])
-fit2 <- poisson2multinom(fits[["fit-nips-scd-ex-k=10"]])
-plot(fit1$L,fit2$L,pch = 20)
-abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
-
 # Compare K = 7 topic models fit to trachea droplet data.
 load("../output/droplet/fits-droplet.RData")
 fit1 <- poisson2multinom(fits[["fit-droplet-em-k=7"]])
 fit2 <- poisson2multinom(fits[["fit-droplet-scd-ex-k=7"]])
-plot(fit1$L,fit2$L,pch = 20)
-abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
-
-# Compare K = 9 topic models fit to 20 Newsgroups data.
-load("../output/newsgroups/fits-newsgroups.RData")
-fit1 <- poisson2multinom(fits[["fit-newsgroups-em-k=9"]])
-fit2 <- poisson2multinom(fits[["fit-newsgroups-scd-ex-k=9"]])
-plot(fit1$L,fit2$L,pch = 20)
-abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
-
-# Compare K = 10 topic models fit to 20 Newsgroups data.
-fit1 <- poisson2multinom(fits[["fit-newsgroups-em-k=10"]])
-fit2 <- poisson2multinom(fits[["fit-newsgroups-scd-ex-k=10"]])
 plot(fit1$L,fit2$L,pch = 20)
 abline(a = 0,b = 1,col = "skyblue",lty = "dotted")
 
