@@ -104,7 +104,7 @@ ggsave("../plots/progress_kkt_newsgroups.eps",
 An example in which the EM and (extrapolated) CD estimates largely
 agree:
 
-```{r loadings-scatterplot-k-9, fig.width=4, fig.height=3}
+```{r loadings-scatterplot-k-9, fig.width=3.5, fig.height=3}
 topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
                   "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
 fit1 <- fits[["fit-newsgroups-em-k=9"]]
@@ -126,7 +126,7 @@ print(p1)
 An example in which the EM and (extrapolated) CD estimates greatly
 differ:
 
-```{r loadings-scatterplot-k-10, fig.width=4, fig.height=3}
+```{r loadings-scatterplot-k-10, fig.width=3.5, fig.height=3}
 fit1 <- fits[["fit-newsgroups-em-k=10"]]
 fit2 <- fits[["fit-newsgroups-scd-ex-k=10"]]
 n    <- nrow(fit1$L)
@@ -147,5 +147,5 @@ print(p2)
 ggsave("../plots/loadings_scatterplot_newsgroups_k9.eps",
        p1,height = 2.5,width = 3)
 ggsave("../plots/loadings_scatterplot_newsgroups_k10.eps",
-       p2,height = 2.5,width = 3)
+       p2,height = 2.5,width = 3.25)
 ```
