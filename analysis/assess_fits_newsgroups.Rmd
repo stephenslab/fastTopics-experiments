@@ -20,6 +20,7 @@ additional functions for creating the plots.
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
+set.seed(1)
 ```
 
 Load the results of running `fit_poisson_nmf` on the "20 newsgroups"
@@ -98,4 +99,53 @@ ggsave("../plots/progress_kkt_newsgroups.eps",
                  p[[10]],p[[11]],p[[12]],
                  nrow = 3,ncol = 4),
    	   height = 6,width = 9)
+```
+
+An example in which the EM and (extrapolated) CD estimates largely
+agree:
+
+```{r loadings-scatterplot-k-9, fig.width=4, fig.height=3}
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
+                  "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
+fit1 <- fits[["fit-newsgroups-em-k=9"]]
+fit2 <- fits[["fit-newsgroups-scd-ex-k=9"]]
+n    <- nrow(fit1$L)
+pdat <- data.frame(x = as.vector(fit1$L),
+                   y = as.vector(fit2$L),
+				   k = factor(rep(1:9,each = n)))
+pdat <- pdat[sample(9*n),]
+p1 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
+  geom_point(color = "white",shape = 21,size = 2) +
+  geom_abline(color = "black",linetype = "dotted") +
+  scale_fill_manual(values = topic_colors) +
+  labs(x = "EM estimate",y = "extrapolated CD estimate") +
+  theme_cowplot(font_size = 12)
+print(p1)
+```
+
+An example in which the EM and (extrapolated) CD estimates greatly
+differ:
+
+```{r loadings-scatterplot-k-10, fig.width=4, fig.height=3}
+fit1 <- fits[["fit-newsgroups-em-k=10"]]
+fit2 <- fits[["fit-newsgroups-scd-ex-k=10"]]
+n    <- nrow(fit1$L)
+pdat <- data.frame(x = as.vector(fit1$L),
+                   y = as.vector(fit2$L),
+				   k = factor(rep(1:10,each = n)))
+pdat <- pdat[sample(10*n),]
+p2 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
+  geom_point(color = "white",shape = 21,size = 2) +
+  geom_abline(color = "black",linetype = "dotted") +
+  scale_fill_manual(values = topic_colors) +
+  labs(x = "EM estimate",y = "extrapolated CD estimate") +
+  theme_cowplot(font_size = 12)
+print(p2)
+```
+
+```{r plots-for-paper-3, message=FALSE, echo=FALSE}
+ggsave("../plots/loadings_scatterplot_newsgroups_k9.eps",
+       p1,height = 2.5,width = 3)
+ggsave("../plots/loadings_scatterplot_newsgroups_k10.eps",
+       p2,height = 2.5,width = 3)
 ```
