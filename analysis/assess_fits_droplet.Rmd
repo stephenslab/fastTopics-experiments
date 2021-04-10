@@ -102,3 +102,26 @@ ggsave("../plots/progress_kkt_droplet.eps",
                  nrow = 3,ncol = 4),
    	   height = 6,width = 9)
 ```
+
+For the most part, the EM and CD algorithms achieve similar estimates
+in this data set. For example, for $K = 7$, the difference in the
+topic model likelihoods between the EM and CD estimates is very small,
+and indeed the estimated topic proportions are nearly identical:
+
+```{r loadings-scatterplot, fig.width=3, fig.height=3}
+fit1 <- fits[["fit-droplet-em-k=7"]]
+fit2 <- fits[["fit-droplet-scd-k=7"]]
+pdat <- data.frame(x = as.vector(fit1$L),y = as.vector(fit2$L))
+p1 <- ggplot(pdat,aes(x = x,y = y)) +
+  geom_point(shape = 21,size = 2,color = "white",fill = "royalblue") +
+  geom_abline(color = "black",linetype = "dotted") +
+  labs(x = "EM estimate",y = "CD estimate") +
+  theme_cowplot(font_size = 12)
+print(p1)
+```
+
+```{r plots-for-paper-3, message=FALSE, echo=FALSE}
+ggsave("../plots/loadings_scatterplot_droplet_k7.eps",
+       p1,height = 2.5,width = 2.6)
+```
+
