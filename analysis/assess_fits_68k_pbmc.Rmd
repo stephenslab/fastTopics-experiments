@@ -20,6 +20,7 @@ additional functions for creating the plots.
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
+set.seed(1)
 ```
 
 Load the results of running `fit_poisson_nmf` on the 68k PBMC data,
@@ -98,4 +99,53 @@ ggsave("../plots/progress_kkt_pbmc68k.eps",
                  p[[10]],p[[11]],p[[12]],
                  nrow = 3,ncol = 4),
    	   height = 6,width = 9)
+```
+
+An example in which the EM and (extrapolated) CD estimates greatly
+differ:
+
+```{r loadings-scatterplot-k-7, fig.width=3.75, fig.height=3}
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c",
+                  "#fb9a99","#e31a1c","#fdbf6f")
+fit1 <- fits[["fit-pbmc68k-em-k=7"]]
+fit2 <- fits[["fit-pbmc68k-scd-ex-k=7"]]
+n    <- nrow(fit1$L)
+pdat <- data.frame(x = as.vector(fit1$L),
+                   y = as.vector(fit2$L),
+				   k = factor(rep(1:7,each = n)))
+pdat <- pdat[sample(7*n),]
+p1 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
+  geom_point(color = "white",shape = 21,size = 2) +
+  scale_fill_manual(values = topic_colors) +
+  labs(x = "EM estimate",y = "extrapolated CD estimate") +
+  theme_cowplot(font_size = 12)
+print(p1 + geom_abline(color = "black",linetype = "dotted"))
+```
+
+An example in which the EM and (extrapolated) CD estimates largely
+agree:
+
+```{r loadings-scatterplot-k-12, fig.width=3.75, fig.height=3}
+topic_colors <- c("#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462",
+                  "#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f")
+fit1 <- fits[["fit-pbmc68k-em-k=12"]]
+fit2 <- fits[["fit-pbmc68k-scd-ex-k=12"]]
+n    <- nrow(fit1$L)
+pdat <- data.frame(x = as.vector(fit1$L),
+                   y = as.vector(fit2$L),
+				   k = factor(rep(1:12,each = n)))
+pdat <- pdat[sample(12*n),]
+p2 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
+  geom_point(color = "white",shape = 21,size = 2) +
+  scale_fill_manual(values = topic_colors) +
+  labs(x = "EM estimate",y = "extrapolated CD estimate") +
+  theme_cowplot(font_size = 12)
+print(p2 + geom_abline(color = "black",linetype = "dotted"))
+```
+
+```{r plots-for-paper-3, message=FALSE, echo=FALSE}
+ggsave("../plots/loadings_scatterplot_pbmc68k_k7.png",
+       p1,height = 2.5,width = 3,dpi = 900)
+ggsave("../plots/loadings_scatterplot_pbmc68k_k12.png",
+       p2,height = 2.5,width = 3,dpi = 900)
 ```
