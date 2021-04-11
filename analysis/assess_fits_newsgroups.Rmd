@@ -146,9 +146,10 @@ p2 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
 print(p2)
 ```
 
-*Add text here.*
+For a closer look at the $K = 10$ (extrapolated) CD estimates, we
+create a Structure plot:
 
-```{r, fig.width=8, fig.height=2.5, message=FALSE}
+```{r, fig.width=8, fig.height=2, message=FALSE}
 set.seed(1)
 topics <- factor(topics,
                  c("sci.med","rec.autos","rec.motorcycles","alt.atheism",
@@ -173,5 +174,5 @@ ggsave("../plots/loadings_scatterplot_newsgroups_k9.eps",
        p1,height = 2.5,width = 3)
 ggsave("../plots/loadings_scatterplot_newsgroups_k10.eps",
        p2,height = 2.5,width = 3.25)
-ggsave("../plots/structure_plot_newsgroups.eps",p3,height = 2.5,width = 8)
+ggsave("../plots/structure_plot_newsgroups.eps",p3,height = 2,width = 8)
 ```
