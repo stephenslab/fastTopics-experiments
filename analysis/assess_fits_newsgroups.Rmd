@@ -17,16 +17,19 @@ Load the packages used in the analysis below, as well as some
 additional functions for creating the plots.
 
 ```{r load-pkgs, message=FALSE}
+library(Matrix)
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
 set.seed(1)
 ```
 
-Load the results of running `fit_poisson_nmf` on the "20 newsgroups"
-data, with different algorithms, and for various settings of $K$.
+Load the newsgroups data, and theresults of running `fit_poisson_nmf`
+on the "20 newsgroups" data, with different algorithms, and for
+various settings of $K$.
 
 ```{r load-results}
+load("../data/newsgroups.RData")
 load("../output/newsgroups/fits-newsgroups.RData")
 fits <- lapply(fits,poisson2multinom)
 ```
@@ -143,9 +146,32 @@ p2 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
 print(p2)
 ```
 
+*Add text here.*
+
+```{r, fig.width=8, fig.height=2.5, message=FALSE}
+set.seed(1)
+topics <- factor(topics,
+                 c("sci.med","rec.autos","rec.motorcycles","alt.atheism",
+				 "soc.religion.christian","talk.religion.misc",
+				 "rec.sport.baseball","rec.sport.hockey",
+				 "talk.politics.mideast","talk.politics.guns","sci.crypt",
+				 "talk.politics.misc","sci.space","sci.electronics",
+				 "misc.forsale","comp.sys.ibm.pc.hardware",
+				 "comp.sys.mac.hardware","comp.os.ms-windows.misc",
+				 "comp.graphics","comp.windows.x"))
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
+                  "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
+fit <- fits[["fit-newsgroups-scd-ex-k=10"]]
+p3 <- structure_plot(fit,grouping = topics,topics = 10:1,
+                     colors = topic_colors[10:1],perplexity = 20,gap = 20,
+					 verbose = FALSE)
+print(p3)
+```
+
 ```{r plots-for-paper-3, message=FALSE, echo=FALSE}
 ggsave("../plots/loadings_scatterplot_newsgroups_k9.eps",
        p1,height = 2.5,width = 3)
 ggsave("../plots/loadings_scatterplot_newsgroups_k10.eps",
        p2,height = 2.5,width = 3.25)
+ggsave("../plots/structure_plot_newsgroups.eps",p3,height = 2.5,width = 8)
 ```
