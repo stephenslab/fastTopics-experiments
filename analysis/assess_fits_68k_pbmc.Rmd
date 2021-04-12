@@ -23,10 +23,12 @@ library(cowplot)
 set.seed(1)
 ```
 
-Load the results of running `fit_poisson_nmf` on the 68k PBMC data,
-with different algorithms, and for various settings of $K$.
+Load the 68k PBMC data, and the results of running `fit_poisson_nmf`
+on the 68k PBMC data, with different algorithms, and for various
+settings of $K$.
 
 ```{r load-results}
+load("../data/pbmc_68k.RData")
 load("../output/pbmc68k/fits-pbmc68k.RData")
 fits <- lapply(fits,poisson2multinom)
 ```
@@ -141,6 +143,14 @@ p2 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
   labs(x = "EM estimate",y = "extrapolated CD estimate") +
   theme_cowplot(font_size = 12)
 print(p2 + geom_abline(color = "black",linetype = "dotted"))
+```
+
+From the PCs of the mixture proportions, we define clusters for B
+cells, CD14+ cells and CD34+ cells.
+
+```{r clustering}
+fit <- fits[["fit-pbmc68k-scd-ex-k=7"]]
+pca <- prcomp(fit$L)$x
 ```
 
 ```{r plots-for-paper-3, message=FALSE, echo=FALSE}
