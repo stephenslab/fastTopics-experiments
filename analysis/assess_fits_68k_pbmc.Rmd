@@ -166,7 +166,7 @@ The Structure plot summarizes the topic proportions in the cells. Here
 we subsample the larger clusters in order to better visualize the
 rarer cell types.
 
-```{r structure-plot, fig.width=8, fig.height=2.5, message=FALSE}
+```{r structure-plot, fig.width=8, fig.height=2, message=FALSE}
 set.seed(1)
 topics <- c(1:5,7,6)
 topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c",
@@ -179,6 +179,7 @@ p3 <- structure_plot(select_loadings(fit,loadings = rows),
                      grouping = clusters[rows],topics = topics,
                      colors = topic_colors[topics],n = Inf,perplexity = 70,
                      gap = 30,num_threads = 4,verbose = FALSE)
+print(p3)					 
 ```
 
 ```{r plots-for-paper-3, message=FALSE, echo=FALSE}
@@ -186,5 +187,5 @@ ggsave("../plots/loadings_scatterplot_pbmc68k_k7.png",
        p1,height = 2.5,width = 3,dpi = 900)
 ggsave("../plots/loadings_scatterplot_pbmc68k_k12.png",
        p2,height = 2.5,width = 3,dpi = 900)
-ggsave("../plots/structure_plot_pbmc68k.eps",p3,height = 2.5,width = 8)
+ggsave("../plots/structure_plot_pbmc68k.eps",p3,height = 2,width = 8)
 ```
