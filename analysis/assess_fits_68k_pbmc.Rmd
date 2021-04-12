@@ -145,12 +145,40 @@ p2 <- ggplot(pdat,aes(x = x,y = y,fill = k)) +
 print(p2 + geom_abline(color = "black",linetype = "dotted"))
 ```
 
-From the PCs of the mixture proportions, we define clusters for B
-cells, CD14+ cells and CD34+ cells.
+From the PCs of the mixture proportions, we define four clusters,
+roughly corresponding to (1) B cells, (2) dendritic and CD14+
+monocytes, (3) CD34+ cells, and (4) T cells and natural killer cells:
 
 ```{r clustering}
-fit <- fits[["fit-pbmc68k-scd-ex-k=7"]]
-pca <- prcomp(fit$L)$x
+fit  <- fits[["fit-pbmc68k-scd-ex-k=7"]]
+pca  <- prcomp(fit$L)$x
+n    <- nrow(pca)
+x    <- rep("T+NK",n)
+pc4  <- pca[,4]
+pc6  <- pca[,6]
+x[pc4 > 0.25] <- "B"
+x[pc4 < -0.25] <- "CD14+dendritic"
+x[pc6 > 0.8] <- "CD34+"
+clusters <- factor(x)
+```
+
+The Structure plot summarizes the topic proportions in the cells. Here
+we subsample the larger clusters in order to better visualize the
+rarer cell types.
+
+```{r structure-plot, fig.width=8, fig.height=2.5, message=FALSE}
+set.seed(1)
+topics <- c(1:5,7,6)
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c",
+                  "#fb9a99","#e31a1c","#fdbf6f")
+rows <- sort(c(sample(which(clusters == "B"),746),
+               sample(which(clusters == "CD14+dendritic"),806),
+               which(clusters == "CD34+"),
+               sample(which(clusters == "T+NK"),1213)))
+p3 <- structure_plot(select_loadings(fit,loadings = rows),
+                     grouping = clusters[rows],topics = topics,
+                     colors = topic_colors[topics],n = Inf,perplexity = 70,
+                     gap = 30,num_threads = 4,verbose = FALSE)
 ```
 
 ```{r plots-for-paper-3, message=FALSE, echo=FALSE}
@@ -158,4 +186,5 @@ ggsave("../plots/loadings_scatterplot_pbmc68k_k7.png",
        p1,height = 2.5,width = 3,dpi = 900)
 ggsave("../plots/loadings_scatterplot_pbmc68k_k12.png",
        p2,height = 2.5,width = 3,dpi = 900)
+ggsave("../plots/structure_plot_pbmc68k.eps",p3,height = 2.5,width = 8)
 ```
