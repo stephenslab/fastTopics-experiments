@@ -160,6 +160,7 @@ x[pc4 > 0.25] <- "B"
 x[pc4 < -0.25] <- "CD14+dendritic"
 x[pc6 > 0.8] <- "CD34+"
 clusters <- factor(x)
+table(clusters)
 ```
 
 The Structure plot summarizes the topic proportions in the cells. Here
