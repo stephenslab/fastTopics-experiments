@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree8c72b196996501efad623790c8348b7a26bbbcdbtargetblank8c72b19a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/8c72b196996501efad623790c8348b7a26bbbcdb" target="_blank">8c72b19</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree622e798e804db3afcf78f84d2da63f905affd7cbtargetblank622e798a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/622e798e804db3afcf78f84d2da63f905affd7cb" target="_blank">622e798</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree8c72b196996501efad623790c8348b7a26bbbcdbtargetblank8c72b19a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree622e798e804db3afcf78f84d2da63f905affd7cbtargetblank622e798a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/8c72b196996501efad623790c8348b7a26bbbcdb" target="_blank">8c72b19</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/622e798e804db3afcf78f84d2da63f905affd7cb" target="_blank">622e798</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -440,7 +440,6 @@ Ignored files:
     Ignored:    output/pbmc68k/fits-pbmc68k.RData
 
 Untracked files:
-    Untracked:  analysis/figure/
     Untracked:  analysis/temp2.R
     Untracked:  plots/
 
@@ -485,6 +484,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/622e798e804db3afcf78f84d2da63f905affd7cb/analysis/assess_fits_newsgroups.Rmd" target="_blank">622e798</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-14
+</td>
+<td>
+workflowr::wflow_publish(“assess_fits_newsgroups.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/213c4f6df4fff9a8584d2ec29df197a277335939/docs/assess_fits_newsgroups.html" target="_blank">213c4f6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-14
+</td>
+<td>
+Added word frequency scatterplot to assess_fits_newsgroups analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1263,14 +1296,14 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>Topic 1 appears to capture “off-topic” discussion:</p>
+<p>Topic 1 appears to be capturing “off-topic” discussion:</p>
 <pre class="r"><code>pdat &lt;- data.frame(word = colnames(counts),
                    x    = pmax(1e-6,apply(fit$F[,-1],1,max)),
                    y    = pmax(1e-6,fit$F[,1]),
                    stringsAsFactors = FALSE)
 pdat &lt;- transform(pdat,fc = y/x)
 pdat[with(pdat,!((fc &gt; 4 &amp; x &gt; 1e-5) | (fc &gt; 2 &amp; x &gt; 0.002))),&quot;word&quot;] &lt;- &quot;&quot;
-p4 &lt;- ggplot(pdat,aes(x = x,y = y,label = word)) +
+ggplot(pdat,aes(x = x,y = y,label = word)) +
   geom_point(color = &quot;white&quot;,fill = &quot;royalblue&quot;,shape = 21) +
   geom_text_repel(color = &quot;darkgray&quot;,size = 2.25,segment.color = &quot;darkgray&quot;,
                   segment.size = 0.25,min.segment.length = 0,
@@ -1281,6 +1314,7 @@ p4 &lt;- ggplot(pdat,aes(x = x,y = y,label = word)) +
   labs(x = &quot;highest frequency in another topic&quot;,
        y = &quot;frequency in topic 1&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
+<p><img src="figure/assess_fits_newsgroups.Rmd/words-scatterplot-1.png" width="408" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
