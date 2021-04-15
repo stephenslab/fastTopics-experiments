@@ -199,4 +199,3 @@ ggplot(pdat,aes(x = x,y = y,label = word)) +
        y = "frequency in topic 1") +
   theme_cowplot(font_size = 10)
 ```
-
