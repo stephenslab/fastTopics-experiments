@@ -323,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-13
+<strong>Last updated:</strong> 2021-04-15
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef03c042a3c4b4fab969d232e70f8b1064bf14286targetblankf03c042a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f03c042a3c4b4fab969d232e70f8b1064bf14286" target="_blank">f03c042</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree3aa9fe76caf6677addc23614c660c25177ddae2ctargetblank3aa9fe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/3aa9fe76caf6677addc23614c660c25177ddae2c" target="_blank">3aa9fe7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef03c042a3c4b4fab969d232e70f8b1064bf14286targetblankf03c042a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree3aa9fe76caf6677addc23614c660c25177ddae2ctargetblank3aa9fe7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f03c042a3c4b4fab969d232e70f8b1064bf14286" target="_blank">f03c042</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/3aa9fe76caf6677addc23614c660c25177ddae2c" target="_blank">3aa9fe7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -441,6 +441,9 @@ Ignored files:
 
 Untracked files:
     Untracked:  plots/
+
+Unstaged changes:
+    Modified:   analysis/assess_fits_newsgroups.Rmd
 
 </code></pre>
 <p>
@@ -479,6 +482,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/3aa9fe76caf6677addc23614c660c25177ddae2c/analysis/assess_fits_68k_pbmc.Rmd" target="_blank">3aa9fe7</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-15
+</td>
+<td>
+workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/f533b4aaae0680f0a44ef3b742e22198ae3ca88c/docs/assess_fits_68k_pbmc.html" target="_blank">f533b4a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-13
+</td>
+<td>
+Added cluster sizes to assess_fits_68k_pbmc output.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -658,9 +695,11 @@ workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
 </div>
 <p>Here we compare the quality of the fits obtained from the different updates (EM and SCD, with and without extrapolation), and with different numbers of topics, <span class="math inline">\(K\)</span>.</p>
 <p>Load the packages used in the analysis below, as well as some additional functions for creating the plots.</p>
-<pre class="r"><code>library(fastTopics)
+<pre class="r"><code>library(Matrix)
+library(fastTopics)
 library(ggplot2)
 library(cowplot)
+library(ggrepel)
 set.seed(1)</code></pre>
 <p>Load the 68k PBMC data, and the results of running <code>fit_poisson_nmf</code> on the 68k PBMC data, with different algorithms, and for various settings of <span class="math inline">\(K\)</span>.</p>
 <pre class="r"><code>load(&quot;../data/pbmc_68k.RData&quot;)
@@ -990,6 +1029,23 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>Many of the “driving genes” in topic 6—that is, genes showing the largest increase in expression relative to other topics—are ribosomal protein genes:</p>
+<pre class="r"><code>pdat &lt;- data.frame(gene = genes$symbol,
+                   x    = pmax(1e-6,apply(fit$F[,-6],1,max)),
+                   y    = pmax(1e-6,fit$F[,6]),
+                   stringsAsFactors = FALSE)
+pdat &lt;- transform(pdat,fc = y/x)
+pdat[with(pdat,!(fc &gt; 1.6 &amp; x &gt; 0.0005)),&quot;gene&quot;] &lt;- &quot;&quot;
+ggplot(pdat,aes(x = x,y = y,label = gene)) +
+  geom_point(color = &quot;white&quot;,fill = &quot;royalblue&quot;,shape = 21) +
+  geom_text_repel(color = &quot;darkgray&quot;,size = 2.25,segment.color = &quot;darkgray&quot;,
+                  segment.size = 0.25,min.segment.length = 0,
+                  max.overlaps = Inf) +
+  geom_abline(intercept = 0,slope = 1,color = &quot;black&quot;,linetype = &quot;dotted&quot;) +
+  scale_x_continuous(trans = &quot;log10&quot;,limits=10^c(-6,-1),breaks=10^seq(-6,-1)) +
+  scale_y_continuous(trans = &quot;log10&quot;,limits=10^c(-6,-1),breaks=10^seq(-6,-1)) +
+  theme_cowplot(font_size = 10)</code></pre>
+<p><img src="figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" width="408" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1013,34 +1069,34 @@ Peter Carbonetto
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_1.0.0     ggplot2_3.3.0     fastTopics_0.5-24
+# [1] ggrepel_0.9.0     cowplot_1.0.0     ggplot2_3.3.0     fastTopics_0.5-24
+# [5] Matrix_1.2-18    
 # 
 # loaded via a namespace (and not attached):
-#  [1] ggrepel_0.9.0        Rcpp_1.0.5           invgamma_1.1        
-#  [4] lattice_0.20-38      tidyr_1.0.0          prettyunits_1.1.1   
-#  [7] assertthat_0.2.1     zeallot_0.1.0        rprojroot_1.3-2     
-# [10] digest_0.6.23        truncnorm_1.0-8      R6_2.4.1            
-# [13] backports_1.1.5      MatrixModels_0.4-1   evaluate_0.14       
-# [16] coda_0.19-3          httr_1.4.2           pillar_1.4.3        
-# [19] progress_1.2.2       rlang_0.4.5          lazyeval_0.2.2      
-# [22] data.table_1.12.8    irlba_2.3.3          SparseM_1.78        
-# [25] whisker_0.4          Matrix_1.2-18        rmarkdown_2.3       
-# [28] labeling_0.3         Rtsne_0.15           stringr_1.4.0       
-# [31] htmlwidgets_1.5.1    munsell_0.5.0        mixsqp_0.3-44       
-# [34] compiler_3.6.2       httpuv_1.5.2         xfun_0.11           
-# [37] pkgconfig_2.0.3      SQUAREM_2017.10-1    mcmc_0.9-6          
-# [40] htmltools_0.4.0      tidyselect_0.2.5     tibble_2.1.3        
-# [43] workflowr_1.6.2.9000 quadprog_1.5-8       viridisLite_0.3.0   
-# [46] withr_2.1.2          crayon_1.3.4         dplyr_0.8.3         
-# [49] later_1.0.0          MASS_7.3-51.4        grid_3.6.2          
-# [52] jsonlite_1.6         gtable_0.3.0         lifecycle_0.1.0     
-# [55] git2r_0.26.1         magrittr_1.5         scales_1.1.0        
-# [58] RcppParallel_4.4.2   stringi_1.4.3        farver_2.0.1        
-# [61] fs_1.3.1             promises_1.1.0       vctrs_0.2.1         
-# [64] tools_3.6.2          glue_1.3.1           purrr_0.3.3         
-# [67] hms_0.5.2            yaml_2.2.0           colorspace_1.4-1    
-# [70] ashr_2.2-51          plotly_4.9.2         knitr_1.26          
-# [73] quantreg_5.54        MCMCpack_1.4-5</code></pre>
+#  [1] Rcpp_1.0.5           invgamma_1.1         lattice_0.20-38     
+#  [4] tidyr_1.0.0          prettyunits_1.1.1    assertthat_0.2.1    
+#  [7] zeallot_0.1.0        rprojroot_1.3-2      digest_0.6.23       
+# [10] truncnorm_1.0-8      R6_2.4.1             backports_1.1.5     
+# [13] MatrixModels_0.4-1   evaluate_0.14        coda_0.19-3         
+# [16] httr_1.4.2           pillar_1.4.3         progress_1.2.2      
+# [19] rlang_0.4.5          lazyeval_0.2.2       data.table_1.12.8   
+# [22] irlba_2.3.3          SparseM_1.78         whisker_0.4         
+# [25] rmarkdown_2.3        labeling_0.3         Rtsne_0.15          
+# [28] stringr_1.4.0        htmlwidgets_1.5.1    munsell_0.5.0       
+# [31] mixsqp_0.3-44        compiler_3.6.2       httpuv_1.5.2        
+# [34] xfun_0.11            pkgconfig_2.0.3      SQUAREM_2017.10-1   
+# [37] mcmc_0.9-6           htmltools_0.4.0      tidyselect_0.2.5    
+# [40] tibble_2.1.3         workflowr_1.6.2.9000 quadprog_1.5-8      
+# [43] viridisLite_0.3.0    withr_2.1.2          crayon_1.3.4        
+# [46] dplyr_0.8.3          later_1.0.0          MASS_7.3-51.4       
+# [49] grid_3.6.2           jsonlite_1.6         gtable_0.3.0        
+# [52] lifecycle_0.1.0      git2r_0.26.1         magrittr_1.5        
+# [55] scales_1.1.0         RcppParallel_4.4.2   stringi_1.4.3       
+# [58] farver_2.0.1         fs_1.3.1             promises_1.1.0      
+# [61] vctrs_0.2.1          tools_3.6.2          glue_1.3.1          
+# [64] purrr_0.3.3          hms_0.5.2            yaml_2.2.0          
+# [67] colorspace_1.4-1     ashr_2.2-51          plotly_4.9.2        
+# [70] knitr_1.26           quantreg_5.54        MCMCpack_1.4-5</code></pre>
 </div>
 
 
