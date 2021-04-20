@@ -185,14 +185,6 @@ p3 <- structure_plot(select_loadings(fit,loadings = rows),
 print(p3)					 
 ```
 
-```{r plots-for-paper-3, message=FALSE, echo=FALSE}
-ggsave("../plots/loadings_scatterplot_pbmc68k_k7.png",
-       p1,height = 2.5,width = 3,dpi = 900)
-ggsave("../plots/loadings_scatterplot_pbmc68k_k12.png",
-       p2,height = 2.5,width = 3,dpi = 900)
-ggsave("../plots/structure_plot_pbmc68k.eps",p3,height = 2,width = 8)
-```
-
 Many of the "driving genes" in topic 6---that is, genes showing the
 largest increase in expression relative to other topics---are
 ribosomal protein genes:
@@ -204,7 +196,7 @@ pdat <- data.frame(gene = genes$symbol,
 				   stringsAsFactors = FALSE)
 pdat <- transform(pdat,fc = y/x)
 pdat[with(pdat,!(fc > 1.6 & x > 0.0005)),"gene"] <- ""
-ggplot(pdat,aes(x = x,y = y,label = gene)) +
+p4 <- ggplot(pdat,aes(x = x,y = y,label = gene)) +
   geom_point(color = "white",fill = "royalblue",shape = 21) +
   geom_text_repel(color = "darkgray",size = 2.25,segment.color = "darkgray",
                   segment.size = 0.25,min.segment.length = 0,
@@ -215,4 +207,14 @@ ggplot(pdat,aes(x = x,y = y,label = gene)) +
   labs(x = "highest frequency in another topic",
        y = "frequency in topic 6") +
   theme_cowplot(font_size = 10)
+print(p4)
+```
+
+```{r plots-for-paper-3, message=FALSE, echo=FALSE}
+ggsave("../plots/loadings_scatterplot_pbmc68k_k7.png",
+       p1,height = 2.5,width = 3,dpi = 900)
+ggsave("../plots/loadings_scatterplot_pbmc68k_k12.png",
+       p2,height = 2.5,width = 3,dpi = 900)
+ggsave("../plots/structure_plot_pbmc68k.eps",p3,height = 2,width = 8)
+ggsave("../plots/genes_scatterplot_pbmc68k.eps",p4,height = 4,width = 4.25)
 ```
