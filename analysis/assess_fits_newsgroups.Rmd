@@ -170,14 +170,6 @@ p3 <- structure_plot(fit,grouping = topics,topics = 10:1,
 print(p3)
 ```
 
-```{r plots-for-paper-3, message=FALSE, echo=FALSE}
-ggsave("../plots/loadings_scatterplot_newsgroups_k9.eps",
-       p1,height = 2.5,width = 3)
-ggsave("../plots/loadings_scatterplot_newsgroups_k10.eps",
-       p2,height = 2.5,width = 3.25)
-ggsave("../plots/structure_plot_newsgroups.eps",p3,height = 2,width = 8)
-```
-
 Topic 1 appears to be capturing "off-topic" discussion:
 
 ```{r words-scatterplot, fig.width=4.25, fig.height=4}
@@ -187,7 +179,7 @@ pdat <- data.frame(word = colnames(counts),
 				   stringsAsFactors = FALSE)
 pdat <- transform(pdat,fc = y/x)
 pdat[with(pdat,!((fc > 4 & x > 1e-5) | (fc > 2 & x > 0.002))),"word"] <- ""
-ggplot(pdat,aes(x = x,y = y,label = word)) +
+p4 <- ggplot(pdat,aes(x = x,y = y,label = word)) +
   geom_point(color = "white",fill = "royalblue",shape = 21) +
   geom_text_repel(color = "darkgray",size = 2.25,segment.color = "darkgray",
                   segment.size = 0.25,min.segment.length = 0,
@@ -198,4 +190,14 @@ ggplot(pdat,aes(x = x,y = y,label = word)) +
   labs(x = "highest frequency in another topic",
        y = "frequency in topic 1") +
   theme_cowplot(font_size = 10)
+print(p4)
+```
+
+```{r plots-for-paper-3, message=FALSE, echo=FALSE}
+ggsave("../plots/loadings_scatterplot_newsgroups_k9.eps",
+       p1,height = 2.5,width = 3)
+ggsave("../plots/loadings_scatterplot_newsgroups_k10.eps",
+       p2,height = 2.5,width = 3.25)
+ggsave("../plots/structure_plot_newsgroups.eps",p3,height = 2,width = 8)
+ggsave("../plots/words_scatterplot_newsgroups.eps",p4,height = 4,width = 4.25)
 ```
