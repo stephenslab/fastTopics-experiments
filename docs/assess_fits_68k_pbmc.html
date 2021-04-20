@@ -323,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-15
+<strong>Last updated:</strong> 2021-04-20
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree7d6db5965d2ca3d87b27246babc1495f1058ca11targetblank7d6db59a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/7d6db5965d2ca3d87b27246babc1495f1058ca11" target="_blank">7d6db59</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb63fb95b90909997e669550515a9fc978bfac891targetblankb63fb95a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b63fb95b90909997e669550515a9fc978bfac891" target="_blank">b63fb95</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree7d6db5965d2ca3d87b27246babc1495f1058ca11targetblank7d6db59a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb63fb95b90909997e669550515a9fc978bfac891targetblankb63fb95a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/7d6db5965d2ca3d87b27246babc1495f1058ca11" target="_blank">7d6db59</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b63fb95b90909997e669550515a9fc978bfac891" target="_blank">b63fb95</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -479,6 +479,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/b63fb95b90909997e669550515a9fc978bfac891/analysis/assess_fits_68k_pbmc.Rmd" target="_blank">b63fb95</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-20
+</td>
+<td>
+workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/b099034268fd529890392a53c87dfa666f61bcaa/docs/assess_fits_68k_pbmc.html" target="_blank">b099034</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-15
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1067,7 +1101,7 @@ Peter Carbonetto
                    stringsAsFactors = FALSE)
 pdat &lt;- transform(pdat,fc = y/x)
 pdat[with(pdat,!(fc &gt; 1.6 &amp; x &gt; 0.0005)),&quot;gene&quot;] &lt;- &quot;&quot;
-ggplot(pdat,aes(x = x,y = y,label = gene)) +
+p4 &lt;- ggplot(pdat,aes(x = x,y = y,label = gene)) +
   geom_point(color = &quot;white&quot;,fill = &quot;royalblue&quot;,shape = 21) +
   geom_text_repel(color = &quot;darkgray&quot;,size = 2.25,segment.color = &quot;darkgray&quot;,
                   segment.size = 0.25,min.segment.length = 0,
@@ -1077,7 +1111,8 @@ ggplot(pdat,aes(x = x,y = y,label = gene)) +
   scale_y_continuous(trans = &quot;log10&quot;,limits=10^c(-6,-1),breaks=10^seq(-6,-1)) +
   labs(x = &quot;highest frequency in another topic&quot;,
        y = &quot;frequency in topic 6&quot;) +
-  theme_cowplot(font_size = 10)</code></pre>
+  theme_cowplot(font_size = 10)
+print(p4)</code></pre>
 <p><img src="figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" width="408" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-words-scatterplot-1">
@@ -1101,6 +1136,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/b099034268fd529890392a53c87dfa666f61bcaa/docs/figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" target="_blank">b099034</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-15
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/5311f127be7b38fed420eb22614ba20b5a04f102/docs/figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" target="_blank">5311f12</a>
@@ -1140,7 +1186,7 @@ Peter Carbonetto
 # 
 # other attached packages:
 # [1] ggrepel_0.9.0     cowplot_1.0.0     ggplot2_3.3.0     fastTopics_0.5-24
-# [5] Matrix_1.2-18    
+# [5] Matrix_1.3-3     
 # 
 # loaded via a namespace (and not attached):
 #  [1] Rcpp_1.0.5           invgamma_1.1         lattice_0.20-38     
