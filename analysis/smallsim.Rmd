@@ -144,9 +144,10 @@ maptpx2 <- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
                           tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
 ```
 
-This next plot shows the improvement in the log-posterior over time:
+This next plot shows how well the estimates improve the log-posterior
+at each iteration:
 
-```{r plot-progress-maptpx, fig.width=3, fig.height=2}
+```{r plot-progress-maptpx, fig.width=3.25, fig.height=2}
 pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
                          y    = maptpx0$progress,
                          init = "em-50"),
@@ -167,7 +168,7 @@ ggplot(pdat,aes(x = iter,y = y,color = init)) +
 
 All three runs arrive at the same solution, but maptpx finds the
 solution much more quickly with the SCD better initialization, or
-after running 150 iterations of the Poisson NMF EM updates.
+after running more (150) iterations of EM for Poisson NMF.
 
 Next, we turn to the problem of fitting an LDA model to the same
 data. 
@@ -175,7 +176,7 @@ data.
 We perform 400 iterations of variational EM, initializing the LDA
 model fits using the MLEs computed above.
 
-```{r fit-lda-1, cache=TRUE}
+```{r fit-lda-1}
 lda0 <- run_lda(X,fit0,numiter = 400)
 lda1 <- run_lda(X,fit1,numiter = 400)
 lda2 <- run_lda(X,fit2,numiter = 400)
@@ -321,9 +322,48 @@ These results suggest that the EM algorithm may perform poorly in
 settings where the topics are correlated, even if the correlations are
 modest.
 
-Let's see how this relates to fitting an LDA model:
+Given the difficulties faced by EM here, let's see whether
+maptpx---which attempts to improve over EM with a quasi-Newton
+acceleration scheme---fares better. As before, we initialize the
+maptpx optimization using the estimates obtained by running the
+Poisson NMF algorithms from above.
 
-```{r fit-lda-2, cache=TRUE}
+```{r maptpx-2}
+maptpx0 <- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
+                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+maptpx1 <- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
+                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+maptpx2 <- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
+                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+```
+
+This plot shows the improvement in the maptpx solutions over
+time. Clearly, maptpx, like EM, gets stuck in a state of very slow
+progress, and benefits greatly from being initialized with the SCD
+estimates to arrive at a much better solution.
+
+```{r plot-progress-maptpx-2, fig.width=3.25, fig.height=2}
+pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
+                         y    = maptpx0$progress,
+                         init = "em-50"),
+              data.frame(iter = 1:length(maptpx1$progress),
+						 y    = maptpx1$progress,
+						 init = "em-1000"),
+              data.frame(iter = 1:length(maptpx2$progress),
+						 y    = maptpx2$progress,
+						 init = "scd"))
+pdat <- transform(pdat,y = max(y) - y + 0.1)
+ggplot(pdat,aes(x = iter,y = y,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
+  scale_color_manual(values = c("dodgerblue","darkblue","darkorange")) +
+  labs(x = "iteration",y = "log-posterior difference") +
+  theme_cowplot(font_size = 10)
+```
+
+Let's now see how this relates to fitting an LDA model:
+
+```{r fit-lda-2}
 lda0 <- run_lda(X,fit0,numiter = 400)
 lda1 <- run_lda(X,fit1,numiter = 400)
 lda2 <- run_lda(X,fit2,numiter = 400)
