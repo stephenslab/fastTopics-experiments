@@ -305,7 +305,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -314,7 +314,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -326,7 +326,7 @@ $(document).ready(function () {
 <strong>Last updated:</strong> 2021-05-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>fastTopics-experiments/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -390,12 +390,21 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
 </p>
 </div>
-<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div id="strongCachestrongdetected" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+The following chunks had caches available:
+<ul>
+<li>
+fit-lda-1
+</li>
+<li>
+fit-lda-2
+</li>
+</ul>
+<p>To ensure reproducibility of the results, delete the cache directory <code>smallsim_cache</code> and re-run the analysis. To have workflowr automatically delete the cache directory prior to building the file, set <code>delete_cache = TRUE</code> when running <code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
 </div>
 </div>
 </div>
@@ -414,16 +423,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree4d9c3702d50f7c4f498c011bf880f4d1fe63c7eetargetblank4d9c370a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/4d9c3702d50f7c4f498c011bf880f4d1fe63c7ee" target="_blank">4d9c370</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree397958cfe832a97407182f9ff59824af58881074targetblank397958ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/397958cfe832a97407182f9ff59824af58881074" target="_blank">397958c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree4d9c3702d50f7c4f498c011bf880f4d1fe63c7eetargetblank4d9c370a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree397958cfe832a97407182f9ff59824af58881074targetblank397958ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/4d9c3702d50f7c4f498c011bf880f4d1fe63c7ee" target="_blank">4d9c370</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/397958cfe832a97407182f9ff59824af58881074" target="_blank">397958c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -441,6 +450,7 @@ Ignored files:
     Ignored:    output/pbmc68k/fits-pbmc68k.RData
 
 Untracked files:
+    Untracked:  analysis/smallsim_cache/
     Untracked:  plots/
 
 Unstaged changes:
@@ -483,6 +493,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/397958cfe832a97407182f9ff59824af58881074/analysis/smallsim.Rmd" target="_blank">397958c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/95d6d47512951f8c6a0a0701b89960596b5991ca/docs/smallsim.html" target="_blank">95d6d47</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+Added maptpx to smallsim example.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1357,7 +1401,7 @@ Implemented functions simulate_sizes and simulate_factors.
 </div>
 </div>
 </div>
-<p>Here we perform a small experiment with simulated data to illustrate the behaviour of the EM and SCD algorithms for fitting Poisson NMF models. This example suggests that the EM updates have difficulty with correlations between topics, even when they are quite modest. The results also suggest that the basic variational EM for LDA also experiences similar difficulties.</p>
+<p>Here we perform a small experiment with simulated data to illustrate the behaviour of the EM and SCD Poisson NMF algorithms for fitting topic models. This example suggests that the EM updates have difficulty with correlations between topics, even when they are quite modest. The results also suggest that the basic variational EM for LDA also experiences similar difficulties.</p>
 <p>Load the packages used in the analysis below, as well as additional functions that we will use to simulate the data.</p>
 <pre class="r"><code>library(tm)
 library(topicmodels)
@@ -1434,7 +1478,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>Here we compare two different updates for fitting a Poisson NMF model to the simulated counts: EM updates, and sequential coordinate descent (SCD). We perform 100 iterations of each. The model fitting is initialized by first running 50 EM updates, with the aim of better ensuring that the same local maximum is recovered by both runs.</p>
+<p>Here we compare two different updates: the EM updates and the sequential coordinate descent (SCD). We perform 100 iterations of each. The model fitting is initialized by first running 50 EM updates, with the aim of better ensuring that the same local maximum is recovered by both runs.</p>
 <pre class="r"><code>control &lt;- list(extrapolate = FALSE,numiter = 4)
 fit0 &lt;- fit_poisson_nmf(X,k,numiter = 50,method = &quot;em&quot;,control = control)
 fit1 &lt;- fit_poisson_nmf(X,fit0=fit0,numiter=100,method=&quot;em&quot;,control=control)
@@ -1700,14 +1744,14 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p><em>Add text here.</em></p>
+<p>The maptpx R package uses a quasi-Newton-accelerated EM algorithm, together with sequential programming techniques, to compute <em>maximum a posteriori</em> estimates of the topic model parameters. (Note that here we use a slightly modified version of the maptpx package that allows initialization of the topic proportions as well as the word frequencies. This modified version of the maptpx package can be downloaded <a href="https://github.com/stephenslab/maptpx">here</a>.) Although maptpx is not solving the same problem, it is close enough that it benefits from a good initialization.</p>
 <pre class="r"><code>maptpx0 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
                           tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
 maptpx1 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
                           tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
 maptpx2 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
                           tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)</code></pre>
-<p><em>Add text here.</em></p>
+<p>This next plot shows the improvement in the log-posterior over time:</p>
 <pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:length(maptpx0$progress),
                          y    = maptpx0$progress,
                          init = &quot;em-50&quot;),
@@ -1725,6 +1769,44 @@ ggplot(pdat,aes(x = iter,y = y,color = init)) +
   labs(x = &quot;iteration&quot;,y = &quot;log-posterior difference&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-maptpx-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-maptpx-1">
+Past versions of plot-progress-maptpx-1.png
+</button>
+</p>
+<div id="fig-plot-progress-maptpx-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/95d6d47512951f8c6a0a0701b89960596b5991ca/docs/figure/smallsim.Rmd/plot-progress-maptpx-1.png" target="_blank">95d6d47</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>All three runs arrive at the same solution, but maptpx finds the solution much more quickly with the SCD better initialization, or after running 150 iterations of the Poisson NMF EM updates.</p>
 <p>Next, we turn to the problem of fitting an LDA model to the same data.</p>
 <p>We perform 400 iterations of variational EM, initializing the LDA model fits using the MLEs computed above.</p>
 <pre class="r"><code>lda0 &lt;- run_lda(X,fit0,numiter = 400)
@@ -2263,6 +2345,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/95d6d47512951f8c6a0a0701b89960596b5991ca/docs/figure/smallsim.Rmd/plot-progress-lda-2-1.png" target="_blank">95d6d47</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/311659c0e58babb46b4446c53005fd2115eefa84/docs/figure/smallsim.Rmd/plot-progress-lda-2-1.png" target="_blank">311659c</a>
 </td>
 <td>
@@ -2325,12 +2418,12 @@ Peter Carbonetto
 # [55] plotly_4.9.2         munsell_0.5.0        irlba_2.3.3         
 # [58] compiler_3.6.2       rlang_0.4.5          grid_3.6.2          
 # [61] htmlwidgets_1.5.1    labeling_0.3         rmarkdown_2.3       
-# [64] codetools_0.2-16     gtable_0.3.0         R6_2.4.1            
-# [67] knitr_1.26           dplyr_0.8.3          zeallot_0.1.0       
-# [70] workflowr_1.6.2.9000 rprojroot_1.3-2      maptpx_1.9-8        
-# [73] modeltools_0.2-22    stringi_1.4.3        parallel_3.6.2      
-# [76] SQUAREM_2017.10-1    Rcpp_1.0.5           vctrs_0.2.1         
-# [79] tidyselect_0.2.5     xfun_0.11            coda_0.19-3</code></pre>
+# [64] gtable_0.3.0         R6_2.4.1             knitr_1.26          
+# [67] dplyr_0.8.3          zeallot_0.1.0        workflowr_1.6.2.9000
+# [70] rprojroot_1.3-2      maptpx_1.9-8         modeltools_0.2-22   
+# [73] stringi_1.4.3        parallel_3.6.2       SQUAREM_2017.10-1   
+# [76] Rcpp_1.0.5           vctrs_0.2.1          tidyselect_0.2.5    
+# [79] xfun_0.11            coda_0.19-3</code></pre>
 </div>
 </div>
 
