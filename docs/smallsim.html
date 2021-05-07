@@ -12,7 +12,7 @@
 <meta name="author" content="Peter Carbonetto" />
 
 
-<title>EM vs. SCD for fitting a Poisson NMF model and a topic model to a small, simulated data set</title>
+<title>EM vs. SCD in a small, simulated data set</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -297,7 +297,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">EM vs. SCD for fitting a Poisson NMF model and a topic model to a small, simulated data set</h1>
+<h1 class="title toc-ignore">EM vs. SCD in a small, simulated data set</h1>
 <h4 class="author">Peter Carbonetto</h4>
 
 </div>
@@ -323,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-12
+<strong>Last updated:</strong> 2021-05-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -414,30 +414,37 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1a7515da62e96d5d769f15bb0002d4e49f09f5d0targetblank1a7515da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1a7515da62e96d5d769f15bb0002d4e49f09f5d0" target="_blank">1a7515d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree4d9c3702d50f7c4f498c011bf880f4d1fe63c7eetargetblank4d9c370a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/4d9c3702d50f7c4f498c011bf880f4d1fe63c7ee" target="_blank">4d9c370</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1a7515da62e96d5d769f15bb0002d4e49f09f5d0targetblank1a7515da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree4d9c3702d50f7c4f498c011bf880f4d1fe63c7eetargetblank4d9c370a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1a7515da62e96d5d769f15bb0002d4e49f09f5d0" target="_blank">1a7515d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/4d9c3702d50f7c4f498c011bf880f4d1fe63c7ee" target="_blank">4d9c370</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    analysis/.sos/
     Ignored:    data/20news-bydate/
+    Ignored:    data/droplet.RData
     Ignored:    data/nips_1-17.mat
+    Ignored:    data/pbmc_68k.RData
+    Ignored:    output/droplet/fits-droplet.RData
     Ignored:    output/newsgroups/fits-newsgroups.RData
     Ignored:    output/nips/fits-nips.RData
+    Ignored:    output/pbmc68k/fits-pbmc68k.RData
 
 Untracked files:
-    Untracked:  .DS_Store
     Untracked:  plots/
+
+Unstaged changes:
+    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
@@ -476,6 +483,74 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/4d9c3702d50f7c4f498c011bf880f4d1fe63c7ee/analysis/smallsim.Rmd" target="_blank">4d9c370</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1e58fea82e7303d6adef88bd0c16a3837e587f79/analysis/smallsim.Rmd" target="_blank">1e58fea</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-06
+</td>
+<td>
+Revised title in smallsim demo.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/b1c94ad5bdbef0e171501108bd53076a0d60796a/analysis/smallsim.Rmd" target="_blank">b1c94ad</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-19
+</td>
+<td>
+Added scd and mu updates to scd_vs_ccd.R.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/aa89a24040b03d5dbc174dff6306e9a5cd586374/docs/smallsim.html" target="_blank">aa89a24</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-03-12
+</td>
+<td>
+Created PDF for last plot in smallsim example.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1282,7 +1357,7 @@ Implemented functions simulate_sizes and simulate_factors.
 </div>
 </div>
 </div>
-<p>Here we perform a small experiment with simulated data to illustrate the behaviour of the EM and SCD algorithms for fitting Poisson NMF models. This example suggests that the EM updates have difficulty with correlations between topics, even when they are quite modest, The results also suggest that the basic variational EM for LDA also experiences similar difficulties.</p>
+<p>Here we perform a small experiment with simulated data to illustrate the behaviour of the EM and SCD algorithms for fitting Poisson NMF models. This example suggests that the EM updates have difficulty with correlations between topics, even when they are quite modest. The results also suggest that the basic variational EM for LDA also experiences similar difficulties.</p>
 <p>Load the packages used in the analysis below, as well as additional functions that we will use to simulate the data.</p>
 <pre class="r"><code>library(tm)
 library(topicmodels)
@@ -1625,11 +1700,42 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p><em>Add text here.</em></p>
+<pre class="r"><code>maptpx0 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
+                          tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
+maptpx1 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
+                          tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
+maptpx2 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
+                          tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)</code></pre>
+<p><em>Add text here.</em></p>
+<pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:length(maptpx0$progress),
+                         y    = maptpx0$progress,
+                         init = &quot;em-50&quot;),
+              data.frame(iter = 1:length(maptpx1$progress),
+                         y    = maptpx1$progress,
+                         init = &quot;em-150&quot;),
+              data.frame(iter = 1:length(maptpx2$progress),
+                         y    = maptpx2$progress,
+                         init = &quot;scd&quot;))
+pdat &lt;- transform(pdat,y = max(y) - y + 0.1)
+ggplot(pdat,aes(x = iter,y = y,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = &quot;log10&quot;) +
+  scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkblue&quot;,&quot;darkorange&quot;)) +
+  labs(x = &quot;iteration&quot;,y = &quot;log-posterior difference&quot;) +
+  theme_cowplot(font_size = 10)</code></pre>
+<p><img src="figure/smallsim.Rmd/plot-progress-maptpx-1.png" width="360" style="display: block; margin: auto;" /></p>
 <p>Next, we turn to the problem of fitting an LDA model to the same data.</p>
 <p>We perform 400 iterations of variational EM, initializing the LDA model fits using the MLEs computed above.</p>
 <pre class="r"><code>lda0 &lt;- run_lda(X,fit0,numiter = 400)
 lda1 &lt;- run_lda(X,fit1,numiter = 400)
 lda2 &lt;- run_lda(X,fit2,numiter = 400)</code></pre>
+<div class="alert alert-warning">
+<p>
+<strong>Warning:</strong> The above code chunk cached its results, but it won’t be re-run if previous chunks it depends on are updated. If you need to use caching, it is highly recommended to also set <code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the file (in a chunk that is not cached). Alternatively, you can customize the option <code>dependson</code> for each individual chunk that is cached. Using either <code>autodep</code> or <code>dependson</code> will remove this warning. See the <a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
+</p>
+</div>
 <p>Although the LDA fitting problem is different—we are now fitting a (approximate) posterior distribution, and so the estimates are approximate posterior means rather than MLE—initializing the LDA fit using the MLEs greatly improves the LDA model fitting, as we will see from this next plot: even after 400 iterations, variational EM without a good initialization does not approach the quality of the LDA model fits initialized using the EM and SCD estimates.</p>
 <pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = &quot;none&quot;),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = &quot;em&quot;),
@@ -2114,13 +2220,17 @@ Peter Carbonetto
 <pre class="r"><code>lda0 &lt;- run_lda(X,fit0,numiter = 400)
 lda1 &lt;- run_lda(X,fit1,numiter = 400)
 lda2 &lt;- run_lda(X,fit2,numiter = 400)</code></pre>
+<div class="alert alert-warning">
+<p>
+<strong>Warning:</strong> The above code chunk cached its results, but it won’t be re-run if previous chunks it depends on are updated. If you need to use caching, it is highly recommended to also set <code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the file (in a chunk that is not cached). Alternatively, you can customize the option <code>dependson</code> for each individual chunk that is cached. Using either <code>autodep</code> or <code>dependson</code> will remove this warning. See the <a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
+</p>
+</div>
 <p>This plot shows the improvement in the objective (the ELBO) over time:</p>
 <pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = &quot;none&quot;),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = &quot;em&quot;),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = &quot;scd&quot;))
-pdat &lt;- transform(pdat,
-                  iter = iter - 50,
-                  elbo = max(elbo) - elbo + 0.1)
+pdat &lt;- transform(pdat,elbo = max(elbo) - elbo + 0.1)
 p10&lt;-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
             geom_line(size = 0.75) +
             scale_y_continuous(trans = &quot;log10&quot;) +
@@ -2201,7 +2311,7 @@ Peter Carbonetto
 # [13] pillar_1.4.3         backports_1.1.5      lattice_0.20-38     
 # [16] quadprog_1.5-8       quantreg_5.54        glue_1.3.1          
 # [19] digest_0.6.23        promises_1.1.0       colorspace_1.4-1    
-# [22] htmltools_0.4.0      httpuv_1.5.2         Matrix_1.2-18       
+# [22] htmltools_0.4.0      httpuv_1.5.2         Matrix_1.3-3        
 # [25] pkgconfig_2.0.3      invgamma_1.1         SparseM_1.78        
 # [28] purrr_0.3.3          scales_1.1.0         whisker_0.4         
 # [31] later_1.0.0          Rtsne_0.15           MatrixModels_0.4-1  
@@ -2215,12 +2325,12 @@ Peter Carbonetto
 # [55] plotly_4.9.2         munsell_0.5.0        irlba_2.3.3         
 # [58] compiler_3.6.2       rlang_0.4.5          grid_3.6.2          
 # [61] htmlwidgets_1.5.1    labeling_0.3         rmarkdown_2.3       
-# [64] gtable_0.3.0         R6_2.4.1             knitr_1.26          
-# [67] dplyr_0.8.3          zeallot_0.1.0        workflowr_1.6.2.9000
-# [70] rprojroot_1.3-2      modeltools_0.2-22    stringi_1.4.3       
-# [73] parallel_3.6.2       SQUAREM_2017.10-1    Rcpp_1.0.5          
-# [76] vctrs_0.2.1          tidyselect_0.2.5     xfun_0.11           
-# [79] coda_0.19-3</code></pre>
+# [64] codetools_0.2-16     gtable_0.3.0         R6_2.4.1            
+# [67] knitr_1.26           dplyr_0.8.3          zeallot_0.1.0       
+# [70] workflowr_1.6.2.9000 rprojroot_1.3-2      maptpx_1.9-8        
+# [73] modeltools_0.2-22    stringi_1.4.3        parallel_3.6.2      
+# [76] SQUAREM_2017.10-1    Rcpp_1.0.5           vctrs_0.2.1         
+# [79] tidyselect_0.2.5     xfun_0.11            coda_0.19-3</code></pre>
 </div>
 </div>
 
