@@ -5,11 +5,11 @@ output: workflowr::wflow_html
 ---
 
 Here we perform a small experiment with simulated data to illustrate
-the behaviour of the EM and SCD algorithms for fitting Poisson NMF
-models. This example suggests that the EM updates have difficulty with
-correlations between topics, even when they are quite modest. The
-results also suggest that the basic variational EM for LDA also
-experiences similar difficulties.
+the behaviour of the EM and SCD Poisson NMF algorithms for fitting
+topic models. This example suggests that the EM updates have
+difficulty with correlations between topics, even when they are quite
+modest. The results also suggest that the basic variational EM for LDA
+also experiences similar difficulties.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -68,11 +68,10 @@ p1 <- simdata_structure_plot(L,topic_colors)
 print(p1)
 ```
 
-Here we compare two different updates for fitting a Poisson NMF model
-to the simulated counts: EM updates, and sequential coordinate descent
-(SCD). We perform 100 iterations of each. The model fitting is
-initialized by first running 50 EM updates, with the aim of better
-ensuring that the same local maximum is recovered by both runs.
+Here we compare two different updates: the EM updates and the sequential
+coordinate descent (SCD). We perform 100 iterations of each. The model
+fitting is initialized by first running 50 EM updates, with the aim of
+better ensuring that the same local maximum is recovered by both runs.
 
 ```{r fit-1, results="hide", message=FALSE}
 control <- list(extrapolate = FALSE,numiter = 4)
@@ -126,7 +125,15 @@ p4 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
 print(p4)
 ```
 
-*Add text here.*
+The maptpx R package uses a quasi-Newton-accelerated EM algorithm,
+together with sequential programming techniques, to compute *maximum a
+posteriori* estimates of the topic model parameters. (Note that here
+we use a slightly modified version of the maptpx package that allows
+initialization of the topic proportions as well as the word
+frequencies. This modified version of the maptpx package can be
+downloaded [here](https://github.com/stephenslab/maptpx).) Although
+maptpx is not solving the same problem, it is close enough that it
+benefits from a good initialization.
 
 ```{r maptpx}
 maptpx0 <- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
@@ -137,9 +144,9 @@ maptpx2 <- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
                           tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
 ```
 
-*Add text here.*
+This next plot shows the improvement in the log-posterior over time:
 
-```{r plot-progress-maptpx, fig.width=3, fig.height=2.5}
+```{r plot-progress-maptpx, fig.width=3, fig.height=2}
 pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
                          y    = maptpx0$progress,
                          init = "em-50"),
@@ -157,6 +164,10 @@ ggplot(pdat,aes(x = iter,y = y,color = init)) +
   labs(x = "iteration",y = "log-posterior difference") +
   theme_cowplot(font_size = 10)
 ```
+
+All three runs arrive at the same solution, but maptpx finds the
+solution much more quickly with the SCD better initialization, or
+after running 150 iterations of the Poisson NMF EM updates.
 
 Next, we turn to the problem of fitting an LDA model to the same
 data. 
