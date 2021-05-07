@@ -305,7 +305,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -314,7 +314,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -326,7 +326,7 @@ $(document).ready(function () {
 <strong>Last updated:</strong> 2021-05-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>fastTopics-experiments/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -390,21 +390,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
-<div id="strongCachestrongdetected" class="panel-collapse collapse">
+<div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-The following chunks had caches available:
-<ul>
-<li>
-fit-lda-1
-</li>
-<li>
-fit-lda-2
-</li>
-</ul>
-<p>To ensure reproducibility of the results, delete the cache directory <code>smallsim_cache</code> and re-run the analysis. To have workflowr automatically delete the cache directory prior to building the file, set <code>delete_cache = TRUE</code> when running <code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
 </div>
 </div>
 </div>
@@ -423,16 +414,16 @@ fit-lda-2
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree397958cfe832a97407182f9ff59824af58881074targetblank397958ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/397958cfe832a97407182f9ff59824af58881074" target="_blank">397958c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb8c09a4278b09613e7bbde44b65884426ffe661ctargetblankb8c09a4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b8c09a4278b09613e7bbde44b65884426ffe661c" target="_blank">b8c09a4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree397958cfe832a97407182f9ff59824af58881074targetblank397958ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb8c09a4278b09613e7bbde44b65884426ffe661ctargetblankb8c09a4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/397958cfe832a97407182f9ff59824af58881074" target="_blank">397958c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b8c09a4278b09613e7bbde44b65884426ffe661c" target="_blank">b8c09a4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -450,11 +441,7 @@ Ignored files:
     Ignored:    output/pbmc68k/fits-pbmc68k.RData
 
 Untracked files:
-    Untracked:  analysis/smallsim_cache/
     Untracked:  plots/
-
-Unstaged changes:
-    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
@@ -493,6 +480,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/b8c09a4278b09613e7bbde44b65884426ffe661c/analysis/smallsim.Rmd" target="_blank">b8c09a4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/c6832802469fbb0b486eba4764d58e12df587c53/docs/smallsim.html" target="_blank">c683280</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+Added some explanatory text to the smallsim example.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1751,7 +1772,7 @@ maptpx1 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
                           tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
 maptpx2 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
                           tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)</code></pre>
-<p>This next plot shows the improvement in the log-posterior over time:</p>
+<p>This next plot shows how well the estimates improve the log-posterior at each iteration:</p>
 <pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:length(maptpx0$progress),
                          y    = maptpx0$progress,
                          init = &quot;em-50&quot;),
@@ -1768,7 +1789,7 @@ ggplot(pdat,aes(x = iter,y = y,color = init)) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkblue&quot;,&quot;darkorange&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;log-posterior difference&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
-<p><img src="figure/smallsim.Rmd/plot-progress-maptpx-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p><img src="figure/smallsim.Rmd/plot-progress-maptpx-1.png" width="390" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-maptpx-1">
 Past versions of plot-progress-maptpx-1.png
@@ -1793,6 +1814,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c6832802469fbb0b486eba4764d58e12df587c53/docs/figure/smallsim.Rmd/plot-progress-maptpx-1.png" target="_blank">c683280</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/95d6d47512951f8c6a0a0701b89960596b5991ca/docs/figure/smallsim.Rmd/plot-progress-maptpx-1.png" target="_blank">95d6d47</a>
 </td>
 <td>
@@ -1806,18 +1838,12 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>All three runs arrive at the same solution, but maptpx finds the solution much more quickly with the SCD better initialization, or after running 150 iterations of the Poisson NMF EM updates.</p>
+<p>All three runs arrive at the same solution, but maptpx finds the solution much more quickly with the SCD better initialization, or after running more (150) iterations of EM for Poisson NMF.</p>
 <p>Next, we turn to the problem of fitting an LDA model to the same data.</p>
 <p>We perform 400 iterations of variational EM, initializing the LDA model fits using the MLEs computed above.</p>
 <pre class="r"><code>lda0 &lt;- run_lda(X,fit0,numiter = 400)
 lda1 &lt;- run_lda(X,fit1,numiter = 400)
 lda2 &lt;- run_lda(X,fit2,numiter = 400)</code></pre>
-<div class="alert alert-warning">
-<p>
-<strong>Warning:</strong> The above code chunk cached its results, but it won’t be re-run if previous chunks it depends on are updated. If you need to use caching, it is highly recommended to also set <code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the file (in a chunk that is not cached). Alternatively, you can customize the option <code>dependson</code> for each individual chunk that is cached. Using either <code>autodep</code> or <code>dependson</code> will remove this warning. See the <a href="https://yihui.name/knitr/options/#cache"
->knitr cache options</a> for more details.
-</p>
-</div>
 <p>Although the LDA fitting problem is different—we are now fitting a (approximate) posterior distribution, and so the estimates are approximate posterior means rather than MLE—initializing the LDA fit using the MLEs greatly improves the LDA model fitting, as we will see from this next plot: even after 400 iterations, variational EM without a good initialization does not approach the quality of the LDA model fits initialized using the EM and SCD estimates.</p>
 <pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = &quot;none&quot;),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = &quot;em&quot;),
@@ -2298,16 +2324,35 @@ Peter Carbonetto
 </div>
 </div>
 <p>These results suggest that the EM algorithm may perform poorly in settings where the topics are correlated, even if the correlations are modest.</p>
-<p>Let’s see how this relates to fitting an LDA model:</p>
+<p>Given the difficulties faced by EM here, let’s see whether maptpx—which attempts to improve over EM with a quasi-Newton acceleration scheme—fares better. As before, we initialize the maptpx optimization using the estimates obtained by running the Poisson NMF algorithms from above.</p>
+<pre class="r"><code>maptpx0 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
+                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+maptpx1 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
+                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+maptpx2 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
+                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)</code></pre>
+<p>This plot shows the improvement in the maptpx solutions over time. Clearly, maptpx, like EM, gets stuck in a state of very slow progress, and benefits greatly from being initialized with the SCD estimates to arrive at a much better solution.</p>
+<pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:length(maptpx0$progress),
+                         y    = maptpx0$progress,
+                         init = &quot;em-50&quot;),
+              data.frame(iter = 1:length(maptpx1$progress),
+                         y    = maptpx1$progress,
+                         init = &quot;em-1000&quot;),
+              data.frame(iter = 1:length(maptpx2$progress),
+                         y    = maptpx2$progress,
+                         init = &quot;scd&quot;))
+pdat &lt;- transform(pdat,y = max(y) - y + 0.1)
+ggplot(pdat,aes(x = iter,y = y,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = &quot;log10&quot;) +
+  scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkblue&quot;,&quot;darkorange&quot;)) +
+  labs(x = &quot;iteration&quot;,y = &quot;log-posterior difference&quot;) +
+  theme_cowplot(font_size = 10)</code></pre>
+<p><img src="figure/smallsim.Rmd/plot-progress-maptpx-2-1.png" width="390" style="display: block; margin: auto;" /></p>
+<p>Let’s now see how this relates to fitting an LDA model:</p>
 <pre class="r"><code>lda0 &lt;- run_lda(X,fit0,numiter = 400)
 lda1 &lt;- run_lda(X,fit1,numiter = 400)
 lda2 &lt;- run_lda(X,fit2,numiter = 400)</code></pre>
-<div class="alert alert-warning">
-<p>
-<strong>Warning:</strong> The above code chunk cached its results, but it won’t be re-run if previous chunks it depends on are updated. If you need to use caching, it is highly recommended to also set <code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the file (in a chunk that is not cached). Alternatively, you can customize the option <code>dependson</code> for each individual chunk that is cached. Using either <code>autodep</code> or <code>dependson</code> will remove this warning. See the <a href="https://yihui.name/knitr/options/#cache"
->knitr cache options</a> for more details.
-</p>
-</div>
 <p>This plot shows the improvement in the objective (the ELBO) over time:</p>
 <pre class="r"><code>pdat &lt;- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = &quot;none&quot;),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = &quot;em&quot;),
