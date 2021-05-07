@@ -126,13 +126,45 @@ p4 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
 print(p4)
 ```
 
+*Add text here.*
+
+```{r maptpx}
+maptpx0 <- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
+                          tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
+maptpx1 <- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
+                          tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
+maptpx2 <- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
+                          tol = 0.001,tmax = 1000,ord = FALSE,verb = 0)
+```
+
+*Add text here.*
+
+```{r plot-progress-maptpx, fig.width=3, fig.height=2.5}
+pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
+                         y    = maptpx0$progress,
+                         init = "em-50"),
+              data.frame(iter = 1:length(maptpx1$progress),
+						 y    = maptpx1$progress,
+						 init = "em-150"),
+              data.frame(iter = 1:length(maptpx2$progress),
+						 y    = maptpx2$progress,
+						 init = "scd"))
+pdat <- transform(pdat,y = max(y) - y + 0.1)
+ggplot(pdat,aes(x = iter,y = y,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
+  scale_color_manual(values = c("dodgerblue","darkblue","darkorange")) +
+  labs(x = "iteration",y = "log-posterior difference") +
+  theme_cowplot(font_size = 10)
+```
+
 Next, we turn to the problem of fitting an LDA model to the same
 data. 
 
 We perform 400 iterations of variational EM, initializing the LDA
 model fits using the MLEs computed above.
 
-```{r fit-lda-1}
+```{r fit-lda-1, cache=TRUE}
 lda0 <- run_lda(X,fit0,numiter = 400)
 lda1 <- run_lda(X,fit1,numiter = 400)
 lda2 <- run_lda(X,fit2,numiter = 400)
@@ -280,7 +312,7 @@ modest.
 
 Let's see how this relates to fitting an LDA model:
 
-```{r fit-lda-2}
+```{r fit-lda-2, cache=TRUE}
 lda0 <- run_lda(X,fit0,numiter = 400)
 lda1 <- run_lda(X,fit1,numiter = 400)
 lda2 <- run_lda(X,fit2,numiter = 400)
