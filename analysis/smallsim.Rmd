@@ -158,12 +158,13 @@ pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
 						 y    = maptpx2$progress,
 						 init = "scd"))
 pdat <- transform(pdat,y = max(y) - y + 0.1)
-ggplot(pdat,aes(x = iter,y = y,color = init)) +
+p5 <- ggplot(pdat,aes(x = iter,y = y,color = init)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(values = c("dodgerblue","darkblue","darkorange")) +
   labs(x = "iteration",y = "log-posterior difference") +
   theme_cowplot(font_size = 10)
+print(p5)
 ```
 
 All three runs arrive at the same solution, but maptpx finds the
@@ -195,23 +196,24 @@ pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p5<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+p6<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
            geom_line(size = 0.75) +
 		   scale_y_continuous(trans = "log10") +
 		   scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
 		   labs(x = "iteration",y = "ELBO difference") +
 		   theme_cowplot(font_size = 10)
-print(p5)
+print(p6)
 ```
 
-Next we will see an example in which EM updates fail to make
+Next we will see an example in which the EM updates fail to make
 reasonable progress.
 
 ```{r plots-for-paper-1, echo=FALSE, results="hide"}
 ggsave("../plots/structure_plot_sim1.pdf",p1,width = 4,height = 1.25)
 ggsave("../plots/progress_plot_sim1.pdf",plot_grid(p2,p3),width=5,height=1.7)
 ggsave("../plots/loadings_scatterplot_sim1.pdf",p4,width = 2.5,height = 2)
-ggsave("../plots/progress_plot_lda_sim1.pdf",p5,width = 2.5,height = 1.7)
+ggsave("../plots/progress_plot_maptpx_sim1.pdf",p5,width = 2.9,height = 1.7)
+ggsave("../plots/progress_plot_lda_sim1.pdf",p6,width = 2.5,height = 1.7)
 ```
 
 Correlated topics scenario
@@ -234,8 +236,8 @@ Compare this Structure plot to the one above---there is more mixing of
 topics 5 and 6:
 
 ```{r structure-plot-2, fig.width=6, fig.height=1.5, message=FALSE}
-p6 <- simdata_structure_plot(L,topic_colors)
-print(p6)
+p7 <- simdata_structure_plot(L,topic_colors)
+print(p7)
 ```
 
 As before, we run the EM and SCD updates to fit the multinomial topic
@@ -277,19 +279,19 @@ pdat <- subset(pdat,iter >= 50)
 pdat <- transform(pdat,
 				  iter   = iter - 50,
                   loglik = max(loglik) - loglik + 0.1)
-p7 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
+p8 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
   labs(x = "iteration",y = "loglik difference") +
   theme_cowplot(font_size = 10)
-p8 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
+p9 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
   ylim(0,10) +
   labs(x = "iteration",y = "max KKT residual") +
   theme_cowplot(font_size = 10)
-plot_grid(p7,p8)
+plot_grid(p8,p9)
 ```
 
 This large difference in likelihood is not due to a trivial difference
@@ -297,8 +299,8 @@ in solution---for example, there are many large differences in the
 topic proportion estimates:
 
 ```{r loadings-scatterplot-2, fig.width=3, fig.height=2.5}
-p9 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
-print(p9)
+p10 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
+print(p10)
 ```
 
 Most of the samples contributing to the large difference in likehood
@@ -308,7 +310,7 @@ axes in this scatterplot show the per-sample log-likelihoods):
 ```{r likelihood-scatterplot, fig.width=3.5, fig.height=2.5}
 pdat <- data.frame(x = loglik_multinom_topic_model(X,fit1),
                    y = loglik_multinom_topic_model(X,fit2))
-ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
+p11 <- ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
   geom_point(color = "white",shape = 21,size = 1.75) +
   geom_abline(intercept = 0,slope = 1,color = "black",linetype = "dotted") +
   scale_fill_gradient(low = "skyblue",high = "orangered") +
@@ -316,6 +318,7 @@ ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
   ylim(-700,-100) +
   labs(x = "em",y = "scd",fill = "topic 5 + 6") +
   theme_cowplot(font_size = 10)
+print(p11)
 ```
 
 These results suggest that the EM algorithm may perform poorly in
@@ -376,21 +379,22 @@ pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p10<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+p12<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
             geom_line(size = 0.75) +
 			scale_y_continuous(trans = "log10") +
 			scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
 			labs(x = "iteration",y = "ELBO difference") +
 			theme_cowplot(font_size = 10)
-print(p10)
+print(p12)
 ```
 
 In this second example, the SCD estimates provide by far the best
 initialization of the LDA model fit.
 
 ```{r plots-for-paper-2, echo=FALSE, results="hide"}
-ggsave("../plots/structure_plot_sim2.pdf",p6,width = 4,height = 1.25)
-ggsave("../plots/progress_plot_sim2.pdf",plot_grid(p7,p8),width=5.5,height=1.7)
-ggsave("../plots/loadings_scatterplot_sim2.pdf",p9,width = 2.5,height = 2)
-ggsave("../plots/progress_plot_lda_sim2.pdf",p10,width = 2.5,height = 1.7)
+ggsave("../plots/structure_plot_sim2.pdf",p7,width = 4,height = 1.25)
+ggsave("../plots/progress_plot_sim2.pdf",plot_grid(p8,p9),width=5.5,height=1.7)
+ggsave("../plots/loadings_scatterplot_sim2.pdf",p10,width = 2.5,height = 2)
+ggsave("../plots/progress_plot_maptpx_sim2.pdf",p11,width = 2.9,height = 1.7)
+ggsave("../plots/progress_plot_lda_sim2.pdf",p12,width = 2.5,height = 1.7)
 ```
