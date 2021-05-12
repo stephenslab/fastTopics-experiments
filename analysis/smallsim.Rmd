@@ -196,12 +196,12 @@ pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p6<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
-           geom_line(size = 0.75) +
-		   scale_y_continuous(trans = "log10") +
-		   scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
-		   labs(x = "iteration",y = "ELBO difference") +
-		   theme_cowplot(font_size = 10)
+p6 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
+  scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
+  labs(x = "iteration",y = "ELBO difference") +
+  theme_cowplot(font_size = 10)
 print(p6)
 ```
 
@@ -310,7 +310,7 @@ axes in this scatterplot show the per-sample log-likelihoods):
 ```{r likelihood-scatterplot, fig.width=3.5, fig.height=2.5}
 pdat <- data.frame(x = loglik_multinom_topic_model(X,fit1),
                    y = loglik_multinom_topic_model(X,fit2))
-p11 <- ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
+ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
   geom_point(color = "white",shape = 21,size = 1.75) +
   geom_abline(intercept = 0,slope = 1,color = "black",linetype = "dotted") +
   scale_fill_gradient(low = "skyblue",high = "orangered") +
@@ -318,7 +318,6 @@ p11 <- ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
   ylim(-700,-100) +
   labs(x = "em",y = "scd",fill = "topic 5 + 6") +
   theme_cowplot(font_size = 10)
-print(p11)
 ```
 
 These results suggest that the EM algorithm may perform poorly in
@@ -356,12 +355,13 @@ pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
 						 y    = maptpx2$progress,
 						 init = "scd"))
 pdat <- transform(pdat,y = max(y) - y + 0.1)
-ggplot(pdat,aes(x = iter,y = y,color = init)) +
+p11 <- ggplot(pdat,aes(x = iter,y = y,color = init)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(values = c("dodgerblue","darkblue","darkorange")) +
   labs(x = "iteration",y = "log-posterior difference") +
   theme_cowplot(font_size = 10)
+print(p11)
 ```
 
 Let's now see how this relates to fitting an LDA model:
@@ -379,12 +379,12 @@ pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p12<-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
-            geom_line(size = 0.75) +
-			scale_y_continuous(trans = "log10") +
-			scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
-			labs(x = "iteration",y = "ELBO difference") +
-			theme_cowplot(font_size = 10)
+p12 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
+  scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
+  labs(x = "iteration",y = "ELBO difference") +
+  theme_cowplot(font_size = 10)
 print(p12)
 ```
 
