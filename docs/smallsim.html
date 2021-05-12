@@ -323,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-05-06
+<strong>Last updated:</strong> 2021-05-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -414,16 +414,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb8c09a4278b09613e7bbde44b65884426ffe661ctargetblankb8c09a4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b8c09a4278b09613e7bbde44b65884426ffe661c" target="_blank">b8c09a4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef157df8561c9f47d2f8e6e7ba3447a588bb409d9targetblankf157df8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f157df8561c9f47d2f8e6e7ba3447a588bb409d9" target="_blank">f157df8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb8c09a4278b09613e7bbde44b65884426ffe661ctargetblankb8c09a4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef157df8561c9f47d2f8e6e7ba3447a588bb409d9targetblankf157df8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b8c09a4278b09613e7bbde44b65884426ffe661c" target="_blank">b8c09a4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/f157df8561c9f47d2f8e6e7ba3447a588bb409d9" target="_blank">f157df8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -441,6 +441,7 @@ Ignored files:
     Ignored:    output/pbmc68k/fits-pbmc68k.RData
 
 Untracked files:
+    Untracked:  .DS_Store
     Untracked:  plots/
 
 </code></pre>
@@ -480,6 +481,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/f157df8561c9f47d2f8e6e7ba3447a588bb409d9/analysis/smallsim.Rmd" target="_blank">f157df8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-12
+</td>
+<td>
+workflowr::wflow_publish(“smallsim.Rmd”, verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/c3bdba6ad18fe4c2f30790a94618e24a4558c46e/docs/smallsim.html" target="_blank">c3bdba6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+<td>
+Added maptpx results on second simulated data set in smallsim demo.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1783,12 +1818,13 @@ maptpx2 &lt;- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
                          y    = maptpx2$progress,
                          init = &quot;scd&quot;))
 pdat &lt;- transform(pdat,y = max(y) - y + 0.1)
-ggplot(pdat,aes(x = iter,y = y,color = init)) +
+p5 &lt;- ggplot(pdat,aes(x = iter,y = y,color = init)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = &quot;log10&quot;) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkblue&quot;,&quot;darkorange&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;log-posterior difference&quot;) +
-  theme_cowplot(font_size = 10)</code></pre>
+  theme_cowplot(font_size = 10)
+print(p5)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-maptpx-1.png" width="390" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-maptpx-1">
@@ -1812,6 +1848,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c3bdba6ad18fe4c2f30790a94618e24a4558c46e/docs/figure/smallsim.Rmd/plot-progress-maptpx-1.png" target="_blank">c3bdba6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/c6832802469fbb0b486eba4764d58e12df587c53/docs/figure/smallsim.Rmd/plot-progress-maptpx-1.png" target="_blank">c683280</a>
@@ -1849,13 +1896,13 @@ lda2 &lt;- run_lda(X,fit2,numiter = 400)</code></pre>
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = &quot;em&quot;),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = &quot;scd&quot;))
 pdat &lt;- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p5&lt;-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+p6&lt;-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
            geom_line(size = 0.75) +
            scale_y_continuous(trans = &quot;log10&quot;) +
            scale_color_manual(values=c(&quot;darkblue&quot;,&quot;dodgerblue&quot;,&quot;darkorange&quot;)) +
            labs(x = &quot;iteration&quot;,y = &quot;ELBO difference&quot;) +
            theme_cowplot(font_size = 10)
-print(p5)</code></pre>
+print(p6)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-lda-1-1.png" width="390" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-lda-1-1">
@@ -1905,7 +1952,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>Next we will see an example in which EM updates fail to make reasonable progress.</p>
+<p>Next we will see an example in which the EM updates fail to make reasonable progress.</p>
 </div>
 <div id="correlated-topics-scenario" class="section level2">
 <h2>Correlated topics scenario</h2>
@@ -1917,8 +1964,8 @@ L &lt;- simulate_loadings(n,k,S)
 X &lt;- simulate_multinom_counts(L,F,s)
 X &lt;- X[,colSums(X &gt; 0) &gt; 0]</code></pre>
 <p>Compare this Structure plot to the one above—there is more mixing of topics 5 and 6:</p>
-<pre class="r"><code>p6 &lt;- simdata_structure_plot(L,topic_colors)
-print(p6)</code></pre>
+<pre class="r"><code>p7 &lt;- simdata_structure_plot(L,topic_colors)
+print(p7)</code></pre>
 <p><img src="figure/smallsim.Rmd/structure-plot-2-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-2-1">
@@ -2006,19 +2053,19 @@ pdat &lt;- subset(pdat,iter &gt;= 50)
 pdat &lt;- transform(pdat,
                   iter   = iter - 50,
                   loglik = max(loglik) - loglik + 0.1)
-p7 &lt;- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
+p8 &lt;- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = &quot;log10&quot;) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkorange&quot;,&quot;magenta&quot;)) +
   labs(x = &quot;iteration&quot;,y = &quot;loglik difference&quot;) +
   theme_cowplot(font_size = 10)
-p8 &lt;- ggplot(pdat,aes(x = iter,y = res,color = method)) +
+p9 &lt;- ggplot(pdat,aes(x = iter,y = res,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c(&quot;dodgerblue&quot;,&quot;darkorange&quot;,&quot;magenta&quot;)) +
   ylim(0,10) +
   labs(x = &quot;iteration&quot;,y = &quot;max KKT residual&quot;) +
   theme_cowplot(font_size = 10)
-plot_grid(p7,p8)</code></pre>
+plot_grid(p8,p9)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-2-1.png" width="720" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-2-1">
@@ -2168,8 +2215,8 @@ Peter Carbonetto
 </div>
 </div>
 <p>This large difference in likelihood is not due to a trivial difference in solution—for example, there are many large differences in the topic proportion estimates:</p>
-<pre class="r"><code>p9 &lt;- loadings_scatterplot(fit1,fit2,topic_colors,&quot;em&quot;,&quot;scd&quot;)
-print(p9)</code></pre>
+<pre class="r"><code>p10 &lt;- loadings_scatterplot(fit1,fit2,topic_colors,&quot;em&quot;,&quot;scd&quot;)
+print(p10)</code></pre>
 <p><img src="figure/smallsim.Rmd/loadings-scatterplot-2-1.png" width="360" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-loadings-scatterplot-2-1">
@@ -2255,14 +2302,15 @@ Peter Carbonetto
 <p>Most of the samples contributing to the large difference in likehood are samples generated from combinations of topics 5 and 6 (the X and Y axes in this scatterplot show the per-sample log-likelihoods):</p>
 <pre class="r"><code>pdat &lt;- data.frame(x = loglik_multinom_topic_model(X,fit1),
                    y = loglik_multinom_topic_model(X,fit2))
-ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
+p11 &lt;- ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
   geom_point(color = &quot;white&quot;,shape = 21,size = 1.75) +
   geom_abline(intercept = 0,slope = 1,color = &quot;black&quot;,linetype = &quot;dotted&quot;) +
   scale_fill_gradient(low = &quot;skyblue&quot;,high = &quot;orangered&quot;) +
   xlim(-700,-100) +
   ylim(-700,-100) +
   labs(x = &quot;em&quot;,y = &quot;scd&quot;,fill = &quot;topic 5 + 6&quot;) +
-  theme_cowplot(font_size = 10)</code></pre>
+  theme_cowplot(font_size = 10)
+print(p11)</code></pre>
 <p><img src="figure/smallsim.Rmd/likelihood-scatterplot-1.png" width="420" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-likelihood-scatterplot-1">
@@ -2349,6 +2397,43 @@ ggplot(pdat,aes(x = iter,y = y,color = init)) +
   labs(x = &quot;iteration&quot;,y = &quot;log-posterior difference&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-maptpx-2-1.png" width="390" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-maptpx-2-1">
+Past versions of plot-progress-maptpx-2-1.png
+</button>
+</p>
+<div id="fig-plot-progress-maptpx-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c3bdba6ad18fe4c2f30790a94618e24a4558c46e/docs/figure/smallsim.Rmd/plot-progress-maptpx-2-1.png" target="_blank">c3bdba6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-05-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Let’s now see how this relates to fitting an LDA model:</p>
 <pre class="r"><code>lda0 &lt;- run_lda(X,fit0,numiter = 400)
 lda1 &lt;- run_lda(X,fit1,numiter = 400)
@@ -2358,13 +2443,13 @@ lda2 &lt;- run_lda(X,fit2,numiter = 400)</code></pre>
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = &quot;em&quot;),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = &quot;scd&quot;))
 pdat &lt;- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p10&lt;-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+p12&lt;-ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
             geom_line(size = 0.75) +
             scale_y_continuous(trans = &quot;log10&quot;) +
             scale_color_manual(values=c(&quot;darkblue&quot;,&quot;dodgerblue&quot;,&quot;darkorange&quot;))+
             labs(x = &quot;iteration&quot;,y = &quot;ELBO difference&quot;) +
             theme_cowplot(font_size = 10)
-print(p10)</code></pre>
+print(p12)</code></pre>
 <p><img src="figure/smallsim.Rmd/plot-progress-lda-2-1.png" width="390" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-progress-lda-2-1">
