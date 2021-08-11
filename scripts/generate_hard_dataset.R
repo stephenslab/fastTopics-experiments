@@ -7,12 +7,11 @@ source("../code/smallsim_functions.R")
 
 # Simulate the data set.
 set.seed(1)
-n <- 100
-m <- 400
-k <- 6
-S <- 5*diag(k) - 1
-upper.tri(S)
-for (i in 1:5) {
+n <- 80
+m <- 200
+k <- 4
+S <- 2*diag(k) 
+for (i in 1:3) {
   S[i,i+1] <- 1
   S[i+1,i] <- 1
 }
@@ -35,13 +34,15 @@ p1 <- structure_plot(fit,loadings_order = order(y),topics = 1:k,
 
 # Fit the multinomial topic model to the simulated data using the EM
 # updates, and using the SCD updates.
-numiter <- 1000
-control <- list(extrapolate = FALSE,numiter = 4)
-fit0 <- fit_poisson_nmf(X,k,numiter = 20,method = "em")
+seed <- 3
+print(seed)
+set.seed(seed)
+numiter <- 250
+fit0 <- fit_poisson_nmf(X,k,numiter = 20,method = "em",init.method = "random")
 fit1 <- fit_poisson_nmf(X,fit0 = fit0,numiter = numiter,method = "em",
-                        control = list(extrapolate = FALSE,numiter = 4))
+                        control = list(extrapolate = FALSE,numiter = 4,nc = 2))
 fit2 <- fit_poisson_nmf(X,fit0 = fit0,numiter = numiter,method = "scd",
-                        control = list(extrapolate = TRUE,numiter = 4))
+                        control = list(extrapolate = TRUE,numiter = 4,nc = 2))
 
 # Plot the improvement in the solution over time; these two plots show
 # the evolution of the log-likelihood and the KKT residuals.
