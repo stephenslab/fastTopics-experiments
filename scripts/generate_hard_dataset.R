@@ -8,12 +8,12 @@ source("../code/smallsim_functions.R")
 # Simulate the data set.
 set.seed(1)
 n <- 80
-m <- 200
-k <- 4
-S <- 2*diag(k) 
-for (i in 1:3) {
-  S[i,i+1] <- 1
-  S[i+1,i] <- 1
+m <- 100
+k <- 5
+S <- 1*diag(k) 
+for (i in 1:(k-1)) {
+  S[i,i+1] <- 0.5
+  S[i+1,i] <- 0.5
 }
 F <- simulate_factors(m,k)
 L <- simulate_loadings(n,k,S)
@@ -34,7 +34,7 @@ p1 <- structure_plot(fit,loadings_order = order(y),topics = 1:k,
 
 # Fit the multinomial topic model to the simulated data using the EM
 # updates, and using the SCD updates.
-seed <- 3
+seed <- 5
 print(seed)
 set.seed(seed)
 numiter <- 250
