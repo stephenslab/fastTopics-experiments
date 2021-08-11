@@ -50,3 +50,7 @@ p2 <- plot_progress(list(em = fit1,scd = fit2),x = "iter",y = "loglik",
 p3 <- plot_progress(list(em = fit1,scd = fit2),x = "iter",y = "res",
                     add.point.every = 50)
 print(plot_grid(p2,p3))
+
+# Save the count data, and the parameters of the multinomial topic
+# model used to simulate these data.
+save(list = c("F","L","s","X"),file = "sim_hard.RData")
