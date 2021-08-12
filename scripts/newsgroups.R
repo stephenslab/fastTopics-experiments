@@ -48,7 +48,7 @@ p1 <- plot_progress(list(em = fit1,scd = fit2),x = "iter",y = "loglik",
 p2 <- plot_progress(list(em = fit1,scd = fit2),x = "iter",y = "res",
                     add.point.every = 20)
 dev.new(height = 2,width = 6)
-plot_grid(p1,p2)
+print(plot_grid(p1,p2))
 
 # Compare the EM and SCD estimates of the topic 
 colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
@@ -56,7 +56,7 @@ colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
 p3 <- structure_plot(fit1,grouping = topics,gap = 20,n = 2000,colors = colors)
 p4 <- structure_plot(fit2,grouping = topics,gap = 20,n = 2000,colors = colors)
 dev.new(height = 3.5,width = 6)
-plot_grid(p3,p4,nrow = 2,ncol = 1)
+print(plot_grid(p3,p4,nrow = 2,ncol = 1))
 
 # Compare the EM and SCD estimates of the topic proportions in a
 # simple scatterplot.
