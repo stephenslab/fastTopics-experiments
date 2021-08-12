@@ -3,8 +3,8 @@ library(fastTopics)
 library(cowplot)
 
 # Script parameters.
-k <- 10
 seed <- 1
+k    <- 10
 
 # Initialize the sequence of pseudorandom numbers.
 set.seed(1)
@@ -21,12 +21,12 @@ counts <- counts[rows,]
 # Remove words appearing in fewer than 10 documents.
 cols <- which(colSums(counts > 0) >= 10)
 counts <- counts[,cols]
-rm(n,rows,cols)
 
 # Prefit the Poisson NMF model. The aim here is to run enough EM
 # updates so that it is difficult for the other algorithms to "escape"
 # this local maximum of the likelihood surface.
 cat("Prefitting Poisson NMF model.\n")
+print(seed)
 set.seed(seed)
 fit0 <- fit_poisson_nmf(counts,k = k,numiter = 50,method = "em",
                         init.method = "random",
@@ -64,5 +64,3 @@ dev.new(height = 3.5,width = 3)
 plot(poisson2multinom(fit1)$L,poisson2multinom(fit2)$L,pch = 20,cex = 0.5,
      xlab = "EM",ylab = "SCD")
 abline(a = 0,b = 1,col = "magenta",lty = "dotted")
-
-
