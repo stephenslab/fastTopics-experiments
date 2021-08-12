@@ -1,5 +1,6 @@
 library(Matrix)
 library(fastTopics)
+library(cowplot)
 
 # The number of topics to learn.
 k <- 10
@@ -38,3 +39,16 @@ fit1 <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 200,method = "em",
 cat("Running 200 extrapolated SCD updates.\n")
 fit2 <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 200,method = "scd",
                         control = list(numiter = 4,nc = 4,extrapolate = TRUE))
+
+# Plot the improvement in the solution over time.
+p1 <- plot_progress(list(em = fit1,scd = fit2),x = "iter",y = "loglik",
+                    add.point.every = 20)
+p2 <- plot_progress(list(em = fit1,scd = fit2),x = "iter",y = "res",
+                    add.point.every = 20)
+print(plot_grid(p1,p2))
+
+# Compare the estimates of the topic proportions.
+plot(poisson2multinom(fit1)$L,poisson2multinom(fit2)$L,pch = 20,
+     xlab = "EM",ylab = "SCD")
+abline(a = 0,b = 1,col = "magenta",lty = "dotted")
+
