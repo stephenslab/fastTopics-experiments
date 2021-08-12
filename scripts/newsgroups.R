@@ -1,3 +1,4 @@
+library(tools)
 library(Matrix)
 library(fastTopics)
 library(cowplot)
@@ -64,3 +65,8 @@ dev.new(height = 3.5,width = 3)
 plot(poisson2multinom(fit1)$L,poisson2multinom(fit2)$L,pch = 20,cex = 0.5,
      xlab = "EM",ylab = "SCD")
 abline(a = 0,b = 1,col = "magenta",lty = "dotted")
+
+# Save the newsgroups data to an .RData file.
+counts <- as.matrix(counts)
+save(list = "counts",file = "newsgroups_smaller.RData")
+resaveRdaFiles("newsgroups_smaller.RData")
