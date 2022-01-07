@@ -323,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-20
+<strong>Last updated:</strong> 2022-01-07
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -333,7 +333,7 @@ $(document).ready(function () {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -414,22 +414,23 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb63fb95b90909997e669550515a9fc978bfac891targetblankb63fb95a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b63fb95b90909997e669550515a9fc978bfac891" target="_blank">b63fb95</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1c3cb394889f3a823c53702518e86d06200c2682targetblank1c3cb39a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1c3cb394889f3a823c53702518e86d06200c2682" target="_blank">1c3cb39</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreeb63fb95b90909997e669550515a9fc978bfac891targetblankb63fb95a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1c3cb394889f3a823c53702518e86d06200c2682targetblank1c3cb39a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/b63fb95b90909997e669550515a9fc978bfac891" target="_blank">b63fb95</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1c3cb394889f3a823c53702518e86d06200c2682" target="_blank">1c3cb39</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    analysis/.sos/
     Ignored:    data/20news-bydate/
     Ignored:    data/droplet.RData
     Ignored:    data/nips_1-17.mat
@@ -441,6 +442,9 @@ Ignored files:
 
 Untracked files:
     Untracked:  plots/
+
+Unstaged changes:
+    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
@@ -479,6 +483,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1c3cb394889f3a823c53702518e86d06200c2682/analysis/assess_fits_68k_pbmc.Rmd" target="_blank">1c3cb39</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-01-07
+</td>
+<td>
+workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”, verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/a2f3c07db03d4b8e18a071c03970f597d2b1c859/docs/assess_fits_68k_pbmc.html" target="_blank">a2f3c07</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1051,10 +1089,11 @@ rows &lt;- sort(c(sample(which(clusters == &quot;B&quot;),746),
                sample(which(clusters == &quot;CD14+dendritic&quot;),806),
                which(clusters == &quot;CD34+&quot;),
                sample(which(clusters == &quot;T+NK&quot;),1213)))
-p3 &lt;- structure_plot(select_loadings(fit,loadings = rows),
+fit1 &lt;- select_loadings(fit,loadings = rows)
+tsne &lt;- tsne_from_topics(fit1,dims = 1,verbose = FALSE)
+p3 &lt;- structure_plot(fit1,loadings_order = order(tsne[,1]),
                      grouping = clusters[rows],topics = topics,
-                     colors = topic_colors[topics],n = Inf,perplexity = 70,
-                     gap = 30,num_threads = 4,verbose = FALSE)
+                     colors = topic_colors[topics],gap = 30)
 print(p3)                    </code></pre>
 <p><img src="figure/assess_fits_68k_pbmc.Rmd/structure-plot-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -1094,6 +1133,14 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>Let’s compare this to the Structure plot we would have obtained had we used the model fit obtained by runnning the EM updates without any extrapolation:</p>
+<pre class="r"><code>fit2 &lt;- fits[[&quot;fit-pbmc68k-em-k=7&quot;]]
+fit2 &lt;- select_loadings(fit2,loadings = rows)
+p3b &lt;- structure_plot(fit2,loadings_order = order(tsne[,1]),
+                      grouping = clusters[rows],topics = topics,
+                      colors = topic_colors[topics],gap = 30)
+print(p3b)</code></pre>
+<p><img src="figure/assess_fits_68k_pbmc.Rmd/structure-plot-em-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Many of the “driving genes” in topic 6—that is, genes showing the largest increase in expression relative to other topics—are ribosomal protein genes:</p>
 <pre class="r"><code>pdat &lt;- data.frame(gene = genes$symbol,
                    x    = pmax(1e-6,apply(fit$F[,-6],1,max)),
@@ -1136,6 +1183,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/a2f3c07db03d4b8e18a071c03970f597d2b1c859/docs/figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" target="_blank">a2f3c07</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-04-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/b099034268fd529890392a53c87dfa666f61bcaa/docs/figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" target="_blank">b099034</a>
@@ -1185,34 +1243,31 @@ Peter Carbonetto
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] ggrepel_0.9.0     cowplot_1.0.0     ggplot2_3.3.0     fastTopics_0.5-24
-# [5] Matrix_1.3-3     
+# [1] ggrepel_0.9.1     cowplot_1.0.0     ggplot2_3.3.5     fastTopics_0.6-96
+# [5] Matrix_1.2-18    
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.5           invgamma_1.1         lattice_0.20-38     
-#  [4] tidyr_1.0.0          prettyunits_1.1.1    assertthat_0.2.1    
-#  [7] zeallot_0.1.0        rprojroot_1.3-2      digest_0.6.23       
-# [10] truncnorm_1.0-8      R6_2.4.1             backports_1.1.5     
-# [13] MatrixModels_0.4-1   evaluate_0.14        coda_0.19-3         
-# [16] httr_1.4.2           pillar_1.4.3         progress_1.2.2      
-# [19] rlang_0.4.5          lazyeval_0.2.2       data.table_1.12.8   
-# [22] irlba_2.3.3          SparseM_1.78         whisker_0.4         
-# [25] rmarkdown_2.3        labeling_0.3         Rtsne_0.15          
-# [28] stringr_1.4.0        htmlwidgets_1.5.1    munsell_0.5.0       
-# [31] mixsqp_0.3-44        compiler_3.6.2       httpuv_1.5.2        
-# [34] xfun_0.11            pkgconfig_2.0.3      SQUAREM_2017.10-1   
-# [37] mcmc_0.9-6           htmltools_0.4.0      tidyselect_0.2.5    
-# [40] tibble_2.1.3         workflowr_1.6.2.9000 quadprog_1.5-8      
-# [43] viridisLite_0.3.0    withr_2.1.2          crayon_1.3.4        
-# [46] dplyr_0.8.3          later_1.0.0          MASS_7.3-51.4       
-# [49] grid_3.6.2           jsonlite_1.6         gtable_0.3.0        
-# [52] lifecycle_0.1.0      git2r_0.26.1         magrittr_1.5        
-# [55] scales_1.1.0         RcppParallel_4.4.2   stringi_1.4.3       
-# [58] farver_2.0.1         fs_1.3.1             promises_1.1.0      
-# [61] vctrs_0.2.1          tools_3.6.2          glue_1.3.1          
-# [64] purrr_0.3.3          hms_0.5.2            yaml_2.2.0          
-# [67] colorspace_1.4-1     ashr_2.2-51          plotly_4.9.2        
-# [70] knitr_1.26           quantreg_5.54        MCMCpack_1.4-5</code></pre>
+#  [1] httr_1.4.2         tidyr_1.1.3        jsonlite_1.7.2     viridisLite_0.3.0 
+#  [5] RcppParallel_4.4.2 assertthat_0.2.1   mixsqp_0.3-46      yaml_2.2.0        
+#  [9] progress_1.2.2     pillar_1.6.2       backports_1.1.5    lattice_0.20-38   
+# [13] quantreg_5.54      glue_1.4.2         quadprog_1.5-8     digest_0.6.23     
+# [17] promises_1.1.0     colorspace_1.4-1   htmltools_0.4.0    httpuv_1.5.2      
+# [21] pkgconfig_2.0.3    invgamma_1.1       SparseM_1.78       purrr_0.3.4       
+# [25] scales_1.1.0       whisker_0.4        later_1.0.0        Rtsne_0.15        
+# [29] MatrixModels_0.4-1 git2r_0.26.1       tibble_3.1.3       farver_2.0.1      
+# [33] generics_0.0.2     ellipsis_0.3.2     withr_2.4.2        ashr_2.2-51       
+# [37] pbapply_1.5-1      lazyeval_0.2.2     magrittr_2.0.1     crayon_1.4.1      
+# [41] mcmc_0.9-6         evaluate_0.14      fs_1.3.1           fansi_0.4.0       
+# [45] MASS_7.3-51.4      truncnorm_1.0-8    tools_3.6.2        data.table_1.12.8 
+# [49] prettyunits_1.1.1  hms_1.1.0          lifecycle_1.0.0    stringr_1.4.0     
+# [53] MCMCpack_1.4-5     plotly_4.9.2       munsell_0.5.0      irlba_2.3.3       
+# [57] compiler_3.6.2     systemfonts_1.0.2  rlang_0.4.11       grid_3.6.2        
+# [61] htmlwidgets_1.5.1  labeling_0.3       rmarkdown_2.3      gtable_0.3.0      
+# [65] DBI_1.1.0          R6_2.4.1           knitr_1.26         dplyr_1.0.7       
+# [69] uwot_0.1.10        utf8_1.1.4         workflowr_1.6.2    rprojroot_1.3-2   
+# [73] ragg_0.3.1         stringi_1.4.3      parallel_3.6.2     SQUAREM_2017.10-1 
+# [77] Rcpp_1.0.7         vctrs_0.3.8        tidyselect_1.1.1   xfun_0.11         
+# [81] coda_0.19-3</code></pre>
 </div>
 
 
