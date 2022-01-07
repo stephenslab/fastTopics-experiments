@@ -178,11 +178,25 @@ rows <- sort(c(sample(which(clusters == "B"),746),
                sample(which(clusters == "CD14+dendritic"),806),
                which(clusters == "CD34+"),
                sample(which(clusters == "T+NK"),1213)))
-p3 <- structure_plot(select_loadings(fit,loadings = rows),
+fit1 <- select_loadings(fit,loadings = rows)
+tsne <- tsne_from_topics(fit1,dims = 1,verbose = FALSE)
+p3 <- structure_plot(fit1,loadings_order = order(tsne[,1]),
                      grouping = clusters[rows],topics = topics,
-                     colors = topic_colors[topics],n = Inf,perplexity = 70,
-                     gap = 30,num_threads = 4,verbose = FALSE)
+                     colors = topic_colors[topics],gap = 30)
 print(p3)					 
+```
+
+Let's compare this to the Structure plot we would have obtained had we
+used the model fit obtained by runnning the EM updates without any
+extrapolation:
+
+```{r structure-plot-em, fig.width=8, fig.height=2}
+fit2 <- fits[["fit-pbmc68k-em-k=7"]]
+fit2 <- select_loadings(fit2,loadings = rows)
+p3b <- structure_plot(fit2,loadings_order = order(tsne[,1]),
+                      grouping = clusters[rows],topics = topics,
+                      colors = topic_colors[topics],gap = 30)
+print(p3b)
 ```
 
 Many of the "driving genes" in topic 6---that is, genes showing the
