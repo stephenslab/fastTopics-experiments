@@ -12,7 +12,6 @@ library(fastTopics)
 set.seed(1)
 
 # Load the newsgroups data, and the K = 10 topic model fit.
-# on the newsgroups data.
 load("../data/newsgroups.RData")
 load("../output/newsgroups/fits-newsgroups.RData")
 fit <- fits[["fit-newsgroups-scd-ex-k=10"]]
