@@ -12,6 +12,7 @@ output/nips/rds/prefit-nips-k=*.rds
 output/nips/rds/fit-nips-*.rds
 output/newsgroups/rds/prefit-newsgroups-*.rds
 output/newsgroups/rds/fit-newsgroups-*.rds
+output/newsgroups/de-newsgroups.RData
 output/droplet/rds/prefit-droplet-*.rds
 output/droplet/rds/fit-droplet-*.rds
 output/pbmc68k/rds/prefit-pbmc68k-*.rds

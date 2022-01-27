@@ -3,7 +3,7 @@
 # data, with k = 10 topics. These were the steps taken to load R and
 # allocate computing resources for this analysis:
 #
-# sinteractive -p broadwl -c 10 --mem=8G --time=4:00:00
+# sinteractive -p broadwl -c 10 --mem=8G --time=1:00:00
 # module load R/3.5.1
 #
 library(tools)
