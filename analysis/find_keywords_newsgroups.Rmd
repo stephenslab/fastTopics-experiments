@@ -1,0 +1,89 @@
+---
+title: Find keywords in newsgroups topics
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+Here we run the "differential expression" (DE) analysis on the $K =
+10$ topic model fitted to the newsgroups data to identify topic
+keywords.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below.
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+set.seed(1)
+```
+
+Load the newsgroups data, the $K = 10$ topic model fit, and the
+results of running the DE analysis with this topic model.
+
+```{r load-data}
+load("../data/newsgroups.RData")
+load("../output/newsgroups/fits-newsgroups.RData")
+load("../output/newsgroups/de-newsgroups.RData")
+fit <- fits[["fit-newsgroups-scd-ex-k=10"]]
+fit <- poisson2multinom(fit)
+```
+
+Create a Structure plot from the topic model.
+
+```{r structure-plot, fig.height=2.25, fig.width=9, message=FALSE}
+topics <- factor(topics,
+                 c("sci.med","rec.autos","rec.motorcycles","alt.atheism",
+                 "soc.religion.christian","talk.religion.misc",
+                 "rec.sport.baseball","rec.sport.hockey",
+                 "talk.politics.mideast","talk.politics.guns","sci.crypt",
+                 "talk.politics.misc","sci.space","sci.electronics",
+                 "misc.forsale","comp.sys.ibm.pc.hardware",
+                 "comp.sys.mac.hardware","comp.os.ms-windows.misc",
+                 "comp.graphics","comp.windows.x"))
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
+                  "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
+structure_plot(fit,grouping = topics,topics = 10:1,colors = topic_colors,
+               perplexity = 20,gap = 20,verbose = FALSE)
+```
+
+Next, we visualize the keywords for topic 2 (dark blue) in a volcano
+plot. From the top keywords (highest LFC), this topic seems to be
+discussion about cryptography and privacy.
+
+```{r volcano-plot-topic-2, fig.height=3.5, fig.width=4, message=FALSE}
+volcano_plot(de,k = 2,ymax = 25,
+             do.label = function (lfc, z) lfc > 5 | (z > 10 & lfc > 2)) +
+  scale_y_continuous(trans = "identity")
+```
+
+Topic 7 (light orange) appears to be discussion of health and
+medicine:
+
+```{r volcano-plot-topic-7, fig.height=3.5, fig.width=4, message=FALSE}
+volcano_plot(de,k = 7,ymax = 20,
+             do.label = function (lfc, z) lfc > 5 | (z > 10 & lfc > 2)) +
+  scale_y_continuous(trans = "identity")
+```
+
+Topic 9 (light purple) is about sports:
+
+```{r volcano-plot-topic-9, fig.height=3.5, fig.width=4, message=FALSE}
+volcano_plot(de,k = 9,ymax = 25,
+             do.label = function (lfc, z) lfc > 6 | (z > 12 & lfc > 2)) +
+  scale_y_continuous(trans = "identity")
+```
+
+Topic 1 contributes to all the newsgroup discussions, and appears to
+be some sort of "catch all" topic for words that are not
+newsgroup-specific:
+
+```{r volcano-plot-topic-1, fig.height=3.5, fig.width=4, message=FALSE}
+volcano_plot(de,k = 1,ymax = 30,
+             do.label = function (lfc, z) lfc > 2 | (z > 10 & lfc > 1)) +
+  scale_y_continuous(trans = "identity")
+```
