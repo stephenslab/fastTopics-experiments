@@ -131,22 +131,22 @@ print(p5)
 # Next, we turn to the problem of fitting an LDA model to the same
 # data. 
 # 
-# We perform 400 iterations of variational EM, initializing the LDA
+# We perform 250 iterations of variational EM, initializing the LDA
 # model fits using the MLEs computed above.
-lda0 <- run_lda(X,fit0,numiter = 400)
-lda1 <- run_lda(X,fit1,numiter = 400)
-lda2 <- run_lda(X,fit2,numiter = 400)
+lda0 <- run_lda(X,fit0,numiter = 250)
+lda1 <- run_lda(X,fit1,numiter = 250)
+lda2 <- run_lda(X,fit2,numiter = 250)
 
 # Although the LDA fitting problem is different---we are now fitting a
 # (approximate) posterior distribution, and so the estimates are
 # approximate posterior means rather than MLE---initializing the LDA fit
 # using the MLEs greatly improves the LDA model fitting, as we will see
-# from this next plot: even after 400 iterations, variational EM without
+# from this next plot: even after 250 iterations, variational EM without
 # a good initialization does not approach the quality of the LDA model
 # fits initialized using the EM and SCD estimates.
-pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "em-20"),
-              data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em-120"),
-              data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
+pdat <- rbind(data.frame(iter = 1:250,elbo = lda0@logLiks,init = "em-20"),
+              data.frame(iter = 1:250,elbo = lda1@logLiks,init = "em-120"),
+              data.frame(iter = 1:250,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
 p6 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   geom_line(size = 0.75) +
@@ -156,15 +156,24 @@ p6 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   theme_cowplot(font_size = 10)
 print(p6)
 
-stop()
+# Try again with estimating the Dirichlet prior for the topic
+# proportions ("empirical Bayes").
+lda_sp0 <- run_lda(X,fit0,numiter = 250,alpha = 1/k,e = 1e-4)
+lda_sp1 <- run_lda(X,fit1,numiter = 250,alpha = 1/k,e = 1e-4)
+lda_sp2 <- run_lda(X,fit2,numiter = 250,alpha = 1/k,e = 1e-4)
 
-## ----plots-for-paper-1, echo=FALSE, results="hide"----------------------------
-ggsave("../plots/structure_plot_sim1.pdf",p1,width = 4,height = 1.25)
-ggsave("../plots/progress_plot_sim1.pdf",plot_grid(p2,p3),width=5,height=1.7)
-ggsave("../plots/loadings_scatterplot_sim1.pdf",p4,width = 2.5,height = 2)
-ggsave("../plots/progress_plot_maptpx_sim1.pdf",p5,width = 2.9,height = 1.7)
-ggsave("../plots/progress_plot_lda_sim1.pdf",p6,width = 2.5,height = 1.7)
-
+# TO DO: Explain here what we see here.
+pdat <- rbind(data.frame(iter = 1:250,elbo = lda_sp0@logLiks,init = "em-20"),
+              data.frame(iter = 1:250,elbo = lda_sp1@logLiks,init = "em-120"),
+              data.frame(iter = 1:250,elbo = lda_sp2@logLiks,init = "scd"))
+pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
+p7 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
+  scale_color_manual(values = c("darkblue","dodgerblue","darkorange")) +
+  labs(x = "iteration",y = "ELBO difference") +
+  theme_cowplot(font_size = 10)
+print(p7)
 
 ## ----simulate-data-2----------------------------------------------------------
 set.seed(1)

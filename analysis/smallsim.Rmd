@@ -192,9 +192,9 @@ a good initialization does not approach the quality of the LDA model
 fits initialized using the EM and SCD estimates.
 
 ```{r plot-progress-lda-1, fig.width=3.25, fig.height=2.5}
-pdat <- rbind(data.frame(iter = 1:250,elbo = lda0@logLiks,init = "em-20"),
-              data.frame(iter = 1:250,elbo = lda1@logLiks,init = "em-120"),
-              data.frame(iter = 1:250,elbo = lda2@logLiks,init = "scd"))
+pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "em-20"),
+              data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em-120"),
+              data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
 p6 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   geom_line(size = 0.75) +

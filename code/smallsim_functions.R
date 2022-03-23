@@ -1,3 +1,7 @@
+# Scale each row of A so that the entries of each row sum to 1.
+normalize.rows <- function (A)
+  A / rowSums(A)
+
 # Scale each column of A so that the entries of each column sum to 1.
 normalize.cols <- function (A)
   t(t(A) / colSums(A))
@@ -80,18 +84,22 @@ loadings_scatterplot <- function (fit1, fit2, colors, xlab = "fit1",
          theme_cowplot(font_size = 10))
 }
 
-# Run variational EM for LDA. The parameters of the multinomial topic
+# Run variational EM for LDA in which the. The parameters of the multinomial topic
 # model ("fit") are used to initialize the LDA parameter estimates.
-run_lda <- function (X, fit, numiter = 100) {
+run_lda <- function (X, fit, numiter = 100, alpha = 1, e = 1e-6) {
   k <- ncol(fit$L)
+  
   X <- as.DocumentTermMatrix(X,weighting = c("term frequency","tf"))
-  lda <- LDA(X,k,control = list(alpha = 1,estimate.alpha = FALSE,
+  lda <- LDA(X,k,control = list(alpha = alpha,estimate.alpha = FALSE,
                                 em = list(iter.max = 4,tol = 0),
                                 var = list(iter.max = 10)))
-  lda@beta  <- t(log(fit$F))
-  lda@gamma <- fit$L
+  F <- normalize.cols(pmax(fit$F,e))
+  L <- normalize.rows(pmax(fit$L,e))
+  lda@beta  <- t(log(F))
+  lda@gamma <- L
   return(LDA(X,k,model = lda,
-             control = list(alpha = 1,estimate.alpha = FALSE,keep = 1,
+             control = list(alpha = alpha,estimate.alpha = FALSE,
                             em = list(iter.max = numiter,tol = 0),
-                            var = list(iter.max = 20,tol = 0))))
+                            var = list(iter.max = 20,tol = 0),
+                            keep = 1)))
 }
