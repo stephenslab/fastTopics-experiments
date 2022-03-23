@@ -68,12 +68,12 @@ simdata_structure_plot <- function (L, colors) {
 
 # Compare two estimates of L (the topic proportions matrix) in a
 # scatterplot.
-loadings_scatterplot <- function (fit1, fit2, colors, xlab = "fit1",
+loadings_scatterplot <- function (L1, L2, colors, xlab = "fit1",
                                   ylab = "fit2") {
-  n <- nrow(fit1$L)
-  k <- ncol(fit1$L)
-  pdat <- data.frame(x = as.vector(fit1$L),
-                     y = as.vector(fit2$L),
+  n <- nrow(L1)
+  k <- ncol(L2)
+  pdat <- data.frame(x = as.vector(L1),
+                     y = as.vector(L2),
                      k = factor(rep(1:k,each = n)))
   return(ggplot(pdat,aes(x = x,y = y,fill = k)) +
          geom_point(color = "white",shape = 21,size = 1.75) +
@@ -84,11 +84,12 @@ loadings_scatterplot <- function (fit1, fit2, colors, xlab = "fit1",
          theme_cowplot(font_size = 10))
 }
 
-# Run variational EM for LDA in which the. The parameters of the multinomial topic
-# model ("fit") are used to initialize the LDA parameter estimates.
-run_lda <- function (X, fit, numiter = 100, alpha = 1, e = 1e-6) {
+# Run variational EM for LDA in which the. The parameters of the
+# multinomial topic model ("fit") are used to initialize the LDA
+# parameter estimates.
+run_lda <- function (X, fit, numiter = 100, alpha = 1, estimate.alpha = FALSE,
+                     e = 1e-8) {
   k <- ncol(fit$L)
-  
   X <- as.DocumentTermMatrix(X,weighting = c("term frequency","tf"))
   lda <- LDA(X,k,control = list(alpha = alpha,estimate.alpha = FALSE,
                                 em = list(iter.max = 4,tol = 0),
@@ -98,7 +99,7 @@ run_lda <- function (X, fit, numiter = 100, alpha = 1, e = 1e-6) {
   lda@beta  <- t(log(F))
   lda@gamma <- L
   return(LDA(X,k,model = lda,
-             control = list(alpha = alpha,estimate.alpha = FALSE,
+             control = list(alpha = alpha,estimate.alpha = estimate.alpha,
                             em = list(iter.max = numiter,tol = 0),
                             var = list(iter.max = 20,tol = 0),
                             keep = 1)))

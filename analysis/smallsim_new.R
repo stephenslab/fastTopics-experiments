@@ -20,10 +20,10 @@ set.seed(1)
 
 # INDEPENDENT TOPICS
 # In this first example, we simulate a 100 x 400 counts matrix
-# from a multinomial topic model with K = 4 topics.
+# from a multinomial topic model with K = 6 topics.
 n <- 100
 m <- 400
-k <- 4
+k <- 6
 S <- 13*diag(k) - 2
 F <- simulate_factors(m,k)
 L <- simulate_loadings(n,k,S)
@@ -34,7 +34,8 @@ X <- X[,colSums(X > 0) > 0]
 # The topic proportions for each of the 100 samples---that is, a row
 # of the counts matrix---are randomly drawn according to the
 # correlated topic model.
-topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue")
+topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
+                  "gold","skyblue")
 p1 <- simdata_structure_plot(L,topic_colors)
 print(p1)
 
@@ -84,7 +85,7 @@ plot_grid(p2,p3)
 # solution after a reasonable number of iterations. Indeed, the EM and
 # CD estimates of the topic proportions are the nearly same for all
 # topics.
-p4 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
+p4 <- loadings_scatterplot(fit1$L,fit2$L,topic_colors,"em","scd")
 print(p4)
 
 # The maptpx R package uses a quasi-Newton-accelerated EM algorithm,
@@ -97,11 +98,11 @@ print(p4)
 # maptpx is not solving the same problem, it is close enough that it
 # benefits from a good initialization.
 maptpx0 <- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
-                          tol = 1e-8,tmax = 1000,ord = FALSE,verb = 0)
+                          tol = 1e-15,tmax = 1000,ord = FALSE,verb = 0)
 maptpx1 <- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
-                          tol = 1e-8,tmax = 1000,ord = FALSE,verb = 0)
+                          tol = 1e-15,tmax = 1000,ord = FALSE,verb = 0)
 maptpx2 <- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
-                          tol = 1e-8,tmax = 1000,ord = FALSE,verb = 0)
+                          tol = 1e-15,tmax = 1000,ord = FALSE,verb = 0)
 
 # This next plot shows how well the estimates improve the log-posterior
 # at each iteration.
@@ -115,7 +116,7 @@ pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
 						 y    = maptpx2$progress,
 						 init = "scd"))
 pdat <- transform(pdat,y = max(y) - y + 0.1)
-pdat <- subset(pdat,iter <= 20)
+pdat <- subset(pdat,iter <= 50)
 p5 <- ggplot(pdat,aes(x = iter,y = y,color = init)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = "log10") +
@@ -124,8 +125,8 @@ p5 <- ggplot(pdat,aes(x = iter,y = y,color = init)) +
   theme_cowplot(font_size = 10)
 print(p5)
 
-# All three runs arrive at the same solution, but maptpx finds the
-# solution more quickly with the SCD better initialization, or
+# All three runs arrive at very similiar solutions, but maptpx finds
+# the solution more quickly with the SCD better initialization, or
 # after running more (120) iterations of EM for Poisson NMF.
 # 
 # Next, we turn to the problem of fitting an LDA model to the same
@@ -133,20 +134,20 @@ print(p5)
 # 
 # We perform 250 iterations of variational EM, initializing the LDA
 # model fits using the MLEs computed above.
-lda0 <- run_lda(X,fit0,numiter = 250)
-lda1 <- run_lda(X,fit1,numiter = 250)
-lda2 <- run_lda(X,fit2,numiter = 250)
+lda0 <- run_lda(X,fit0,numiter = 400)
+lda1 <- run_lda(X,fit1,numiter = 400)
+lda2 <- run_lda(X,fit2,numiter = 400)
 
 # Although the LDA fitting problem is different---we are now fitting a
 # (approximate) posterior distribution, and so the estimates are
-# approximate posterior means rather than MLE---initializing the LDA fit
-# using the MLEs greatly improves the LDA model fitting, as we will see
-# from this next plot: even after 250 iterations, variational EM without
-# a good initialization does not approach the quality of the LDA model
-# fits initialized using the EM and SCD estimates.
-pdat <- rbind(data.frame(iter = 1:250,elbo = lda0@logLiks,init = "em-20"),
-              data.frame(iter = 1:250,elbo = lda1@logLiks,init = "em-120"),
-              data.frame(iter = 1:250,elbo = lda2@logLiks,init = "scd"))
+# approximate posterior means rather than MLE---initializing the LDA
+# fit using the MLEs greatly improves the LDA model fitting, as we
+# will see from this next plot: even after 400 iterations, variational
+# EM without a good initialization does not quite achieve the quality
+# of the LDA model fits initialized using the EM and SCD estimates.
+pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "em-20"),
+              data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em-120"),
+              data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
 p6 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   geom_line(size = 0.75) +
@@ -156,16 +157,20 @@ p6 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   theme_cowplot(font_size = 10)
 print(p6)
 
-# Try again with estimating the Dirichlet prior for the topic
-# proportions ("empirical Bayes").
-lda_sp0 <- run_lda(X,fit0,numiter = 250,alpha = 1/k,e = 1e-4)
-lda_sp1 <- run_lda(X,fit1,numiter = 250,alpha = 1/k,e = 1e-4)
-lda_sp2 <- run_lda(X,fit2,numiter = 250,alpha = 1/k,e = 1e-4)
+# Fit the LDA model, this time while simultaneously estimating the
+# Dirichlet prior on the topic proportions.
+lda_eb0 <- run_lda(X,fit0,numiter = 400,estimate.alpha = TRUE)
+lda_eb1 <- run_lda(X,fit1,numiter = 400,estimate.alpha = TRUE)
+lda_eb2 <- run_lda(X,fit2,numiter = 400,estimate.alpha = TRUE)
 
-# TO DO: Explain here what we see here.
-pdat <- rbind(data.frame(iter = 1:250,elbo = lda_sp0@logLiks,init = "em-20"),
-              data.frame(iter = 1:250,elbo = lda_sp1@logLiks,init = "em-120"),
-              data.frame(iter = 1:250,elbo = lda_sp2@logLiks,init = "scd"))
+# The initial fit provided by the SCD estimates are initially much
+# worse than before, when we fixed alpha = 1, but putting more initial
+# effort into computing maximum-likelihood estimates, either using EM
+# and SCD, pays off because the variational EM rapidly identifies much
+# better fits.
+pdat <- rbind(data.frame(iter = 1:400,elbo = lda_eb0@logLiks,init = "em-20"),
+              data.frame(iter = 1:400,elbo = lda_eb1@logLiks,init = "em-120"),
+              data.frame(iter = 1:400,elbo = lda_eb2@logLiks,init = "scd"))
 pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
 p7 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   geom_line(size = 0.75) +
@@ -175,7 +180,29 @@ p7 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   theme_cowplot(font_size = 10)
 print(p7)
 
-## ----simulate-data-2----------------------------------------------------------
+# The LDA fit initialized using the SCD estimates actually yields the
+# most sparsity-enducing prior (smaller values of the Dirichlet
+# parameter alpha encourage more sparsity in the topic proportions).
+print(lda_eb0@alpha)
+print(lda_eb1@alpha)
+print(lda_eb2@alpha)
+
+# Although the "em-20" variational EM run hasn't quite obtained as
+# good as solution as the other runs after 400 iterations, it appears
+# to be approaching the same solution, and indeed we confirm that the
+# estimates of the topic proportions are nearly the same from all
+# three runs.
+p8 <- loadings_scatterplot(lda_eb0@gamma,lda_eb2@gamma,topic_colors,
+                           "em-20 init","scd init")
+print(p8)
+
+# Next we will see an example in which the EM updates fail to make
+# reasonable progress.
+#
+# CORRELATED TOPICS SCENARIO
+# The count data in this second example are simulated as before, with
+# one difference: by setting s_56 = s_56 = 8, the mixture proportions
+# for topics 5 and 4 are no longer close to orthogonal.
 set.seed(1)
 S[5,6] <- 8
 S[6,5] <- 8
@@ -183,16 +210,17 @@ L <- simulate_loadings(n,k,S)
 X <- simulate_multinom_counts(L,F,s)
 X <- X[,colSums(X > 0) > 0]
 
+# Compare this Structure plot to the one above---there is more mixing of
+# topics 3 and 4.
+p8 <- simdata_structure_plot(L,topic_colors)
+print(p8)
 
-## ----structure-plot-2, fig.width=6, fig.height=1.5, message=FALSE-------------
-p7 <- simdata_structure_plot(L,topic_colors)
-print(p7)
-
-
-## ----fit-5, results="hide", message=FALSE-------------------------------------
-fit0 <- fit_poisson_nmf(X,k,numiter = 50,method = "em",control = control)
-fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=750,method="em",control=control)
-fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=950,method="scd",control=control)
+# As before, we run the EM and SCD updates to fit the multinomial topic
+# model, with a twist that we perform another round of SCD updates after
+# running the EM updates. This will be explained shortly.
+fit0 <- fit_poisson_nmf(X,k,numiter = 20,method = "em",control = control)
+fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=780,method="em",control=control)
+fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=980,method="scd",control=control)
 fit3 <- fit_poisson_nmf(X,fit0=fit1,numiter=200,method="scd",control=control)
 fit1 <- fit_poisson_nmf(X,fit0=fit1,numiter=200,method="em",control=control)
 fit0 <- poisson2multinom(fit0)
@@ -200,8 +228,11 @@ fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
 fit3 <- poisson2multinom(fit3)
 
-
-## ----plot-progress-2, fig.width=6, fig.height=2-------------------------------
+# In this second example, after initially making good progress, the EM
+# estimates remain far from the solution achieved by SCD even after
+# hundreds of EM updates. This isn't a case where the EM updates have
+# settled on a different local solution---the SCD updates quickly
+# "rescue" the EM estimates.
 pdat <- rbind(data.frame(iter   = 1:1000,
                          loglik = fit1$progress$loglik.multinom,
                          res    = fit1$progress$res,
@@ -213,10 +244,10 @@ pdat <- rbind(data.frame(iter   = 1:1000,
               data.frame(iter   = 800:1000,
                          loglik = fit3$progress[800:1000,"loglik.multinom"],
                          res    = fit3$progress[800:1000,"res"],
-  			             method = "em+scd"))
-pdat <- subset(pdat,iter >= 50)
+   	                 method = "em+scd"))
+pdat <- subset(pdat,iter >= 20)
 pdat <- transform(pdat,
-				  iter   = iter - 50,
+		  iter   = iter - 20,
                   loglik = max(loglik) - loglik + 0.1)
 p8 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
