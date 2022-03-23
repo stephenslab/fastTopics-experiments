@@ -212,8 +212,8 @@ X <- X[,colSums(X > 0) > 0]
 
 # Compare this Structure plot to the one above---there is more mixing of
 # topics 3 and 4.
-p8 <- simdata_structure_plot(L,topic_colors)
-print(p8)
+p9 <- simdata_structure_plot(L,topic_colors)
+print(p9)
 
 # As before, we run the EM and SCD updates to fit the multinomial topic
 # model, with a twist that we perform another round of SCD updates after
@@ -249,27 +249,29 @@ pdat <- subset(pdat,iter >= 20)
 pdat <- transform(pdat,
 		  iter   = iter - 20,
                   loglik = max(loglik) - loglik + 0.1)
-p8 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
+p10 <- ggplot(pdat,aes(x = iter,y = loglik,color = method)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
   labs(x = "iteration",y = "loglik difference") +
   theme_cowplot(font_size = 10)
-p9 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
+p11 <- ggplot(pdat,aes(x = iter,y = res,color = method)) +
   geom_line(size = 0.75) +
   scale_color_manual(values = c("dodgerblue","darkorange","magenta")) +
   ylim(0,10) +
   labs(x = "iteration",y = "max KKT residual") +
   theme_cowplot(font_size = 10)
-plot_grid(p8,p9)
+plot_grid(p10,p11)
 
+# This large difference in likelihood is not due to a trivial difference
+# in solution---for example, there are many large differences in the
+# topic proportion estimates.
+p12 <- loadings_scatterplot(fit1$L,fit2$L,topic_colors,"em","scd")
+print(p12)
 
-## ----loadings-scatterplot-2, fig.width=3, fig.height=2.5----------------------
-p10 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
-print(p10)
-
-
-## ----likelihood-scatterplot, fig.width=3.5, fig.height=2.5--------------------
+# Most of the samples contributing to the large difference in likehood
+# are samples generated from combinations of topics 5 and 6 (the X and Y
+# axes in this scatterplot show the per-sample log-likelihoods).
 pdat <- data.frame(x = loglik_multinom_topic_model(X,fit1),
                    y = loglik_multinom_topic_model(X,fit2))
 ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
@@ -281,20 +283,29 @@ ggplot(pdat,aes(x = x,y = y,fill = L[,5] + L[,6])) +
   labs(x = "em",y = "scd",fill = "topic 5 + 6") +
   theme_cowplot(font_size = 10)
 
+# These results suggest that the EM algorithm may perform poorly in
+# settings where the topics are correlated, even if the correlations are
+# modest.
 
-## ----maptpx-2-----------------------------------------------------------------
+# Given the difficulties faced by EM here, let's see whether
+# maptpx---which attempts to improve over EM with a quasi-Newton
+# acceleration scheme---fares better. As before, we initialize the
+# maptpx optimization using the estimates obtained by running the
+# Poisson NMF algorithms from above.
 maptpx0 <- maptpx::topics(X,k,shape = 1,initopics = fit0$F,omega = fit0$L,
-                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+                          tol = 1e-15,tmax = 500,ord = FALSE,verb = 0)
 maptpx1 <- maptpx::topics(X,k,shape = 1,initopics = fit1$F,omega = fit1$L,
-                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+                          tol = 1e-15,tmax = 500,ord = FALSE,verb = 0)
 maptpx2 <- maptpx::topics(X,k,shape = 1,initopics = fit2$F,omega = fit2$L,
-                          tol = 1e-6,tmax = 500,ord = FALSE,verb = 0)
+                          tol = 1e-15,tmax = 500,ord = FALSE,verb = 0)
 
-
-## ----plot-progress-maptpx-2, fig.width=3.25, fig.height=2---------------------
+# This plot shows the improvement in the maptpx solutions over
+# time. Clearly, maptpx, like EM, gets "stuck" in a state of very slow
+# progress, and benefits greatly from being initialized with the SCD
+# estimates to arrive at a much better solution.
 pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
                          y    = maptpx0$progress,
-                         init = "em-50"),
+                         init = "em-20"),
               data.frame(iter = 1:length(maptpx1$progress),
 						 y    = maptpx1$progress,
 						 init = "em-1000"),
@@ -302,22 +313,20 @@ pdat <- rbind(data.frame(iter = 1:length(maptpx0$progress),
 						 y    = maptpx2$progress,
 						 init = "scd"))
 pdat <- transform(pdat,y = max(y) - y + 0.1)
-p11 <- ggplot(pdat,aes(x = iter,y = y,color = init)) +
+p13 <- ggplot(pdat,aes(x = iter,y = y,color = init)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(values = c("dodgerblue","darkblue","darkorange")) +
   labs(x = "iteration",y = "log-posterior difference") +
   theme_cowplot(font_size = 10)
-print(p11)
+print(p13)
 
-
-## ----fit-lda-2----------------------------------------------------------------
+# Let's now see how this relates to fitting an LDA model,
 lda0 <- run_lda(X,fit0,numiter = 400)
 lda1 <- run_lda(X,fit1,numiter = 400)
 lda2 <- run_lda(X,fit2,numiter = 400)
 
-
-## ----plot-progress-lda-2, fig.width=3.25, fig.height=2.5----------------------
+# This plot shows the improvement in the objective (the ELBO) over time.
 pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
@@ -329,12 +338,3 @@ p12 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   labs(x = "iteration",y = "ELBO difference") +
   theme_cowplot(font_size = 10)
 print(p12)
-
-
-## ----plots-for-paper-2, echo=FALSE, results="hide"----------------------------
-ggsave("../plots/structure_plot_sim2.pdf",p7,width = 4,height = 1.25)
-ggsave("../plots/progress_plot_sim2.pdf",plot_grid(p8,p9),width=5.5,height=1.7)
-ggsave("../plots/loadings_scatterplot_sim2.pdf",p10,width = 2.5,height = 2)
-ggsave("../plots/progress_plot_maptpx_sim2.pdf",p11,width = 2.9,height = 1.7)
-ggsave("../plots/progress_plot_lda_sim2.pdf",p12,width = 2.5,height = 1.7)
-
