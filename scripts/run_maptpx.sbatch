@@ -18,7 +18,7 @@ TMAX=${4}
 echo dat=${DAT}
 echo initfile=${INITFILE}
 echo outfile=${OUTFILE}
-echo tmax=${NUMITER}
+echo tmax=${TMAX}
 
 DATFILE=../data/${DAT}.RData
 INITFILE=../output/${DAT}/rds/${INITFILE}.rds
@@ -27,7 +27,6 @@ INITFILE=../output/${DAT}/rds/${INITFILE}.rds
 module load R/3.5.1
 
 # Run the R script.
-echo "Running run_maptpx.R"
+echo "Running run_maptpx.R."
 export OPENBLAS_NUM_THREADS=4
-./run_maptpx.R --counts ${DATFILE} --init ${INITFILE} --tmax ${TMAX} \ 
-  -o ${OUTFILE}.rds > ${OUTFILE}.Rout
+./run_maptpx.R --counts ${DATFILE} --init ${INITFILE} --tmax ${TMAX} -o ${OUTFILE}.rds > ${OUTFILE}.Rout
