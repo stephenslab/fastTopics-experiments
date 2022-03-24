@@ -1,21 +1,35 @@
 #! /usr/bin/env Rscript
 #
-# TO DO: Add comments here explaining what this script does, and how
-# to use it.
+# Run maptpx on a data set in which the maptpx model parameters are
+# initialized using a topic model fit using fastTopics.
 #
 # NOTES:
-# - For newsgroups, request 8 GB and 4 CPUs.
+# - For newsgroups, try with 8 GB and 4 CPUs.
 #
-countsfile <- "../data/newsgroups.RData"
-pnmf_file  <- "../output/newsgroups/rds/fit-newsgroups-em-k=10.rds"
-outfile    <- "maptpx-newsgroups-em-k=10.rds"
-tmax       <- 2500
+# countsfile <- "../data/newsgroups.RData"
+# pnmf_file  <- "../output/newsgroups/rds/fit-newsgroups-em-k=10.rds"
+# outfile    <- "maptpx-newsgroups-em-k=10.rds"
+# tmax       <- 2500
+#
 
 # Load a few packages.
 library(optparse)
 library(Matrix)
 library(maptpx)
 library(fastTopics)
+
+# Process the command-line arguments.
+parser <- OptionParser()
+parser <- add_option(parser,"--counts",type="character",default="counts.RData")
+parser <- add_option(parser,"--fit",type = "character",default="fit.rds")
+parser <- add_option(parser,c("--out","-o"),type="character",default="out.rds")
+parser <- add_option(parser,"--tmax",type="integer",default=1000)
+out    <- parse_args(parser)
+countsfile <- out$counts
+pnmf_file  <- out$fit
+outfile    <- out$out
+tmax       <- out$tmax
+rm(parser,out)
 
 # Initialize the sequence of pseudorandom numbers.
 set.seed(1)
@@ -32,7 +46,8 @@ cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 # Load the Poisson NMF model previously fitted using fastTopics.
 cat(sprintf("Loading Poisson NMF model from %s\n",pnmf_file))
 fit0 <- readRDS(pnmf_file)$fit
-k <- ncol(fit0$F)
+fit0 <- poisson2multinom(fit0)
+k    <- ncol(fit0$F)
 
 # RUN MAPTPX
 # ----------
