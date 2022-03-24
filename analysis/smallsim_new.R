@@ -326,15 +326,60 @@ lda0 <- run_lda(X,fit0,numiter = 400)
 lda1 <- run_lda(X,fit1,numiter = 400)
 lda2 <- run_lda(X,fit2,numiter = 400)
 
-# This plot shows the improvement in the objective (the ELBO) over time.
+# These plots show the improvement in the objective (the ELBO) over time.
 pdat <- rbind(data.frame(iter = 1:400,elbo = lda0@logLiks,init = "none"),
               data.frame(iter = 1:400,elbo = lda1@logLiks,init = "em"),
               data.frame(iter = 1:400,elbo = lda2@logLiks,init = "scd"))
-pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
-p12 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+pdat1 <- subset(pdat,init != "scd")
+pdat2 <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
+p14 <- ggplot(pdat1,aes(x = iter,y = elbo,color = init)) +
+  geom_line(size = 0.75) +
+  scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
+  labs(x = "iteration",y = "ELBO") +
+  theme_cowplot(font_size = 10)
+p15 <- ggplot(pdat2,aes(x = iter,y = elbo,color = init)) +
   geom_line(size = 0.75) +
   scale_y_continuous(trans = "log10") +
   scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
   labs(x = "iteration",y = "ELBO difference") +
   theme_cowplot(font_size = 10)
-print(p12)
+print(plot_grid(p14,p15))
+
+# In this second example, the SCD estimates provide by far the best
+# initialization of the LDA model fit.
+
+# Does initializing with the SCD estimates also work well when we want
+# to estimate alpha? Let's see.
+lda_eb0 <- run_lda(X,fit0,numiter = 400,estimate.alpha = TRUE)
+lda_eb1 <- run_lda(X,fit1,numiter = 400,estimate.alpha = TRUE)
+lda_eb2 <- run_lda(X,fit2,numiter = 400,estimate.alpha = TRUE)
+
+# This plot shows the improvement in the objective (the ELBO) over time.
+pdat <- rbind(data.frame(iter = 1:400,elbo = lda_eb0@logLiks,init = "none"),
+              data.frame(iter = 1:400,elbo = lda_eb1@logLiks,init = "em"),
+              data.frame(iter = 1:400,elbo = lda_eb2@logLiks,init = "scd"))
+pdat1 <- subset(pdat,init != "scd")
+pdat2 <- transform(pdat,elbo = max(elbo) - elbo + 0.1)
+p16 <- ggplot(pdat1,aes(x = iter,y = elbo,color = init)) +
+  geom_line(size = 0.75) +
+  scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
+  labs(x = "iteration",y = "ELBO") +
+  theme_cowplot(font_size = 10)
+p17 <- ggplot(pdat2,aes(x = iter,y = elbo,color = init)) +
+  geom_line(size = 0.75) +
+  scale_y_continuous(trans = "log10") +
+  scale_color_manual(values=c("darkblue","dodgerblue","darkorange"))+
+  labs(x = "iteration",y = "ELBO difference") +
+  theme_cowplot(font_size = 10)
+print(plot_grid(p16,p17))
+
+# Again, we see that putting more initial effort into computing
+# maximum-likelihood estimates pays off because the variational EM
+# rapidly identifies a much better fit.
+
+# The LDA fit initialized using the SCD estimates yields a more
+# sparsity-enducing prior (smaller values of the Dirichlet parameter
+# alpha encourage more sparsity in the topic proportions).
+print(lda_eb0@alpha)
+print(lda_eb1@alpha)
+print(lda_eb2@alpha)
