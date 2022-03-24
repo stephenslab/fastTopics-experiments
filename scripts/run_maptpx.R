@@ -3,14 +3,6 @@
 # Run maptpx on a data set in which the maptpx model parameters are
 # initialized using a topic model fit using fastTopics.
 #
-# NOTES:
-# - For newsgroups, try with 8 GB and 4 CPUs.
-#
-# countsfile <- "../data/newsgroups.RData"
-# pnmf_file  <- "../output/newsgroups/rds/fit-newsgroups-em-k=10.rds"
-# outfile    <- "maptpx-newsgroups-em-k=10.rds"
-# tmax       <- 2500
-#
 
 # Load a few packages.
 library(optparse)
@@ -21,15 +13,20 @@ library(fastTopics)
 # Process the command-line arguments.
 parser <- OptionParser()
 parser <- add_option(parser,"--counts",type="character",default="counts.RData")
-parser <- add_option(parser,"--fit",type = "character",default="fit.rds")
+parser <- add_option(parser,"--init",type = "character",default="init.rds")
 parser <- add_option(parser,c("--out","-o"),type="character",default="out.rds")
 parser <- add_option(parser,"--tmax",type="integer",default=1000)
 out    <- parse_args(parser)
 countsfile <- out$counts
-pnmf_file  <- out$fit
+initfile   <- out$init
 outfile    <- out$out
 tmax       <- out$tmax
 rm(parser,out)
+
+# countsfile <- "../data/newsgroups.RData"
+# initfile   <- "../output/newsgroups/rds/fit-newsgroups-em-k=10.rds"
+# outfile    <- "maptpx-newsgroups-em-k=10.rds"
+# tmax       <- 2500
 
 # Initialize the sequence of pseudorandom numbers.
 set.seed(1)
@@ -44,8 +41,8 @@ cat(sprintf("Loaded %d x %d counts matrix.\n",nrow(counts),ncol(counts)))
 # LOAD POISSON NMF FIT
 # --------------------
 # Load the Poisson NMF model previously fitted using fastTopics.
-cat(sprintf("Loading Poisson NMF model from %s\n",pnmf_file))
-fit0 <- readRDS(pnmf_file)$fit
+cat(sprintf("Loading Poisson NMF model from %s\n",initfile))
+fit0 <- readRDS(initfile)$fit
 fit0 <- poisson2multinom(fit0)
 k    <- ncol(fit0$F)
 
