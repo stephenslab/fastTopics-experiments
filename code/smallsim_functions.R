@@ -88,10 +88,11 @@ loadings_scatterplot <- function (L1, L2, colors, xlab = "fit1",
 # multinomial topic model ("fit") are used to initialize the LDA
 # parameter estimates.
 run_lda <- function (X, fit, numiter = 100, alpha = 1, estimate.alpha = FALSE,
-                     e = 1e-8) {
+                     e = 1e-8, verbose = 0) {
   k <- ncol(fit$L)
   X <- as.DocumentTermMatrix(X,weighting = c("term frequency","tf"))
   lda <- LDA(X,k,control = list(alpha = alpha,estimate.alpha = FALSE,
+                                verbose = verbose,
                                 em = list(iter.max = 4,tol = 0),
                                 var = list(iter.max = 10)))
   F <- normalize.cols(pmax(fit$F,e))
@@ -100,6 +101,7 @@ run_lda <- function (X, fit, numiter = 100, alpha = 1, estimate.alpha = FALSE,
   lda@gamma <- L
   return(LDA(X,k,model = lda,
              control = list(alpha = alpha,estimate.alpha = estimate.alpha,
+                            verbose = verbose,
                             em = list(iter.max = numiter,tol = 0),
                             var = list(iter.max = 20,tol = 0),
                             keep = 1)))

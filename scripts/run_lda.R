@@ -39,9 +39,8 @@ k    <- ncol(fit0$F)
 # -------
 # Now we are ready to perform variational inference for the LDA model.
 t0 <- proc.time()
-lda <- run_lda(counts,fit0,numiter = numiter,estimate.alpha = est_alpha)
-maptpx <- topics(counts,k,shape = 1,initopics = fit0$F,omega = fit0$L,
-                 tol = 1e-15,tmax = tmax,ord = FALSE,verb = 1)
+lda <- run_lda(counts,fit0,numiter = numiter,estimate.alpha = est_alpha,
+               verbose = 1)
 t1 <- proc.time()
 timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
