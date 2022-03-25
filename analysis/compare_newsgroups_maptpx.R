@@ -17,4 +17,3 @@ p <- ggplot(pdat,aes(x = iter,y = y,color = init)) +
   labs(x = "iteration",y = "distance from best log-posterior") +
   theme_cowplot(font_size = 10)
 print(p)
-
