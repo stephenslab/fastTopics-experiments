@@ -1,6 +1,7 @@
 #! /usr/bin/env Rscript
 #
-# TO DO: Explain here briefly what this script is for.
+#   sinteractive -p mstephens --account=pi-mstephens -c 4 --mem=8G \
+#     --time=24:00:00
 #
 
 # Load a few packages.
@@ -17,7 +18,7 @@ set.seed(1)
 countsfile <- "../data/newsgroups.RData"
 initfile   <- "../output/newsgroups/rds/fit-newsgroups-em-k=10.rds"
 outfile    <- "lda-newsgroups-em-k=10.rds"
-numiter    <- 20
+numiter    <- 100
 est_alpha  <- FALSE
 
 # LOAD DATA
