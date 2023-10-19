@@ -37,5 +37,6 @@ print(p18)
 loadings_scatterplot(fit2$L,lda_gs2$lda@gamma,topic_colors,"MLE","MCMC")
 loadings_scatterplot(fit2$F,t(exp(lda_gs2$lda@beta)),topic_colors,"MLE","MCMC")
 
+# Compare posterior MCMC estimates.
 loadings_scatterplot(lda_gs0$lda@gamma,lda_gs2$lda@gamma,topic_colors,
                      "em","scd")
