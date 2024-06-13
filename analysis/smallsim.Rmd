@@ -121,7 +121,7 @@ after a reasonable number of iterations. Indeed, the EM and SCD
 estimates of the topic proportions are almost the same:
 
 ```{r loadings-scatterplot-1, fig.width=3, fig.height=2.5}
-p4 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
+p4 <- loadings_scatterplot(fit1$L,fit2$L,topic_colors,"em","scd")
 print(p4)
 ```
 
@@ -299,7 +299,7 @@ in solution---for example, there are many large differences in the
 topic proportion estimates:
 
 ```{r loadings-scatterplot-2, fig.width=3, fig.height=2.5}
-p10 <- loadings_scatterplot(fit1,fit2,topic_colors,"em","scd")
+p10 <- loadings_scatterplot(fit1$L,fit2$L,topic_colors,"em","scd")
 print(p10)
 ```
 
