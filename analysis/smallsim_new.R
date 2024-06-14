@@ -157,6 +157,8 @@ p6 <- ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   theme_cowplot(font_size = 10)
 print(p6)
 
+stop()
+
 # Fit the LDA model, this time while simultaneously estimating the
 # Dirichlet prior on the topic proportions.
 lda_eb0 <- run_lda(X,fit0,numiter = 400,estimate.alpha = TRUE)
