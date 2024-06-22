@@ -1,0 +1,75 @@
+---
+title: Toy example comparing EM vs. SCD (hard case)
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+ADD TEXT HERE.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in the analysis below, as well as some
+additional functions used to simulate the data and generate the results.
+
+```{r load-pkgs, message=FALSE}
+library(tm)
+library(topicmodels)
+library(fastTopics)
+library(mvtnorm)
+library(ggplot2)
+library(cowplot)
+source("../code/smallsim_functions.R")
+```
+
+ADD TEXT HERE.
+
+```{r sim-data}
+# Note: k should be 3 or greater.
+simulate_correlated_loadings <- function (n, k) {
+  L <- matrix(0,n,k)
+  L[,1] <- runif(n,0,2)
+  for (i in 1:n) {
+    js <- sample(2:k,2)
+    j1 <- js[1]
+    j2 <- js[2]
+    L[i,j1] <- 1
+    L[i,j2] <- 0.1
+  }
+  return(normalize.rows(L))
+}
+set.seed(1)
+n <- 100
+m <- 400
+k <- 6
+F <- simulate_factors(m,k)
+L <- simulate_loadings(n,k,S)
+s <- simulate_sizes(n)
+set.seed(1)
+L <- simulate_correlated_loadings(n,k)
+X <- simulate_multinom_counts(L,F,s)
+X <- X[,colSums(X > 0) > 0]
+```
+
+ADD TEXT HERE.
+
+```{r}
+topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
+                  "gold","skyblue")
+simdata_structure_plot(L,topic_colors)
+```
+
+ADD TEXT HERE.
+
+```{r}
+control <- list(extrapolate = FALSE,numiter = 4)
+fit0 <- fit_poisson_nmf(X,k,numiter = 20,method = "em",control = control)
+fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=180,method="em",control=control)
+fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=180,method="scd",control=control)
+fit0 <- poisson2multinom(fit0)
+fit1 <- poisson2multinom(fit1)
+fit2 <- poisson2multinom(fit2)
+loadings_scatterplot(fit1$L,fit2$L,topic_colors,"em","scd")
+```

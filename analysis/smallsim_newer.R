@@ -33,8 +33,6 @@ fit2 <- poisson2multinom(fit2)
 p <- loadings_scatterplot(fit1$L,fit2$L,topic_colors,"em","scd")
 print(p)
 
-stop()
-
 # As before, we run the EM and SCD updates to fit the multinomial topic
 # model, with a twist that we perform another round of SCD updates after
 # running the EM updates. This will be explained shortly.
