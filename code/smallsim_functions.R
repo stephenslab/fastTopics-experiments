@@ -30,16 +30,22 @@ simulate_factors <- function (m, k) {
 
 # Randomly generate an n x k loadings matrix (i.e., mixture
 # proportions matrix) for a multinomial topic model with k topics. The
-# loadings are simulated from the correlated topic model with mean
-# zero and k x k covariance matrix S.
-simulate_loadings <- function (n, k, S) {
+# first topic is present in varying proportions in all documents. In
+# most documents, a single "major" topic predominates. Note that k
+# should be 3 or more.
+simulate_loadings <- function (n, k) {
   L <- matrix(0,n,k)
+  L[,1] <- runif(n,0,2)
+  major_topic <- rep(0,n)
   for (i in 1:n) {
-    u <- rmvnorm(1,sigma = S)
-    u <- u - max(u)
-    L[i,] <- exp(u)/sum(exp(u))
+    js <- sample(2:k,2)
+    j1 <- js[1]
+    j2 <- js[2]
+    L[i,j1] <- 1
+    L[i,j2] <- 0.1
+    major_topic[i] <- j1
   }
-  return(L)
+  return(list(major_topic = major_topic,L = normalize.rows(L)))
 }
 
 # Simulate counts from the multinomial topic model with factors F,
@@ -55,16 +61,12 @@ simulate_multinom_counts <- function (L, F, s) {
 }
 
 # Create a Structure plot to visualize the mixture proportions L.
-simdata_structure_plot <- function (L, colors) {
-  k <- ncol(L)
-  y <- apply(L,1,which.max)
-  y <- rank(y,ties.method = "random")
-  y <- qqnorm(y,plot.it = FALSE)$x
-  fit <- list(L = L)
-  class(fit) <- c("multinom_topic_model_fit","list")
-  return(structure_plot(fit,topics = 1:k,colors = colors,perplexity = 30,
-                        Y_init = matrix(y),verbose = FALSE))
-}
+simdata_structure_plot <- function (L, major_topic, topic_colors)
+  structure_plot(L,topics = 1:k,colors = topic_colors,
+                 loadings_order = order(major_topic)) +
+  scale_x_continuous(breaks = seq(0,100,10)) +
+  xlab("document") +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0))
 
 # Compare two estimates of L (the topic proportions matrix) in a
 # scatterplot.

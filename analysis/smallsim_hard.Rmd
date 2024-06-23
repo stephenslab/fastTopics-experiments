@@ -4,7 +4,10 @@ author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-ADD TEXT HERE.
+Here we perform a small experiment with simulated data to illustrate
+the behaviour of the EM and SCD algorithms for fitting Poisson NMF
+(and topic models). The basic variational EM algorithm for LDA also
+struggles with this data set.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -12,7 +15,8 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
 ```
 
 Load the packages used in the analysis below, as well as some
-additional functions used to simulate the data and generate the results.
+additional functions used to simulate the data and generate the
+results.
 
 ```{r load-pkgs, message=FALSE}
 library(tm)
@@ -24,45 +28,30 @@ library(cowplot)
 source("../code/smallsim_functions.R")
 ```
 
-ADD TEXT HERE.
+Simulate a $100 \times 400$ counts matrix from a multinomial topic
+model with $K = 6$ topics.
 
-```{r sim-data}
-# Note: k should be 3 or greater.
-simulate_correlated_loadings <- function (n, k) {
-  L <- matrix(0,n,k)
-  L[,1] <- runif(n,0,2)
-  for (i in 1:n) {
-    js <- sample(2:k,2)
-    j1 <- js[1]
-    j2 <- js[2]
-    L[i,j1] <- 1
-    L[i,j2] <- 0.1
-  }
-  return(normalize.rows(L))
-}
+```{r sim-data, fig.height=1.5, fig.width=6, message=FALSE, warning=FALSE}
 set.seed(2)
 n <- 100
 m <- 400
 k <- 6
 F <- simulate_factors(m,k)
-L <- simulate_correlated_loadings(n,k)
+out <- simulate_loadings(n,k)
+L <- out$L
+major_topic <- out$major_topic
 s <- simulate_sizes(n)
 X <- simulate_multinom_counts(L,F,s)
 X <- X[,colSums(X > 0) > 0]
-```
-
-ADD TEXT HERE.
-
-```{r}
 topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
                   "gold","skyblue")
-simdata_structure_plot(L,topic_colors)
+simdata_structure_plot(L,major_topic,topic_colors)
 ```
 
 ADD TEXT HERE.
 
-```{r}
-control <- list(extrapolate = FALSE,numiter = 4)
+```{r, eval=FALSE}
+control <- list(extrapolate = FALSE,numiter = 4, eval=FALSE)
 fit0 <- fit_poisson_nmf(X,k,numiter = 20,method = "em",control = control)
 fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=180,method="em",control=control)
 fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="scd",control=control)
@@ -74,7 +63,7 @@ fit2 <- poisson2multinom(fit2)
 print(loadings_scatterplot(fit1$L,fit2$L,topic_colors,"em","scd"))
 ```
 
-```{r}
+```{r, eval=FALSE}
 pdat <- rbind(data.frame(iter   = 1:200,
                          ll     = fit1$progress$loglik.multinom,
                          res    = fit1$progress$res,
@@ -94,7 +83,7 @@ p <- ggplot(pdat,aes(x = iter,y = ll,color = method)) +
 print(p)
 ```
 
-```{r}
+```{r, eval=FALSE}
 p1 <- simdata_structure_plot(L,topic_colors)
 p2 <- simdata_structure_plot(fit1$L,topic_colors)
 p3 <- simdata_structure_plot(fit2$L,topic_colors)
