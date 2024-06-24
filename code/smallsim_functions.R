@@ -10,8 +10,8 @@ normalize.cols <- function (A)
 simulate_sizes <- function (n)
   ceiling(10^rnorm(n,3,0.20))
 
-# Randomly generate an m x k factors matrix for a multinomial topic
-# model with k topics. Each row of the factors matrix are generated
+# Randomly generate an m x k factors (F) matrix for a multinomial topic
+# model with k topics. Each row of the factors (F) matrix are generated
 # according to the following procedure: generate u = |r| - 5, where r
 # ~ N(0,3); for each k, generate the Poisson rates as exp(max(t,-5)),
 # where t ~ 0.8 * N(u,s/10) + 0.2 * N(u,s)}, and s = exp(-u/3).
@@ -28,11 +28,10 @@ simulate_factors <- function (m, k) {
   return(normalize.cols(F))
 }
 
-# Randomly generate an n x k loadings matrix (i.e., mixture
-# proportions matrix) for a multinomial topic model with k topics. The
-# first topic is present in varying proportions in all documents. In
-# most documents, a single "major" topic predominates. Note that k
-# should be 3 or more.
+# Randomly generate an n x k loadings (L) matrix for a multinomial topic
+# model with k topics. The first topic is present in varying
+# proportions in all documents. In most documents, a single "major"
+# topic predominates. Note that k should be 3 or more.
 simulate_loadings <- function (n, k) {
   L <- matrix(0,n,k)
   L[,1] <- runif(n,0,2)
@@ -60,18 +59,17 @@ simulate_multinom_counts <- function (L, F, s) {
   return(X)
 }
 
-# Create a Structure plot to visualize the mixture proportions L.
-simdata_structure_plot <- function (L, major_topic, topic_colors)
+# Create a 'Structure plot' to visualize the mixture proportions L.
+simdata_structure_plot <- function (L, loadings_order, topic_colors, title = "")
   structure_plot(L,topics = 1:k,colors = topic_colors,
-                 loadings_order = order(major_topic)) +
+                 loadings_order = loadings_order) +
   scale_x_continuous(breaks = seq(0,100,10)) +
-  xlab("document") +
-  theme(axis.text.x = element_text(angle = 0,hjust = 0))
+  labs(x = "document",title = title) +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0),
+        plot.title = element_text(size = 10,face = "plain"))
 
-# Compare two estimates of L (the topic proportions matrix) in a
-# scatterplot.
-loadings_scatterplot <- function (L1, L2, colors, xlab = "fit1",
-                                  ylab = "fit2") {
+# Compare two estimates of L or F in a scatterplot.
+loadings_scatterplot <- function (L1, L2, colors, xlab = "fit1", ylab = "fit2") {
   n <- nrow(L1)
   k <- ncol(L2)
   pdat <- data.frame(x = as.vector(L1),
