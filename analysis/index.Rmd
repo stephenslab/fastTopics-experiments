@@ -14,7 +14,7 @@ Simulations
 + [Example in which the SCD and CCD updates produce the same sequence of
    iterates.](scd_vs_ccd.html)
 
-+ [EM vs. SCD in a small, simulated data set.](smallsim.html)
++ [EM vs. SCD in a small, simulated data set.](smallsim_hard.html)
 
 Data preparation
 ----------------
