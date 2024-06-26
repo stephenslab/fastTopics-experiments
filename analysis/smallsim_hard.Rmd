@@ -47,17 +47,15 @@ F <- F[cols,]
 X <- X[,cols]
 ```
 
-We fit the multinomial topic model by performing (i) 180 EM updates
-(without extrapolation), or (ii) 180 SCD updates (with extrapolation).
-Both of the fits are initialized by running 20 EM updates.
+We fit the multinomial topic model by performing 80 EM updates or 80
+SCD updates. Both of the fits are initialized by running 20 EM
+updates.
 
 ```{r fit-models, message=FALSE, results="hide"}
 control <- list(extrapolate = FALSE,numiter = 4)
 fit0 <- fit_poisson_nmf(X,k,numiter=20,method="em",control=control)
-fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=180,method="em",control=control)
+fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="em",control=control)
 fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="scd",control=control)
-control$extrapolate <- TRUE
-fit2 <- fit_poisson_nmf(X,fit0=fit2,numiter=100,method="scd",control=control)
 ```
 
 EM and SCD produce quite different estimates, and among the two, the
@@ -97,11 +95,10 @@ we eventually arrive at the same solution as SCD. But SCD is able to
 few SCD updates.
 
 ```{r fit-models-2, message=FALSE, results="hide", fig.height=2.5, fig.width=3.5}
-control$extrapolate <- FALSE
-fit3 <- fit_poisson_nmf(X,fit0=fit1,numiter=600,method="em",control=control)
+fit3 <- fit_poisson_nmf(X,fit0=fit1,numiter=700,method="em",control=control)
 control$extrapolate <- TRUE
-fit2 <- fit_poisson_nmf(X,fit0=fit2,numiter=600,method="scd",control=control)
-fit4 <- fit_poisson_nmf(X,fit0=fit1,numiter=600,method="scd",control=control)
+fit2 <- fit_poisson_nmf(X,fit0=fit2,numiter=700,method="scd",control=control)
+fit4 <- fit_poisson_nmf(X,fit0=fit1,numiter=700,method="scd",control=control)
 fit1 <- poisson2multinom(fit1)
 fit2 <- poisson2multinom(fit2)
 fit3 <- poisson2multinom(fit3)
