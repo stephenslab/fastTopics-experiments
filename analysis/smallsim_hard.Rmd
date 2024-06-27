@@ -87,6 +87,7 @@ or an average of 6 log-likelihood units per document,
 ```{r compare-logliks-2}
 c("em" = sum(loglik_multinom_topic_model(X,fit1)),
   "scd" = sum(loglik_multinom_topic_model(X,fit2)))/n
+stop()
 ```
 
 What is reassuring is that if we continue to perform the EM updates,

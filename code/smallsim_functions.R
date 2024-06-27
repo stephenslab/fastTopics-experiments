@@ -84,11 +84,12 @@ loadings_scatterplot <- function (L1, L2, colors, xlab = "fit1", ylab = "fit2") 
          theme_cowplot(font_size = 10))
 }
 
-# Run variational EM for LDA in which the. The parameters of the
+# Run variational EM for LDA in which the parameters of the
 # multinomial topic model ("fit") are used to initialize the LDA
 # parameter estimates.
-run_lda <- function (X, fit, numiter = 100, alpha = 1, estimate.alpha = FALSE,
-                     e = 1e-8, verbose = 0) {
+run_lda <- function (X, fit, numiter = 100, alpha = 1,
+                     estimate.alpha = FALSE, e = 1e-8,
+                     verbose = 0) {
   k <- ncol(fit$L)
   X <- as.DocumentTermMatrix(X,weighting = c("term frequency","tf"))
   lda <- LDA(X,k,control = list(alpha = alpha,estimate.alpha = FALSE,
