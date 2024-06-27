@@ -6,8 +6,8 @@ output: workflowr::wflow_html
 
 Here we perform a small experiment with simulated data to illustrate
 the behaviour of the EM and SCD algorithms for fitting Poisson NMF
-(and topic models). The basic variational EM algorithm for LDA also
-struggles with this data set.
+(and topic models). The standard variational EM algorithm for LDA has
+similar struggles in this example.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
@@ -52,14 +52,14 @@ SCD updates. Both of the fits were first initialized by running 20 EM
 updates.
 
 ```{r fit-models, message=FALSE, results="hide"}
-control <- list(extrapolate = FALSE,numiter = 4)
+control <- list(extrapolate = FALSE,numiter = 4,nc = 2)
 fit0 <- fit_poisson_nmf(X,k,numiter=20,method="em",control=control)
 fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="em",control=control)
 fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="scd",control=control)
 ```
 
 EM and SCD produce quite different estimates, and among the two, the
-SCD estimates are much closer to the truth.
+SCD estimates are clearly much closer to the ground truth.
 
 ```{r compare-fits, fig.height=4, fig.width=5, message=FALSE}
 topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
@@ -75,35 +75,38 @@ plot_grid(p1,p2,p3,nrow = 3,ncol = 1)
 ```
 
 Indeed, the SCD estimates also improve upon the EM estimates in terms
-of log-likelihood, with a total improvement of 600 log-likelihood units,
+of log-likelihood, with a total improvement of about 600
+log-likelihood units,
 
 ```{r compare-logliks}
 make_colvec(c("em" = sum(loglik_multinom_topic_model(X,fit1)),
               "scd" = sum(loglik_multinom_topic_model(X,fit2))))
 ```
 
-or an average of 6 log-likelihood units per document,
+or an average of about 6 log-likelihood units per document,
 
 ```{r compare-logliks-2}
 make_colvec(c("em" = sum(loglik_multinom_topic_model(X,fit1)),
               "scd" = sum(loglik_multinom_topic_model(X,fit2)))/n)
 ```
 
-Let's now see how this relates to fitting an LDA model. Mention here
-that we fix the prior (alpha), but estimating the prior complicates
-the comparison (and explain why).
+Next we will see that the variational EM (VEM) algorithm for LDA in
+the [topicmodels][topicmodels] package similarly has trouble making
+good progress on this data set, and greatly benefits from a good
+initialization provided by the SCD algorithm. (Note that the
+topicmodels package uses the [original C implementation][lda-c] of the
+VEM algorithm.) To show this, we run the EM algorithm in which the
+parameters are initialized to the estimates obtained by running the EM
+or SCD updates:
 
 ```{r run-lda}
-lda0 <- LDA(X,k = 6,
-            control = list(alpha = 1,estimate.alpha = FALSE,verbose = 0,
-  					       em = list(iter.max = 100,tol = 0),
-                           var = list(iter.max = 20,tol = 0),
-                           keep = 1))
+lda0 <- run_lda(X,fit0,numiter = 100)
 lda1 <- run_lda(X,fit1,numiter = 100)
 lda2 <- run_lda(X,fit2,numiter = 100)
 ```
 
-ADD TEXT HERE.
+Initalizing to the SCD updates indeed results in a much better fit (as
+measured by the lower bound to the log-likelihood, *i.e.*, the "ELBO"):
 
 ```{r compare-elbos}
 make_colvec(c("default init" = logLik(lda0),
@@ -111,14 +114,20 @@ make_colvec(c("default init" = logLik(lda0),
               "20 EM + 80 SCD" = logLik(lda2)))
 ```
 
-NEXT: Show structure plots from the LDA results.
+Note that in this example we have fixed $\alpha$, which determines the
+prior on the topic-word frequencies (the F matrix in fastTopics), to 1
+rather than estimate it. It is possible to let $\alpha$ adapt to the
+data, but doing so complicates the comparison.
+
+The Structure plots show that the SCD initialization leads to
+estimates that look much more like the true values than the other
+initializations:
 
 ```{r compare-lda-fits, fig.height=5.5, fig.width=5, message=FALSE}
-k_set_lda0 <- c(1,2,5,3,6,4)
 p1 <- simdata_structure_plot(L,loadings_order,topic_colors,title = "true")
 p2 <- simdata_structure_plot(lda0@gamma,loadings_order,
-                             topic_colors[k_set_lda0],
-							 title = "Default initialization")
+                             topic_colors[k_set],
+							 title = "Initialized with 20 EM updates")
 p3 <- simdata_structure_plot(lda1@gamma,loadings_order,
                              topic_colors[k_set],
 							 title = "Initialized with 100 EM updates")
@@ -128,38 +137,42 @@ p4 <- simdata_structure_plot(lda2@gamma,loadings_order,
 plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)
 ```
 
-ADD TEXT HERE.
+Let's now run the VEM algorithm for longer to see what happens.
 
 ```{r run-lda-longer}
-lda0 <- LDA(X,k = 6,
-            control = list(alpha = 1,estimate.alpha = FALSE,verbose = 0,
-  					       em = list(iter.max = 800,tol = 0),
-                           var = list(iter.max = 20,tol = 0),
-                           keep = 1))
+lda0 <- run_lda(X,fit0,numiter = 800)
 lda1 <- run_lda(X,fit1,numiter = 800)
 lda2 <- run_lda(X,fit2,numiter = 800)
 ```
 
-These plots show the improvement in the objective (the ELBO) over time.
+The VEM updates continue to approach the estimates obtained from the
+SCD initialization, but they remain quite far away even after 800
+iterations.
 
-```{r elbo-plot, fig.height=3, fig.width=3, eval=FALSE}
-pdat <- rbind(data.frame(iter = 1:numiter,elbo = lda0@logLiks,init = "none"),
-              data.frame(iter = 1:numiter,elbo = lda1@logLiks,init = "em"),
-              data.frame(iter = 1:numiter,elbo = lda2@logLiks,init = "scd"))
-pdat <- transform(pdat,elbo = elbo - max(elbo))
+These plots show the improvement in the objective (the ELBO) over
+time.
+
+```{r elbo-plot, fig.height=2.5, fig.width=4}
+pdat <- rbind(data.frame(iter = 1:800,elbo = lda0@logLiks,init = "20 EM"),
+              data.frame(iter = 1:800,elbo = lda1@logLiks,init = "100 EM"),
+              data.frame(iter = 1:800,elbo = lda2@logLiks,init = "20 EM + 80 SCD"))
+pdat <- transform(pdat,elbo = max(elbo) - elbo + 0.01)
 ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
-  geom_line(size = 0.75) +
+  geom_line(linewidth = 0.75) +
+  scale_x_continuous(breaks = seq(0,800,100)) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-1,4)) +
   scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
-  labs(x = "iteration",y = "ELBO - max(ELBO)") +
+  labs(x = "iteration",y = "ELBO difference") +
   theme_cowplot(font_size = 10)
 ```
 
-What is reassuring is that if we continue to perform the EM updates,
-we eventually arrive at the same solution as SCD. But SCD is able to
+Returning to the maximum-likelihood estimation problem, it is
+reassuring is that if we continue to perform the EM updates, they
+eventually arrive at the same solution as SCD. But SCD is able to
 "rescue" the EM estimates much more quickly after performing just a
-few SCD updates.
+few SCD updates:
 
-```{r fit-models-2, message=FALSE, results="hide", fig.height=2.5, fig.width=3.5, eval=FALSE}
+```{r fit-models-2, message=FALSE, results="hide", fig.height=2.5, fig.width=3.5}
 fit3 <- fit_poisson_nmf(X,fit0=fit1,numiter=700,method="em",control=control)
 control$extrapolate <- TRUE
 fit2 <- fit_poisson_nmf(X,fit0=fit2,numiter=700,method="scd",control=control)
@@ -189,3 +202,5 @@ ggplot(pdat,aes(x = iter,y = ll,color = method)) +
   theme_cowplot(font_size = 10)
 ```
 
+[topicmodels]: https://doi.org/10.18637/jss.v040.i13
+[lda-c]: https://www.cs.columbia.edu/~blei/lda-c/
