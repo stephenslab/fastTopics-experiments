@@ -48,7 +48,7 @@ X <- X[,cols]
 ```
 
 We fit the multinomial topic model by performing 80 EM updates or 80
-SCD updates. Both of the fits are initialized by running 20 EM
+SCD updates. Both of the fits were first initialized by running 20 EM
 updates.
 
 ```{r fit-models, message=FALSE, results="hide"}
@@ -61,7 +61,7 @@ fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="scd",control=control)
 EM and SCD produce quite different estimates, and among the two, the
 SCD estimates are much closer to the truth.
 
-```{r compare-fits, fig.height=4, fig.width=5, message=FALSE, warning=FALSE}
+```{r compare-fits, fig.height=4, fig.width=5, message=FALSE}
 topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
                   "gold","skyblue")
 loadings_order <- order(major_topic,L[,1])
@@ -78,16 +78,80 @@ Indeed, the SCD estimates also improve upon the EM estimates in terms
 of log-likelihood, with a total improvement of 600 log-likelihood units,
 
 ```{r compare-logliks}
-c("em" = sum(loglik_multinom_topic_model(X,fit1)),
-  "scd" = sum(loglik_multinom_topic_model(X,fit2)))
+make_colvec(c("em" = sum(loglik_multinom_topic_model(X,fit1)),
+              "scd" = sum(loglik_multinom_topic_model(X,fit2))))
 ```
 
 or an average of 6 log-likelihood units per document,
 
 ```{r compare-logliks-2}
-c("em" = sum(loglik_multinom_topic_model(X,fit1)),
-  "scd" = sum(loglik_multinom_topic_model(X,fit2)))/n
-stop()
+make_colvec(c("em" = sum(loglik_multinom_topic_model(X,fit1)),
+              "scd" = sum(loglik_multinom_topic_model(X,fit2)))/n)
+```
+
+Let's now see how this relates to fitting an LDA model. Mention here
+that we fix the prior (alpha), but estimating the prior complicates
+the comparison (and explain why).
+
+```{r run-lda}
+lda0 <- LDA(X,k = 6,
+            control = list(alpha = 1,estimate.alpha = FALSE,verbose = 0,
+  					       em = list(iter.max = 100,tol = 0),
+                           var = list(iter.max = 20,tol = 0),
+                           keep = 1))
+lda1 <- run_lda(X,fit1,numiter = 100)
+lda2 <- run_lda(X,fit2,numiter = 100)
+```
+
+ADD TEXT HERE.
+
+```{r compare-elbos}
+make_colvec(c("default init" = logLik(lda0),
+              "100 EM init" = logLik(lda1),
+              "20 EM + 80 SCD" = logLik(lda2)))
+```
+
+NEXT: Show structure plots from the LDA results.
+
+```{r compare-lda-fits, fig.height=5.5, fig.width=5, message=FALSE}
+k_set_lda0 <- c(1,2,5,3,6,4)
+p1 <- simdata_structure_plot(L,loadings_order,topic_colors,title = "true")
+p2 <- simdata_structure_plot(lda0@gamma,loadings_order,
+                             topic_colors[k_set_lda0],
+							 title = "Default initialization")
+p3 <- simdata_structure_plot(lda1@gamma,loadings_order,
+                             topic_colors[k_set],
+							 title = "Initialized with 100 EM updates")
+p4 <- simdata_structure_plot(lda2@gamma,loadings_order,
+                             topic_colors[k_set],
+							 title = "Initialized with 20 EM + 80 SCD updates")
+plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)
+```
+
+ADD TEXT HERE.
+
+```{r run-lda-longer}
+lda0 <- LDA(X,k = 6,
+            control = list(alpha = 1,estimate.alpha = FALSE,verbose = 0,
+  					       em = list(iter.max = 800,tol = 0),
+                           var = list(iter.max = 20,tol = 0),
+                           keep = 1))
+lda1 <- run_lda(X,fit1,numiter = 800)
+lda2 <- run_lda(X,fit2,numiter = 800)
+```
+
+These plots show the improvement in the objective (the ELBO) over time.
+
+```{r elbo-plot, fig.height=3, fig.width=3, eval=FALSE}
+pdat <- rbind(data.frame(iter = 1:numiter,elbo = lda0@logLiks,init = "none"),
+              data.frame(iter = 1:numiter,elbo = lda1@logLiks,init = "em"),
+              data.frame(iter = 1:numiter,elbo = lda2@logLiks,init = "scd"))
+pdat <- transform(pdat,elbo = elbo - max(elbo))
+ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
+  geom_line(size = 0.75) +
+  scale_color_manual(values=c("darkblue","dodgerblue","darkorange")) +
+  labs(x = "iteration",y = "ELBO - max(ELBO)") +
+  theme_cowplot(font_size = 10)
 ```
 
 What is reassuring is that if we continue to perform the EM updates,
@@ -95,7 +159,7 @@ we eventually arrive at the same solution as SCD. But SCD is able to
 "rescue" the EM estimates much more quickly after performing just a
 few SCD updates.
 
-```{r fit-models-2, message=FALSE, results="hide", fig.height=2.5, fig.width=3.5}
+```{r fit-models-2, message=FALSE, results="hide", fig.height=2.5, fig.width=3.5, eval=FALSE}
 fit3 <- fit_poisson_nmf(X,fit0=fit1,numiter=700,method="em",control=control)
 control$extrapolate <- TRUE
 fit2 <- fit_poisson_nmf(X,fit0=fit2,numiter=700,method="scd",control=control)

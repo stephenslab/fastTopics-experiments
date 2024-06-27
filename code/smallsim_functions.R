@@ -1,3 +1,6 @@
+make_colvec <- function (x)
+  t(t(x))
+
 # Scale each row of A so that the entries of each row sum to 1.
 normalize.rows <- function (A)
   A / rowSums(A)
@@ -86,22 +89,32 @@ loadings_scatterplot <- function (L1, L2, colors, xlab = "fit1", ylab = "fit2") 
 
 # Run variational EM for LDA in which the parameters of the
 # multinomial topic model ("fit") are used to initialize the LDA
-# parameter estimates.
+# parameter estimates. The input arguments "alpha", "estimate.alpha"
+# and "verbose" control the behaviour of the LDA algorithm.
 run_lda <- function (X, fit, numiter = 100, alpha = 1,
                      estimate.alpha = FALSE, e = 1e-8,
                      verbose = 0) {
-  k <- ncol(fit$L)
-  X <- as.DocumentTermMatrix(X,weighting = c("term frequency","tf"))
+    
+  # First run 4 iterations of (variational0 EM to set up the LDA data
+  # structures.
+  fit <- poisson2multinom(fit)
+  k   <- ncol(fit$L)
+  X   <- as.DocumentTermMatrix(X,weighting = c("term frequency","tf"))
   lda <- LDA(X,k,control = list(alpha = alpha,estimate.alpha = FALSE,
                                 verbose = verbose,
                                 em = list(iter.max = 4,tol = 0),
                                 var = list(iter.max = 10)))
+
+  # Now fit the variational approximation with (i) "beta", the
+  # log-word frequencies, set to log(F) and (ii) "gamma", the topic
+  # proportions, set to L.
   F <- normalize.cols(pmax(fit$F,e))
   L <- normalize.rows(pmax(fit$L,e))
   lda@beta  <- t(log(F))
   lda@gamma <- L
   return(LDA(X,k,model = lda,
-             control = list(alpha = alpha,estimate.alpha = estimate.alpha,
+             control = list(alpha = alpha,
+                            estimate.alpha = estimate.alpha,
                             verbose = verbose,
                             em = list(iter.max = numiter,tol = 0),
                             var = list(iter.max = 20,tol = 0),
