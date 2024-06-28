@@ -300,7 +300,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-06-27
+<strong>Last updated:</strong> 2024-06-28
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -432,15 +432,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreee544c1c8dcc678902ed71077b9e949af14141207targetblanke544c1ca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1641df260fa9073e2912dd78c14a5f2943f05421targetblank1641df2a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/e544c1c8dcc678902ed71077b9e949af14141207" target="_blank">e544c1c</a>
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/1641df260fa9073e2912dd78c14a5f2943f05421" target="_blank">1641df2</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreee544c1c8dcc678902ed71077b9e949af14141207targetblanke544c1ca"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1641df260fa9073e2912dd78c14a5f2943f05421targetblank1641df2a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -450,7 +450,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/e544c1c8dcc678902ed71077b9e949af14141207" target="_blank">e544c1c</a>.
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/1641df260fa9073e2912dd78c14a5f2943f05421" target="_blank">1641df2</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -466,6 +466,7 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    analysis/.sos/
+    Ignored:    analysis/figure/
     Ignored:    data/20news-bydate/
     Ignored:    data/droplet.RData
     Ignored:    data/nips_1-17.mat
@@ -529,6 +530,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1641df260fa9073e2912dd78c14a5f2943f05421/analysis/smallsim_hard.Rmd" target="_blank">1641df2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-06-28
+</td>
+<td>
+workflowr::wflow_publish("smallsim_hard.Rmd", verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/574eedb1dd2a69fa4253a9b95ad63545389c0443/docs/smallsim_hard.html" target="_blank">574eedb</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-06-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -742,7 +777,8 @@ X &lt;- X[,cols]</code></pre>
 SCD updates. Both of the fits were first initialized by running 20 EM
 updates.</p>
 <pre class="r"><code>control &lt;- list(extrapolate = FALSE,numiter = 4,nc = 2)
-fit0 &lt;- fit_poisson_nmf(X,k,numiter=20,method=&quot;em&quot;,control=control)
+fit_init &lt;- init_poisson_nmf(X,k = k)
+fit0 &lt;- fit_poisson_nmf(X,fit0=fit_init,numiter=20,method=&quot;em&quot;,control=control)
 fit1 &lt;- fit_poisson_nmf(X,fit0=fit0,numiter=80,method=&quot;em&quot;,control=control)
 fit2 &lt;- fit_poisson_nmf(X,fit0=fit0,numiter=80,method=&quot;scd&quot;,control=control)</code></pre>
 <p>EM and SCD produce quite different estimates, and among the two, the
@@ -752,11 +788,13 @@ SCD estimates are clearly much closer to the ground truth.</p>
 loadings_order &lt;- order(major_topic,L[,1])
 k_set &lt;- c(1,3,5,2,4,6)
 p1 &lt;- simdata_structure_plot(L,loadings_order,topic_colors,title = &quot;true&quot;)
-p2 &lt;- simdata_structure_plot(poisson2multinom(fit1)$L,loadings_order,
+p2 &lt;- simdata_structure_plot(poisson2multinom(fit_init)$L,loadings_order,
+                             topic_colors[k_set],title = &quot;initial estimates&quot;)
+p3 &lt;- simdata_structure_plot(poisson2multinom(fit1)$L,loadings_order,
                              topic_colors[k_set],title = &quot;EM&quot;)
-p3 &lt;- simdata_structure_plot(poisson2multinom(fit2)$L,loadings_order,
+p4 &lt;- simdata_structure_plot(poisson2multinom(fit2)$L,loadings_order,
                              topic_colors[k_set],title = &quot;SCD&quot;)
-plot_grid(p1,p2,p3,nrow = 3,ncol = 1)</code></pre>
+plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)</code></pre>
 <p><img src="figure/smallsim_hard.Rmd/compare-fits-1.png" width="600" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-compare-fits-1">
@@ -809,17 +847,20 @@ Peter Carbonetto
 <p>Indeed, the SCD estimates also improve upon the EM estimates in terms
 of log-likelihood, with a total improvement of about 600 log-likelihood
 units,</p>
-<pre class="r"><code>make_colvec(c(&quot;em&quot; = sum(loglik_multinom_topic_model(X,fit1)),
-              &quot;scd&quot; = sum(loglik_multinom_topic_model(X,fit2))))
-#          [,1]
-# em  -31491.97
-# scd -30874.44</code></pre>
+<pre class="r"><code>logliks &lt;- c(&quot;initial&quot; = sum(loglik_multinom_topic_model(X,fit_init)),
+             &quot;em&quot;      = sum(loglik_multinom_topic_model(X,fit1)),
+             &quot;scd&quot;     = sum(loglik_multinom_topic_model(X,fit2)))
+make_colvec(logliks)
+#              [,1]
+# initial -38999.28
+# em      -31491.97
+# scd     -30874.44</code></pre>
 <p>or an average of about 6 log-likelihood units per document,</p>
-<pre class="r"><code>make_colvec(c(&quot;em&quot; = sum(loglik_multinom_topic_model(X,fit1)),
-              &quot;scd&quot; = sum(loglik_multinom_topic_model(X,fit2)))/n)
-#          [,1]
-# em  -314.9197
-# scd -308.7444</code></pre>
+<pre class="r"><code>make_colvec(logliks/n)
+#              [,1]
+# initial -389.9928
+# em      -314.9197
+# scd     -308.7444</code></pre>
 <p>Next we will see that the variational EM (VEM) algorithm for LDA in
 the <a href="https://doi.org/10.18637/jss.v040.i13">topicmodels</a>
 package similarly has trouble making good progress on this data set, and
@@ -863,6 +904,43 @@ p4 &lt;- simdata_structure_plot(lda2@gamma,loadings_order,
                              title = &quot;Initialized with 20 EM + 80 SCD updates&quot;)
 plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)</code></pre>
 <p><img src="figure/smallsim_hard.Rmd/compare-lda-fits-1.png" width="600" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-compare-lda-fits-1">
+Past versions of compare-lda-fits-1.png
+</button>
+</p>
+<div id="fig-compare-lda-fits-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/574eedb1dd2a69fa4253a9b95ad63545389c0443/docs/figure/smallsim_hard.Rmd/compare-lda-fits-1.png" target="_blank">574eedb</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-06-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Let’s now run the VEM algorithm for longer to see what happens.</p>
 <pre class="r"><code>lda0 &lt;- run_lda(X,fit0,numiter = 800)
 lda1 &lt;- run_lda(X,fit1,numiter = 800)
@@ -884,6 +962,43 @@ ggplot(pdat,aes(x = iter,y = elbo,color = init)) +
   labs(x = &quot;iteration&quot;,y = &quot;ELBO difference&quot;) +
   theme_cowplot(font_size = 10)</code></pre>
 <p><img src="figure/smallsim_hard.Rmd/elbo-plot-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-elbo-plot-1">
+Past versions of elbo-plot-1.png
+</button>
+</p>
+<div id="fig-elbo-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/574eedb1dd2a69fa4253a9b95ad63545389c0443/docs/figure/smallsim_hard.Rmd/elbo-plot-1.png" target="_blank">574eedb</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-06-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Returning to the maximum-likelihood estimation problem, it is
 reassuring is that if we continue to perform the EM updates, they
 eventually arrive at the same solution as SCD. But SCD is able to
