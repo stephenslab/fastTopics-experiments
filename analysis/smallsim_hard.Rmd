@@ -53,7 +53,8 @@ updates.
 
 ```{r fit-models, message=FALSE, results="hide"}
 control <- list(extrapolate = FALSE,numiter = 4,nc = 2)
-fit0 <- fit_poisson_nmf(X,k,numiter=20,method="em",control=control)
+fit_init <- init_poisson_nmf(X,k = k)
+fit0 <- fit_poisson_nmf(X,fit0=fit_init,numiter=20,method="em",control=control)
 fit1 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="em",control=control)
 fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="scd",control=control)
 ```
@@ -61,17 +62,19 @@ fit2 <- fit_poisson_nmf(X,fit0=fit0,numiter=80,method="scd",control=control)
 EM and SCD produce quite different estimates, and among the two, the
 SCD estimates are clearly much closer to the ground truth.
 
-```{r compare-fits, fig.height=4, fig.width=5, message=FALSE}
+```{r compare-fits, fig.height=5.5, fig.width=5, message=FALSE}
 topic_colors <- c("dodgerblue","darkorange","forestgreen","darkblue",
                   "gold","skyblue")
 loadings_order <- order(major_topic,L[,1])
 k_set <- c(1,3,5,2,4,6)
 p1 <- simdata_structure_plot(L,loadings_order,topic_colors,title = "true")
-p2 <- simdata_structure_plot(poisson2multinom(fit1)$L,loadings_order,
+p2 <- simdata_structure_plot(poisson2multinom(fit_init)$L,loadings_order,
+                             topic_colors[k_set],title = "initial estimates")
+p3 <- simdata_structure_plot(poisson2multinom(fit1)$L,loadings_order,
                              topic_colors[k_set],title = "EM")
-p3 <- simdata_structure_plot(poisson2multinom(fit2)$L,loadings_order,
+p4 <- simdata_structure_plot(poisson2multinom(fit2)$L,loadings_order,
                              topic_colors[k_set],title = "SCD")
-plot_grid(p1,p2,p3,nrow = 3,ncol = 1)
+plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)
 ```
 
 Indeed, the SCD estimates also improve upon the EM estimates in terms
@@ -79,15 +82,16 @@ of log-likelihood, with a total improvement of about 600
 log-likelihood units,
 
 ```{r compare-logliks}
-make_colvec(c("em" = sum(loglik_multinom_topic_model(X,fit1)),
-              "scd" = sum(loglik_multinom_topic_model(X,fit2))))
+logliks <- c("initial" = sum(loglik_multinom_topic_model(X,fit_init)),
+             "em"      = sum(loglik_multinom_topic_model(X,fit1)),
+             "scd"     = sum(loglik_multinom_topic_model(X,fit2)))
+make_colvec(logliks)
 ```
 
 or an average of about 6 log-likelihood units per document,
 
 ```{r compare-logliks-2}
-make_colvec(c("em" = sum(loglik_multinom_topic_model(X,fit1)),
-              "scd" = sum(loglik_multinom_topic_model(X,fit2)))/n)
+make_colvec(logliks/n)
 ```
 
 Next we will see that the variational EM (VEM) algorithm for LDA in
