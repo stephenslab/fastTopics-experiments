@@ -78,7 +78,7 @@ plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)
 ```
 
 ```{r compare-fits-for-paper, echo=FALSE}
-ggsave("small_sim_structure_plots.pdf",
+ggsave("smallsim_structure_plots.pdf",
        plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1),
 	   height = 5,width = 4)
 ```
@@ -148,7 +148,7 @@ plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)
 ```
 
 ```{r compare-lda-fits-for-paper, echo=FALSE}
-ggsave("small_sim_lda_structure_plots.pdf",
+ggsave("smallsim_lda_structure_plots.pdf",
        plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1),
 	   height = 5,width = 4)
 ```
