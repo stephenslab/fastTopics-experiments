@@ -1,6 +1,7 @@
 #! /usr/bin/env Rscript
 #
-# sinteractive -c 4 --mem=8G --time=24:00:00
+# sinteractive -c 4 --mem=8G --time=24:00:00 (for 68k PBMC data set)
+# sinteractive -c 4 --mem=32G --time=24:00:00 (for other data sets)
 # module load R/3.5.1
 # R
 # > .libPaths()[1]
@@ -17,11 +18,13 @@ source("../code/smallsim_functions.R")
 
 # countsfile <- "../data/newsgroups.RData"
 # countsfile <- "../data/nips.RData"
+# countsfile <- "../data/droplet.RData"
+countsfile <- "../data/pbmc_68k.RData"
 # initfile   <- "../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds"
 # initfile   <- "../output/nips/rds/fit-nips-scd-ex-k=10.rds"
+# initfile   <- "../output/droplet/rds/fit-droplet-scd-ex-k=10.rds"
+initfile   <- "../output/pbmc68k/rds/fit-pbmc68k-scd-ex-k=10.rds"
 # outfile    <- "lda-newsgroups-em-k=10.rds"
-countsfile <- "../data/droplet.RData"
-initfile   <- "../output/droplet/rds/fit-droplet-scd-ex-k=10.rds"
 numiter    <- 10
 
 # Initialize the sequence of pseudorandom numbers.
@@ -52,7 +55,10 @@ k    <- ncol(fit0$F)
 # For the newsgroups data with k = 10, this step takes roughly 70 s per
 # iteration.
 #
-# For the droplet data with k = 10, this step takes roughly X s per
+# For the droplet data with k = 10, this step takes roughly 6 min per
+# iteration.
+#
+# For the 68k PBMC data with k = 10, this step takes roughly X s per
 # iteration.
 #
 t0 <- proc.time()
