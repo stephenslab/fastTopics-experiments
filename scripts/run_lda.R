@@ -1,7 +1,10 @@
 #! /usr/bin/env Rscript
 #
-#   sinteractive -p mstephens --account=pi-mstephens -c 4 --mem=8G \
-#     --time=24:00:00
+# sinteractive -c 4 --mem=8G --time=24:00:00
+# module load R/3.5.1
+# R
+# > .libPaths()[1]
+# [1] "/home/pcarbo/R_libs"
 #
 
 # Load a few packages.
@@ -12,14 +15,17 @@ library(topicmodels)
 library(fastTopics)
 source("../code/smallsim_functions.R")
 
+# countsfile <- "../data/newsgroups.RData"
+# countsfile <- "../data/nips.RData"
+# initfile   <- "../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds"
+# initfile   <- "../output/nips/rds/fit-nips-scd-ex-k=10.rds"
+# outfile    <- "lda-newsgroups-em-k=10.rds"
+countsfile <- "../data/droplet.RData"
+initfile   <- "../output/droplet/rds/fit-droplet-scd-ex-k=10.rds"
+numiter    <- 10
+
 # Initialize the sequence of pseudorandom numbers.
 set.seed(1)
-
-countsfile <- "../data/newsgroups.RData"
-initfile   <- "../output/newsgroups/rds/fit-newsgroups-em-k=10.rds"
-outfile    <- "lda-newsgroups-em-k=10.rds"
-numiter    <- 100
-est_alpha  <- FALSE
 
 # LOAD DATA
 # ---------
@@ -39,8 +45,18 @@ k    <- ncol(fit0$F)
 # RUN LDA
 # -------
 # Now we are ready to perform variational inference for the LDA model.
+#
+# For the nips data with k = 10, this step takes roughly 40 s per
+# iteration.
+#
+# For the newsgroups data with k = 10, this step takes roughly 70 s per
+# iteration.
+#
+# For the droplet data with k = 10, this step takes roughly X s per
+# iteration.
+#
 t0 <- proc.time()
-lda <- run_lda(counts,fit0,numiter = numiter,estimate.alpha = est_alpha,
+lda <- run_lda(counts,fit0,numiter = numiter,estimate.alpha = FALSE,
                verbose = 1)
 t1 <- proc.time()
 timing <- t1 - t0
@@ -48,9 +64,9 @@ cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 
 # SAVE RESULTS
 # ------------
-cat("Saving results.\n")
-saveRDS(lda,file = outfile)
+# cat("Saving results.\n")
+# saveRDS(lda,file = outfile)
 
 # SESSION INFO
 # ------------
-print(sessionInfo())
+# print(sessionInfo())
