@@ -74,7 +74,7 @@ k    <- ncol(fit0$F)
 # per iteration.
 #
 t0 <- proc.time()
-lda <- run_lda(counts,fit0,numiter = 10,estimate.alpha = FALSE,verbose = 1)
+lda <- run_lda(counts,fit0,numiter = 100,estimate.alpha = FALSE,verbose = 1)
 t1 <- proc.time()
 timing <- t1 - t0
 cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
