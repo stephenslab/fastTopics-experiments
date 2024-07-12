@@ -4,7 +4,7 @@
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
-#SBATCH --time=48:00:00
+#SBATCH --time=24:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
 # and runs run_lda.R. See run_lda_all.sh for examples illustrating how
