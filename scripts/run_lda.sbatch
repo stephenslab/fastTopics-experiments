@@ -10,7 +10,11 @@
 # and runs run_lda.R. See run_lda_all.sh for examples illustrating how
 # to use this script.
 #
-# NOTE: Change "mem" to 32G for pbmc_68k.RData.
+# NOTES: 
+# 
+# (a) .libPaths()[1] should be "/home/pcarbo/R_libs"
+#
+# (b) Change "mem" to 32G for pbmc_68k.RData.
 #
 
 # Get the command-line arguments.
@@ -27,4 +31,4 @@ module load R/3.5.1
 
 # Run the R script.
 export OPENBLAS_NUM_THREADS=1
-./run_lda.R --counts ${DATFILE} --init ${PREFIT} 
+./run_lda.R --counts ${DATFILE} --init ${INITFILE} 
