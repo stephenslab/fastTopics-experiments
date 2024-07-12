@@ -4,7 +4,7 @@
 # data sets, and for different choices of K and initialization.
 MAIN_SCRIPT=run_lda.sbatch
 
-# Run LDA on newsgroups data.
+# Run LDA on the newsgroups data.
 #
 #                     data       initfile
 sbatch ${MAIN_SCRIPT} newsgroups newsgroups/rds/fit-newsgroups-scd-ex-k=10

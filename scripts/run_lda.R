@@ -82,7 +82,7 @@ cat(sprintf("Computation took %0.2f seconds.\n",timing["elapsed"]))
 # SAVE RESULTS
 # ------------
 cat("Saving results.\n")
-saveRDS(lda,file = outfile)
+saveRDS(list(lda = lda,timing = timing),outfile)
 
 # SESSION INFO
 # ------------
