@@ -16,20 +16,15 @@
 # Get the command-line arguments.
 DAT=${1}
 INITFILE=${2}
-OUTFILE=${3}
 echo dat=${DAT}
 echo initfile=${INITFILE}
-echo outfile=${OUTFILE}
 DATFILE=../data/${DAT}.RData
 INITFILE=../output/${INITFILE}.rds
-OUTFILE=${OUTFILE}.rds
 
 # For reproducibility, I add version numbers to the "module load"
 # calls.
 module load R/3.5.1
 
 # Run the R script.
-echo "Running run_lda.R"
 export OPENBLAS_NUM_THREADS=1
-./run_lda.R --counts ${DATFILE} --init ${PREFIT} \
-  --out ${METHOD} > ${OUTFILE}.Rout
+./run_lda.R --counts ${DATFILE} --init ${PREFIT} 

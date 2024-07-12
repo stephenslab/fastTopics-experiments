@@ -42,28 +42,27 @@ library(topicmodels)
 source("../code/smallsim_functions.R")
 
 # Process the command-line arguments.
-## parser <- OptionParser()
-## parser <- add_option(parser,"--counts",type="character",default="counts.RData")
-## parser <- add_option(parser,"--init",type = "character",default="init.rds")
-## parser <- add_option(parser",--out",,type="character",default="out.rds")
-## out    <- parse_args(parser)
-## countsfile <- out$counts
-## initfile   <- out$init
-## outfile    <- out$out
-## rm(parser,out)
+# parser <- OptionParser()
+parser <- add_option(parser,"--counts",type="character",default="counts.RData")
+parser <- add_option(parser,"--init",type = "character",default="init.rds")
+out    <- parse_args(parser)
+countsfile <- out$counts
+initfile   <- out$init
+outfile    <- tail(unlist(strsplit(initfile,"/")),n = 1)
+outfile    <- paste0("lda",substr(outfile,4,100))
+rm(parser,out)
 
 # Initialize the sequence of pseudorandom numbers.
 set.seed(1)
 
-countsfile <- "../data/newsgroups.RData"
+# countsfile <- "../data/newsgroups.RData"
 # countsfile <- "../data/nips.RData"
 # countsfile <- "../data/droplet.RData"
 # countsfile <- "../data/pbmc_68k.RData"
-initfile   <- "../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds"
+# initfile   <- "../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds"
 # initfile   <- "../output/nips/rds/fit-nips-scd-ex-k=10.rds"
 # initfile   <- "../output/droplet/rds/fit-droplet-scd-ex-k=10.rds"
 # initfile   <- "../output/pbmc68k/rds/fit-pbmc68k-scd-ex-k=10.rds"
-outfile    <- "lda-newsgroups-em-k=10.rds"
 
 # LOAD DATA
 # ---------
