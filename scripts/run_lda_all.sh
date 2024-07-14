@@ -51,3 +51,57 @@ sbatch ${MAIN_SCRIPT} newsgroups newsgroups/rds/fit-newsgroups-scd-ex-k=8
 sbatch ${MAIN_SCRIPT} newsgroups newsgroups/rds/fit-newsgroups-scd-ex-k=10
 sbatch ${MAIN_SCRIPT} newsgroups newsgroups/rds/fit-newsgroups-scd-ex-k=11
 sbatch ${MAIN_SCRIPT} newsgroups newsgroups/rds/fit-newsgroups-scd-ex-k=12
+
+# Run LDA on the nips data.
+#
+#                     data initfile
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=2
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=3
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=4
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=5
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=6
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=7
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=8
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=9
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=10
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=11
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-k=12
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=2
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=3
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=4
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=5
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=6
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=7
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=8
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=9
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=10
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=11
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-em-ex-k=12
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=2
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=3
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=4
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=5
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=6
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=7
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=8
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=9
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=10
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=11
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-k=12
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=2
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=3
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=4
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=5
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=6
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=7
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=8
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=9
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=10
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=11
+sbatch ${MAIN_SCRIPT} nips nips/rds/fit-nips-scd-ex-k=12
+
+# Run LDA on the droplet data.
+# TO DO.
+
+# Run LDA on the 68k pbmc data.
+# TO DO.

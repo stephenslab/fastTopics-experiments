@@ -11,11 +11,9 @@
 #   ./run_lda.R --counts test.RData --init test.rds
 #
 
-# countsfile <- "../data/newsgroups.RData"
 # countsfile <- "../data/nips.RData"
 # countsfile <- "../data/droplet.RData"
 # countsfile <- "../data/pbmc_68k.RData"
-# initfile   <- "../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds"
 # initfile   <- "../output/nips/rds/fit-nips-scd-ex-k=10.rds"
 # initfile   <- "../output/droplet/rds/fit-droplet-scd-ex-k=10.rds"
 # initfile   <- "../output/pbmc68k/rds/fit-pbmc68k-scd-ex-k=10.rds"
