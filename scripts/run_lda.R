@@ -11,10 +11,8 @@
 #   ./run_lda.R --counts test.RData --init test.rds
 #
 
-# countsfile <- "../data/nips.RData"
 # countsfile <- "../data/droplet.RData"
 # countsfile <- "../data/pbmc_68k.RData"
-# initfile   <- "../output/nips/rds/fit-nips-scd-ex-k=10.rds"
 # initfile   <- "../output/droplet/rds/fit-droplet-scd-ex-k=10.rds"
 # initfile   <- "../output/pbmc68k/rds/fit-pbmc68k-scd-ex-k=10.rds"
 
@@ -58,12 +56,6 @@ k    <- ncol(fit0$F)
 # RUN LDA
 # -------
 # Now we are ready to perform variational inference for the LDA model.
-#
-# For the nips data with k = 10, this step took roughly 40 s per
-# iteration.
-#
-# For the newsgroups data with k = 10, this step took roughly 70 s per
-# iteration.
 #
 # For the droplet data with k = 10, this step took roughly 6 min per
 # iteration.
