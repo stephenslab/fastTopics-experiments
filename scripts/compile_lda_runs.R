@@ -28,7 +28,6 @@ dat <- data.frame(label       = labels,
 
 # Load the results from the RDS files.
 for (i in 1:n) {
-  
   out                  <- readRDS(files[i])
   fits[[i]]            <- out$lda
   dat[i,"k"]           <- out$lda@k
