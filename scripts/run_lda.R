@@ -57,9 +57,6 @@ k    <- ncol(fit0$F)
 # -------
 # Now we are ready to perform variational inference for the LDA model.
 #
-# For the droplet data with k = 10, this step took roughly 6 min per
-# iteration.
-#
 # For the 68k PBMC data with k = 10, this step took roughly 20 min
 # per iteration.
 #

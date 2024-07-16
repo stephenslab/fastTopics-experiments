@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#SBATCH --partition=broadwl
+#SBATCH --partition=mstephens
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=8G
-#SBATCH --time=24:00:00
+#SBATCH --mem=32G
+#SBATCH --time=48:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
 # and runs run_lda.R. See run_lda_all.sh for examples illustrating how
@@ -14,7 +14,7 @@
 # 
 # (a) .libPaths()[1] should be "/home/pcarbo/R_libs"
 #
-# (b) Change "mem" to 32G for pbmc_68k.RData.
+# (b) Change "mem" to 32G and "time" to 48 h for pbmc_68k.RData.
 #
 
 # Get the command-line arguments.
