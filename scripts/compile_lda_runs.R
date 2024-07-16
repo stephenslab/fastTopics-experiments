@@ -6,10 +6,11 @@ library(topicmodels)
 
 # Combine results from all files of the form lda-*.rds in this
 # directory.
-out.dir <- "../output/nips/rds"
-  
+outdir <- "../output/droplet/rds"
+rdafile <- "droplet-newsgroups.RData"
+
 # List all the RDS files containing the model fits.
-files <- Sys.glob(file.path(out.dir,"lda-*.rds"))
+files <- Sys.glob(file.path(outdir,"lda-*.rds"))
 n     <- length(files)
 
 # Set up two data structures: "fits", a list used to store all the
@@ -17,7 +18,7 @@ n     <- length(files)
 # and optimization settings used to produce these fits.
 fits   <- vector("list",n)
 labels <- files
-labels <- str_remove(labels,paste(out.dir,"/",sep = ""))
+labels <- str_remove(labels,paste(outdir,"/",sep = ""))
 labels <- str_remove(labels,".rds")
 names(fits) <- labels
 dat <- data.frame(label       = labels,
@@ -47,5 +48,5 @@ dat <- transform(dat,k = factor(k))
 
 # Save the combined results to an .RData file.
 save(list = c("dat","fits"),
-     file = "lda.RData")
-resaveRdaFiles("lda.RData")
+     file = rdafile)
+resaveRdaFiles(rdafile)
