@@ -6,8 +6,8 @@ library(topicmodels)
 
 # Combine results from all files of the form lda-*.rds in this
 # directory.
-outdir <- "../output/droplet/rds"
-rdafile <- "droplet-newsgroups.RData"
+outdir <- "../output/newsgroups/rds"
+rdafile <- "lda-newsgroups.RData"
 
 # List all the RDS files containing the model fits.
 files <- Sys.glob(file.path(outdir,"lda-*.rds"))
