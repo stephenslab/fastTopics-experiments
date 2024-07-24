@@ -23,3 +23,4 @@ output/droplet/rds/fit-droplet-*.rds
 output/droplet/rds/lda-droplet-*.rds
 output/pbmc68k/rds/prefit-pbmc68k-*.rds
 output/pbmc68k/rds/fit-pbmc68k-*.rds
+output/pbmc68k/rds/lda-pbmc68k-*.rds
