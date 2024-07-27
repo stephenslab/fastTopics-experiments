@@ -1,21 +1,7 @@
-# TO DO: Explain here what this function is for, and how to use it.
-prepare_elbo_plot_data <- function (fits, e = 1) {
-  n     <- length(fits)
-  labels <- names(fits)
-  for (i in 1:n) {
-    y <- fits[[i]]@logLiks
-    fits[[i]] <- data.frame(method    = labels[i],
-                            iteration = 1:length(y),
-                            elbo      = y)
-  }
-  out        <- do.call(rbind,fits)
-  out$method <- factor(out$method,labels)
-  out$elbo   <- max(out$elbo) - out$elbo + e
-  return(out)
-}
-
-# TO DO: Explain here what this function is for, and how to use it.
-create_elbo_plot <- function (fits, k) {
+# This function creates a plot comparing the improvement in the ELBO
+# over time for multiple LDA runs. Input argument "k" is the number of
+# topics and is only used to generate the plot title.
+create_elbo_plot <- function (fits, timings, k) {
   pdat <- prepare_elbo_plot_data(fits)
   plot_colors <- c("dodgerblue","orange","darkblue","red")
   plot_linetypes <- c("solid","solid","dashed","dashed")
@@ -31,3 +17,21 @@ create_elbo_plot <- function (fits, k) {
          theme_cowplot(font_size = 10) +
          theme(plot.title = element_text(size = 10,face = "plain")))
 }
+
+# This is used by create_elbo_plot to generate the data frame passed
+# as input to ggplot().
+prepare_elbo_plot_data <- function (fits, timings, e = 1) {
+  n     <- length(fits)
+  labels <- names(fits)
+  for (i in 1:n) {
+    y <- fits[[i]]@logLiks
+    fits[[i]] <- data.frame(method    = labels[i],
+                            iteration = 1:length(y),
+                            elbo      = y)
+  }
+  out        <- do.call(rbind,fits)
+  out$method <- factor(out$method,labels)
+  out$elbo   <- max(out$elbo) - out$elbo + e
+  return(out)
+}
+
