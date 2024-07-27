@@ -23,11 +23,13 @@ library(ggplot2)
 library(cowplot)
 library(ggrepel)
 set.seed(1)
+source("../code/plot_functions.R")
 ```
 
 Load the newsgroups data, and the results of running `fit_poisson_nmf`
 on the "20 newsgroups" data, with different algorithms, and for
-various settings of $K$.
+various settings of $K$. Also load the results of running LDA with
+different initializations.
 
 ```{r load-data}
 load("../data/newsgroups.RData")
@@ -200,4 +202,29 @@ ggsave("../plots/loadings_scatterplot_newsgroups_k10.eps",
        p2,height = 2.5,width = 3.25)
 ggsave("../plots/structure_plot_newsgroups.eps",p3,height = 2,width = 8)
 ggsave("../plots/words_scatterplot_newsgroups.eps",p4,height = 4,width = 4.25)
+```
+
+Finally, let's have a look at the results of running LDA with the
+various initializations:
+
+TO DO: Need to compile also the runtimes for these plots.
+
+```{r elbo-plots, fig.height=6, fig.width=9}
+load("../output/newsgroups/lda-newsgroups.RData")
+p <- vector("list",12)
+for (i in 2:12)
+  p[[i]] <- create_elbo_plot(fits[dat$k == i],i)
+plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+          p[[6]],p[[7]],p[[8]],p[[9]],
+          p[[10]],p[[11]],p[[12]],
+          nrow = 3,ncol = 4)
+```
+
+```{r plots-for-paper-4, message=FALSE, echo=FALSE}
+ggsave("../plots/lda_elbo_newsgroups.eps",
+       plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+                 p[[6]],p[[7]],p[[8]],p[[9]],
+                 p[[10]],p[[11]],p[[12]],
+                 nrow = 3,ncol = 4),
+   	   height = 6,width = 9)
 ```
