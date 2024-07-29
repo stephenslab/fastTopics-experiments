@@ -20,6 +20,7 @@ additional functions for creating the plots.
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
+source("../code/plot_functions.R")
 ```
 
 Load the results of running `fit_poisson_nmf` on the NIPS data,
@@ -121,4 +122,29 @@ print(p1)
 ```{r plots-for-paper-3, message=FALSE, echo=FALSE}
 ggsave("../plots/loadings_scatterplot_nips_k10.eps",
        p1,height = 2.5,width = 2.6)
+```
+
+Finally, let's have a look at the results of running LDA with the
+various initializations:
+
+```{r elbo-plots, fig.height=6, fig.width=9}
+load("../output/nips/lda-nips.RData")
+p <- vector("list",12)
+for (i in 2:12) {
+  runs   <- which(dat$k == i)
+  p[[i]] <- create_elbo_plot(fits[runs],dat[runs,"runtime"],i)
+}
+plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+          p[[6]],p[[7]],p[[8]],p[[9]],
+          p[[10]],p[[11]],p[[12]],
+          nrow = 3,ncol = 4)
+```
+
+```{r plots-for-paper-4, message=FALSE, echo=FALSE}
+ggsave("../plots/lda_elbo_nips.eps",
+       plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+                 p[[6]],p[[7]],p[[8]],p[[9]],
+                 p[[10]],p[[11]],p[[12]],
+                 nrow = 3,ncol = 4),
+   	   height = 6,width = 9)
 ```
