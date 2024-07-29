@@ -207,13 +207,13 @@ ggsave("../plots/words_scatterplot_newsgroups.eps",p4,height = 4,width = 4.25)
 Finally, let's have a look at the results of running LDA with the
 various initializations:
 
-TO DO: Need to compile also the runtimes for these plots.
-
 ```{r elbo-plots, fig.height=6, fig.width=9}
 load("../output/newsgroups/lda-newsgroups.RData")
 p <- vector("list",12)
-for (i in 2:12)
-  p[[i]] <- create_elbo_plot(fits[dat$k == i],i)
+for (i in 2:12) {
+  runs   <- which(dat$k == i)
+  p[[i]] <- create_elbo_plot(fits[runs],dat[runs,"runtime"],i)
+}
 plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
           p[[6]],p[[7]],p[[8]],p[[9]],
           p[[10]],p[[11]],p[[12]],
