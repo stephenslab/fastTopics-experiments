@@ -25,6 +25,7 @@ dat <- data.frame(label       = labels,
                   k           = 0,
                   method      = "",
                   extrapolate = FALSE,
+                  runtime     = 0,
                   stringsAsFactors = FALSE)
 
 # Load the results from the RDS files.
@@ -34,6 +35,7 @@ for (i in 1:n) {
   dat[i,"k"]           <- out$lda@k
   dat[i,"method"]      <- unlist(strsplit(labels[i],"-"))[3]
   dat[i,"extrapolate"] <- grepl("ex",labels[i],fixed = TRUE)
+  dat[i,"runtime"]     <- out$timing["elapsed"]
 }
 
 # Reorder the results in "fits" and "dat".
