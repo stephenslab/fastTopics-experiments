@@ -11,6 +11,7 @@ output/newsgroups/lda-newsgroups.RData
 output/droplet/fits-droplet.RData
 output/droplet/lda-droplet.RData
 output/pbmc68k/fits-pbmc68k.RData
+output/pbmc68k/lda-pbmc68k.RData
 output/nips/rds/prefit-nips-k=*.rds
 output/nips/rds/fit-nips-*.rds
 output/nips/rds/lda-nips-*.rds
