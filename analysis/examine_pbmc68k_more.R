@@ -1,3 +1,4 @@
+# For paper, highlight results with K = 11.
 library(fastTopics)
 library(cowplot)
 set.seed(1)
