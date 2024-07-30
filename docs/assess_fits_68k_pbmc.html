@@ -14,17 +14,27 @@
 
 <title>Assess topic model fits in 68k PBMC data</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
 <style type="text/css">
 div.section {
@@ -32,12 +42,18 @@ div.section {
 }
 </style>
 
-<style type="text/css">code{white-space: pre;}</style>
+
+
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -50,32 +66,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 
 
@@ -85,10 +77,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -105,40 +93,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -166,7 +130,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -178,7 +142,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -189,10 +153,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -204,7 +181,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -271,7 +247,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -293,11 +269,12 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
-<h1 class="title toc-ignore">Assess topic model fits in 68k PBMC data</h1>
+<h1 class="title toc-ignore">Assess topic model fits in 68k PBMC
+data</h1>
 <h4 class="author">Peter Carbonetto</h4>
 
 </div>
@@ -305,7 +282,9 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -314,7 +293,9 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -323,17 +304,28 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-01-07
+<strong>Last updated:</strong> 2024-07-30
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>fastTopics-experiments/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong>
+<code>fastTopics-experiments/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -342,113 +334,181 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed1code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(1)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed1code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(1)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed1code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed1code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(1)</code> was run prior to running the
+code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1c3cb394889f3a823c53702518e86d06200c2682targetblank1c3cb39a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1c3cb394889f3a823c53702518e86d06200c2682" target="_blank">1c3cb39</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef7a5756dbec19209ec36c460b2844ca17713be14targetblankf7a5756a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/f7a5756dbec19209ec36c460b2844ca17713be14" target="_blank">f7a5756</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree1c3cb394889f3a823c53702518e86d06200c2682targetblank1c3cb39a" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreef7a5756dbec19209ec36c460b2844ca17713be14targetblankf7a5756a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/fastTopics-experiments/tree/1c3cb394889f3a823c53702518e86d06200c2682" target="_blank">1c3cb39</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/f7a5756dbec19209ec36c460b2844ca17713be14" target="_blank">f7a5756</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    analysis/.sos/
-    Ignored:    data/20news-bydate/
+    Ignored:    analysis/figure/
+    Ignored:    data/GSE103354_Trachea_droplet_UMIcounts.txt.gz
     Ignored:    data/droplet.RData
-    Ignored:    data/nips_1-17.mat
+    Ignored:    data/pbmc_68k
     Ignored:    data/pbmc_68k.RData
     Ignored:    output/droplet/fits-droplet.RData
+    Ignored:    output/droplet/lda-droplet.RData
+    Ignored:    output/droplet/rds/
+    Ignored:    output/newsgroups/de-newsgroups.RData
     Ignored:    output/newsgroups/fits-newsgroups.RData
+    Ignored:    output/newsgroups/lda-newsgroups.RData
+    Ignored:    output/newsgroups/rds/
     Ignored:    output/nips/fits-nips.RData
+    Ignored:    output/nips/lda-nips.RData
+    Ignored:    output/nips/rds/
     Ignored:    output/pbmc68k/fits-pbmc68k.RData
+    Ignored:    output/pbmc68k/lda-pbmc68k.RData
+    Ignored:    output/pbmc68k/rds/
 
 Untracked files:
+    Untracked:  analysis/examine_pbmc68k_more.R~
     Untracked:  plots/
+    Untracked:  scripts/lda-eb-newsgroups-em-k=10.rds
+    Untracked:  scripts/lda-eb-newsgroups-scd-ex-k=10.rds
+    Untracked:  scripts/maptpx-newsgroups-em-k=10.Rout
+    Untracked:  scripts/maptpx-newsgroups-em-k=10.rds
+    Untracked:  scripts/maptpx-newsgroups-scd-ex-k=10.Rout
+    Untracked:  scripts/maptpx-newsgroups-scd-ex-k=10.rds
 
 Unstaged changes:
-    Modified:   analysis/temp.R
+    Modified:   analysis/examine_pbmc68k_more.R
+
+Staged changes:
+    New:        analysis/examine_pbmc68k_more.R
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -459,7 +519,12 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/assess_fits_68k_pbmc.Rmd</code>) and HTML (<code>docs/assess_fits_68k_pbmc.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/assess_fits_68k_pbmc.Rmd</code>)
+and HTML (<code>docs/assess_fits_68k_pbmc.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -488,6 +553,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/f7a5756dbec19209ec36c460b2844ca17713be14/analysis/assess_fits_68k_pbmc.Rmd" target="_blank">f7a5756</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-07-30
+</td>
+<td>
+Updating assess_fits_68k_pbmc analysis with ELBO plots.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/9f07ff6fbe735fae4bdcc2aeb43b837d4dc7d59e/docs/assess_fits_68k_pbmc.html" target="_blank">9f07ff6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-01-07
+</td>
+<td>
+Added structure plot for 68k pbmc data, with K=7 topics, obtained by
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/1c3cb394889f3a823c53702518e86d06200c2682/analysis/assess_fits_68k_pbmc.Rmd" target="_blank">1c3cb39</a>
 </td>
 <td>
@@ -497,7 +596,7 @@ Peter Carbonetto
 2022-01-07
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”, verbose = TRUE)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd", verbose = TRUE)
 </td>
 </tr>
 <tr>
@@ -531,7 +630,7 @@ Peter Carbonetto
 2021-04-20
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 <tr>
@@ -565,7 +664,7 @@ Peter Carbonetto
 2021-04-15
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 <tr>
@@ -599,7 +698,7 @@ Peter Carbonetto
 2021-04-15
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 <tr>
@@ -633,7 +732,7 @@ Peter Carbonetto
 2021-04-13
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 <tr>
@@ -667,7 +766,7 @@ Peter Carbonetto
 2021-04-12
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 <tr>
@@ -701,7 +800,7 @@ Peter Carbonetto
 2021-04-12
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 <tr>
@@ -752,7 +851,7 @@ Peter Carbonetto
 2021-04-10
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 <tr>
@@ -786,7 +885,7 @@ Peter Carbonetto
 2021-04-07
 </td>
 <td>
-workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
+workflowr::wflow_publish("assess_fits_68k_pbmc.Rmd")
 </td>
 </tr>
 </tbody>
@@ -796,19 +895,29 @@ workflowr::wflow_publish(“assess_fits_68k_pbmc.Rmd”)
 </div>
 </div>
 </div>
-<p>Here we compare the quality of the fits obtained from the different updates (EM and SCD, with and without extrapolation), and with different numbers of topics, <span class="math inline">\(K\)</span>.</p>
-<p>Load the packages used in the analysis below, as well as some additional functions for creating the plots.</p>
+<p>Here we compare the quality of the fits obtained from the different
+updates (EM and SCD, with and without extrapolation), and with different
+numbers of topics, <span class="math inline">\(K\)</span>.</p>
+<p>Load the packages used in the analysis below, as well as some
+additional functions for creating the plots.</p>
 <pre class="r"><code>library(Matrix)
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
 library(ggrepel)
-set.seed(1)</code></pre>
-<p>Load the 68k PBMC data, and the results of running <code>fit_poisson_nmf</code> on the 68k PBMC data, with different algorithms, and for various settings of <span class="math inline">\(K\)</span>.</p>
+set.seed(1)
+source(&quot;../code/plot_functions.R&quot;)</code></pre>
+<p>Load the 68k PBMC data, and the results of running
+<code>fit_poisson_nmf</code> on the 68k PBMC data, with different
+algorithms, and for various settings of <span
+class="math inline">\(K\)</span>.</p>
 <pre class="r"><code>load(&quot;../data/pbmc_68k.RData&quot;)
 load(&quot;../output/pbmc68k/fits-pbmc68k.RData&quot;)
 fits &lt;- lapply(fits,poisson2multinom)</code></pre>
-<p>This plot shows the improvement in the log-likelihood as the rank, <span class="math inline">\(K\)</span>, is increased. The log-likelihoods are shown relative to the log-likelihood at <span class="math inline">\(K = 2\)</span>.</p>
+<p>This plot shows the improvement in the log-likelihood as the rank,
+<span class="math inline">\(K\)</span>, is increased. The
+log-likelihoods are shown relative to the log-likelihood at <span
+class="math inline">\(K = 2\)</span>.</p>
 <pre class="r"><code>plot_loglik_vs_rank(fits) +
   theme_cowplot(font_size = 12)</code></pre>
 <p><img src="figure/assess_fits_68k_pbmc.Rmd/plot-loglik-vs-k-1.png" width="336" style="display: block; margin: auto;" /></p>
@@ -849,7 +958,11 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>The next set of plots shows the improvement in the fit over time, for <span class="math inline">\(K\)</span> from 2 to 12, using EM or SCD, with and without extrapolation. The quality of the fit is measured by the log-likelihood relative to the best log-likelihood that was identified among all methods compared.</p>
+<p>The next set of plots shows the improvement in the fit over time, for
+<span class="math inline">\(K\)</span> from 2 to 12, using EM or SCD,
+with and without extrapolation. The quality of the fit is measured by
+the log-likelihood relative to the best log-likelihood that was
+identified among all methods compared.</p>
 <pre class="r"><code>prune_prefit_iters &lt;- function (fit) {
   n &lt;- nrow(fit$progress)
   fit$progress &lt;- fit$progress[1000:n,]
@@ -957,7 +1070,8 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>An example in which the EM and (extrapolated) CD estimates greatly differ:</p>
+<p>An example in which the EM and (extrapolated) CD estimates greatly
+differ:</p>
 <pre class="r"><code>topic_colors &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,
                   &quot;#fb9a99&quot;,&quot;#e31a1c&quot;,&quot;#fdbf6f&quot;)
 fit1 &lt;- fits[[&quot;fit-pbmc68k-em-k=7&quot;]]
@@ -998,6 +1112,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/9f07ff6fbe735fae4bdcc2aeb43b837d4dc7d59e/docs/figure/assess_fits_68k_pbmc.Rmd/loadings-scatterplot-k-7-1.png" target="_blank">9f07ff6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-01-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/50a3fca7f92f88a5cda405f43f090a69e0266a05/docs/figure/assess_fits_68k_pbmc.Rmd/loadings-scatterplot-k-7-1.png" target="_blank">50a3fca</a>
 </td>
 <td>
@@ -1011,7 +1136,8 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>An example in which the EM and (extrapolated) CD estimates largely agree:</p>
+<p>An example in which the EM and (extrapolated) CD estimates largely
+agree:</p>
 <pre class="r"><code>topic_colors &lt;- c(&quot;#8dd3c7&quot;,&quot;#ffffb3&quot;,&quot;#bebada&quot;,&quot;#fb8072&quot;,&quot;#80b1d3&quot;,&quot;#fdb462&quot;,
                   &quot;#b3de69&quot;,&quot;#fccde5&quot;,&quot;#d9d9d9&quot;,&quot;#bc80bd&quot;,&quot;#ccebc5&quot;,&quot;#ffed6f&quot;)
 fit1 &lt;- fits[[&quot;fit-pbmc68k-em-k=12&quot;]]
@@ -1052,6 +1178,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/9f07ff6fbe735fae4bdcc2aeb43b837d4dc7d59e/docs/figure/assess_fits_68k_pbmc.Rmd/loadings-scatterplot-k-12-1.png" target="_blank">9f07ff6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-01-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/50a3fca7f92f88a5cda405f43f090a69e0266a05/docs/figure/assess_fits_68k_pbmc.Rmd/loadings-scatterplot-k-12-1.png" target="_blank">50a3fca</a>
 </td>
 <td>
@@ -1065,7 +1202,9 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>From the PCs of the mixture proportions, we define four clusters, roughly corresponding to (1) B cells, (2) dendritic and CD14+ monocytes, (3) CD34+ cells, and (4) T cells and natural killer cells:</p>
+<p>From the PCs of the mixture proportions, we define four clusters,
+roughly corresponding to (1) B cells, (2) dendritic and CD14+ monocytes,
+(3) CD34+ cells, and (4) T cells and natural killer cells:</p>
 <pre class="r"><code>fit  &lt;- fits[[&quot;fit-pbmc68k-scd-ex-k=7&quot;]]
 pca  &lt;- prcomp(fit$L)$x
 n    &lt;- nrow(pca)
@@ -1080,7 +1219,9 @@ table(clusters)
 # clusters
 #              B CD14+dendritic          CD34+           T+NK 
 #           3733           4028            163          60655</code></pre>
-<p>The Structure plot summarizes the topic proportions in the cells. Here we subsample the larger clusters in order to better visualize the rarer cell types.</p>
+<p>The Structure plot summarizes the topic proportions in the cells.
+Here we subsample the larger clusters in order to better visualize the
+rarer cell types.</p>
 <pre class="r"><code>set.seed(1)
 topics &lt;- c(1:5,7,6)
 topic_colors &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,
@@ -1120,6 +1261,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/9f07ff6fbe735fae4bdcc2aeb43b837d4dc7d59e/docs/figure/assess_fits_68k_pbmc.Rmd/structure-plot-1.png" target="_blank">9f07ff6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-01-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/72ca1a7feb46089a4361e238f7cb9fbe275f4e26/docs/figure/assess_fits_68k_pbmc.Rmd/structure-plot-1.png" target="_blank">72ca1a7</a>
 </td>
 <td>
@@ -1133,7 +1285,9 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>Let’s compare this to the Structure plot we would have obtained had we used the model fit obtained by runnning the EM updates without any extrapolation:</p>
+<p>Let’s compare this to the Structure plot we would have obtained had
+we used the model fit obtained by runnning the EM updates without any
+extrapolation:</p>
 <pre class="r"><code>fit2 &lt;- fits[[&quot;fit-pbmc68k-em-k=7&quot;]]
 fit2 &lt;- select_loadings(fit2,loadings = rows)
 p3b &lt;- structure_plot(fit2,loadings_order = order(tsne[,1]),
@@ -1141,7 +1295,46 @@ p3b &lt;- structure_plot(fit2,loadings_order = order(tsne[,1]),
                       colors = topic_colors[topics],gap = 30)
 print(p3b)</code></pre>
 <p><img src="figure/assess_fits_68k_pbmc.Rmd/structure-plot-em-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>Many of the “driving genes” in topic 6—that is, genes showing the largest increase in expression relative to other topics—are ribosomal protein genes:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-structure-plot-em-1">
+Past versions of structure-plot-em-1.png
+</button>
+</p>
+<div id="fig-structure-plot-em-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/9f07ff6fbe735fae4bdcc2aeb43b837d4dc7d59e/docs/figure/assess_fits_68k_pbmc.Rmd/structure-plot-em-1.png" target="_blank">9f07ff6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-01-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Many of the “driving genes” in topic 6—that is, genes showing the
+largest increase in expression relative to other topics—are ribosomal
+protein genes:</p>
 <pre class="r"><code>pdat &lt;- data.frame(gene = genes$symbol,
                    x    = pmax(1e-6,apply(fit$F[,-6],1,max)),
                    y    = pmax(1e-6,fit$F[,6]),
@@ -1185,6 +1378,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/9f07ff6fbe735fae4bdcc2aeb43b837d4dc7d59e/docs/figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" target="_blank">9f07ff6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2022-01-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/a2f3c07db03d4b8e18a071c03970f597d2b1c859/docs/figure/assess_fits_68k_pbmc.Rmd/words-scatterplot-1.png" target="_blank">a2f3c07</a>
 </td>
 <td>
@@ -1220,60 +1424,76 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<pre class="r"><code>load(&quot;../output/pbmc68k/lda-pbmc68k.RData&quot;)
+p &lt;- vector(&quot;list&quot;,12)
+for (i in 2:12) {
+  runs   &lt;- which(dat$k == i)
+  p[[i]] &lt;- create_elbo_plot(fits[runs],dat[runs,&quot;runtime&quot;],i)
+}
+plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
+          p[[6]],p[[7]],p[[8]],p[[9]],
+          p[[10]],p[[11]],p[[12]],
+          nrow = 3,ncol = 4)</code></pre>
+<p><img src="figure/assess_fits_68k_pbmc.Rmd/elbo-plots-1.png" width="864" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
-# R version 3.6.2 (2019-12-12)
-# Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS Catalina 10.15.7
+# R version 3.5.1 (2018-07-02)
+# Platform: x86_64-pc-linux-gnu (64-bit)
+# Running under: CentOS Linux 7 (Core)
 # 
 # Matrix products: default
-# BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
-# LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+# BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
 # 
 # locale:
-# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+#  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+# [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 # 
 # attached base packages:
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] ggrepel_0.9.1     cowplot_1.0.0     ggplot2_3.3.5     fastTopics_0.6-96
-# [5] Matrix_1.2-18    
+# [1] ggrepel_0.9.1      cowplot_1.1.1      ggplot2_3.3.3      fastTopics_0.6-142
+# [5] Matrix_1.2-15     
 # 
 # loaded via a namespace (and not attached):
-#  [1] httr_1.4.2         tidyr_1.1.3        jsonlite_1.7.2     viridisLite_0.3.0 
-#  [5] RcppParallel_4.4.2 assertthat_0.2.1   mixsqp_0.3-46      yaml_2.2.0        
-#  [9] progress_1.2.2     pillar_1.6.2       backports_1.1.5    lattice_0.20-38   
-# [13] quantreg_5.54      glue_1.4.2         quadprog_1.5-8     digest_0.6.23     
-# [17] promises_1.1.0     colorspace_1.4-1   htmltools_0.4.0    httpuv_1.5.2      
-# [21] pkgconfig_2.0.3    invgamma_1.1       SparseM_1.78       purrr_0.3.4       
-# [25] scales_1.1.0       whisker_0.4        later_1.0.0        Rtsne_0.15        
-# [29] MatrixModels_0.4-1 git2r_0.26.1       tibble_3.1.3       farver_2.0.1      
-# [33] generics_0.0.2     ellipsis_0.3.2     withr_2.4.2        ashr_2.2-51       
-# [37] pbapply_1.5-1      lazyeval_0.2.2     magrittr_2.0.1     crayon_1.4.1      
-# [41] mcmc_0.9-6         evaluate_0.14      fs_1.3.1           fansi_0.4.0       
-# [45] MASS_7.3-51.4      truncnorm_1.0-8    tools_3.6.2        data.table_1.12.8 
-# [49] prettyunits_1.1.1  hms_1.1.0          lifecycle_1.0.0    stringr_1.4.0     
-# [53] MCMCpack_1.4-5     plotly_4.9.2       munsell_0.5.0      irlba_2.3.3       
-# [57] compiler_3.6.2     systemfonts_1.0.2  rlang_0.4.11       grid_3.6.2        
-# [61] htmlwidgets_1.5.1  labeling_0.3       rmarkdown_2.3      gtable_0.3.0      
-# [65] DBI_1.1.0          R6_2.4.1           knitr_1.26         dplyr_1.0.7       
-# [69] uwot_0.1.10        utf8_1.1.4         workflowr_1.6.2    rprojroot_1.3-2   
-# [73] ragg_0.3.1         stringi_1.4.3      parallel_3.6.2     SQUAREM_2017.10-1 
-# [77] Rcpp_1.0.7         vctrs_0.3.8        tidyselect_1.1.1   xfun_0.11         
-# [81] coda_0.19-3</code></pre>
+#  [1] httr_1.4.2         sass_0.4.1         tidyr_0.8.3        jsonlite_1.6      
+#  [5] viridisLite_0.3.0  bslib_0.3.1        RcppParallel_5.1.8 assertthat_0.2.0  
+#  [9] highr_0.7          mixsqp_0.3-47      yaml_2.2.0         progress_1.2.0    
+# [13] pillar_1.9.0       backports_1.1.2    lattice_0.20-38    quadprog_1.5-5    
+# [17] quantreg_5.36      glue_1.4.2         digest_0.6.18      promises_1.0.1    
+# [21] colorspace_1.3-2   htmltools_0.5.2    httpuv_1.4.5       pkgconfig_2.0.2   
+# [25] invgamma_1.1       SparseM_1.77       purrr_0.3.4        scales_1.0.0      
+# [29] whisker_0.3-2      later_0.7.5        Rtsne_0.15         MatrixModels_0.4-1
+# [33] git2r_0.26.1       tibble_3.1.0       generics_0.0.2     ellipsis_0.3.2    
+# [37] withr_2.4.1        ashr_2.2-55        pbapply_1.4-3      lazyeval_0.2.1    
+# [41] cli_3.6.1          magrittr_1.5       crayon_1.3.4       mcmc_0.9-7        
+# [45] evaluate_0.15      fs_1.5.0           fansi_0.4.0        MASS_7.3-51.1     
+# [49] truncnorm_1.0-8    prettyunits_1.0.2  tools_3.5.1        data.table_1.12.0 
+# [53] hms_0.4.2          lifecycle_1.0.3    stringr_1.3.1      MCMCpack_1.4-4    
+# [57] plotly_4.9.3       munsell_0.5.0      irlba_2.3.3        compiler_3.5.1    
+# [61] jquerylib_0.1.4    rlang_1.1.1        grid_3.5.1         htmlwidgets_1.5.3 
+# [65] labeling_0.3       rmarkdown_2.14     gtable_0.2.0       DBI_1.0.0         
+# [69] R6_2.3.0           knitr_1.39         dplyr_1.0.5        uwot_0.1.8        
+# [73] fastmap_1.1.0      utf8_1.1.4         workflowr_1.7.1    rprojroot_1.3-2   
+# [77] stringi_1.2.4      parallel_3.5.1     SQUAREM_2017.10-1  Rcpp_1.0.12       
+# [81] vctrs_0.6.2        tidyselect_1.1.0   xfun_0.31          coda_0.19-2</code></pre>
 </div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
-http://docs.mathjax.org/en/latest/configuration.html.  This will make
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
 the presentation more consistent at the cost of the webpage sometimes
 taking slightly longer to load. Note that this only works because the
 footer is added to webpages before the MathJax javascript. -->
@@ -1285,13 +1505,15 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+
+
 </div>
 
 <script>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -1309,7 +1531,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
