@@ -1,23 +1,51 @@
 # For paper, highlight results with K = 10.
 library(fastTopics)
+library(ggplot2)
 library(cowplot)
 set.seed(1)
-k <- 10
 load("../data/newsgroups.RData")
+topics <- factor(topics,
+                 c("rec.sport.hockey",
+                   "rec.sport.baseball",
+                   "sci.med",
+                   "comp.graphics",
+                   "comp.windows.x",
+                   "comp.os.ms-windows.misc",
+                   "comp.sys.ibm.pc.hardware",
+                   "comp.sys.mac.hardware",
+                   "misc.forsale",
+                   "sci.electronics",
+                   "sci.space",
+                   "alt.atheism",
+                   "soc.religion.christian",
+                   "talk.religion.misc",
+                   "rec.autos",
+                   "rec.motorcycles",
+                   "sci.crypt",
+                   "talk.politics.misc",
+                   "talk.politics.guns",
+                   "talk.politics.mideast"))
+topic_ordering <- c(2,3,4,5,6,7,8,9,10,1)
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
+                  "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
 fit1 <- readRDS("../output/newsgroups/rds/fit-newsgroups-em-k=10.rds")$fit
 fit2 <- readRDS("../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds")$fit
-cor(fit1$L,fit2$L)
+lda1 <- readRDS("../output/newsgroups/rds/lda-newsgroups-em-k=10.rds")$lda
+lda2 <- readRDS("../output/newsgroups/rds/lda-newsgroups-scd-ex-k=10.rds")$lda
 n    <- nrow(fit1$L)
 rows <- sample(n,2000)
 fit1 <- select_loadings(fit1,rows)
 fit2 <- select_loadings(fit2,rows)
-p1 <- structure_plot(fit1,topics = 1:k,grouping = topics[rows])
-p2 <- structure_plot(fit2,topics = 1:k,grouping = topics[rows])
-plot_grid(p1,p2,nrow = 2,ncol = 1)
+L1 <- lda1@gamma[rows,]
+L2 <- lda2@gamma[rows,]
+p1 <- structure_plot(L1,topics = 1:10,grouping = topics[rows],
+                     colors = topic_colors,gap = 20) +
+  scale_x_continuous(breaks = NULL) +
+  ggtitle("EM without extrapolation") +
+  theme(plot.title = element_text(face = "plain",size = 10))
+p2 <- structure_plot(L2,topics = 1:10,grouping = topics[rows],
+                     colors = topic_colors,gap = 20) +
+  ggtitle("CD with extrapolation") +
+  theme(plot.title = element_text(face = "plain",size = 10))
+print(plot_grid(p1,p2,nrow = 2,ncol = 1,rel_heights = c(1,2)))
 
-lda1 <- readRDS("../output/newsgroups/rds/lda-newsgroups-em-k=10.rds")$lda
-lda2 <- readRDS("../output/newsgroups/rds/lda-newsgroups-scd-ex-k=10.rds")$lda
-cor(lda1@gamma,lda2@gamma)
-p3 <- structure_plot(lda1@gamma[rows,],topics = 1:k)
-p4 <- structure_plot(lda2@gamma[rows,],topics = 1:k)
-plot_grid(p1,p2,p3,p4,nrow = 4,ncol = 1)
