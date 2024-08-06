@@ -1,4 +1,5 @@
 # For paper, highlight results with K = 10.
+library(Matrix)
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
@@ -38,6 +39,7 @@ fit1 <- select_loadings(fit1,rows)
 fit2 <- select_loadings(fit2,rows)
 L1 <- lda1@gamma[rows,]
 L2 <- lda2@gamma[rows,]
+
 p1 <- structure_plot(L1,topics = 1:10,grouping = topics[rows],
                      colors = topic_colors,gap = 20) +
   scale_x_continuous(breaks = NULL) +
@@ -49,3 +51,33 @@ p2 <- structure_plot(L2,topics = 1:10,grouping = topics[rows],
   theme(plot.title = element_text(face = "plain",size = 10))
 print(plot_grid(p1,p2,nrow = 2,ncol = 1,rel_heights = c(1,2)))
 
+k <- 1
+dat <- data.frame(word = colnames(counts),
+                    x  = exp(apply(lda2@beta[-k,],2,max)),
+                    y1 = exp(lda1@beta[k,]),
+                    y2 = exp(lda2@beta[k,]))
+subset(transform(dat,r = y2/y1),
+       x > 1e-6 & y2/x > 5)
+
+k <- 9
+dat <- data.frame(word = colnames(counts),
+                    x  = exp(apply(lda2@beta[-k,],2,max)),
+                    y1 = exp(lda1@beta[k,]),
+                    y2 = exp(lda2@beta[k,]))
+subset(transform(dat,r = y2/y1),
+       x < 1e-5 & y2 > 1e-3)
+
+k <- 5
+dat <- data.frame(word = colnames(counts),
+                    x  = exp(apply(lda2@beta[-k,],2,max)),
+                    y1 = exp(lda1@beta[k,]),
+                    y2 = exp(lda2@beta[k,]))
+subset(transform(dat,r = y2/y1),
+       x < 1e-4 & y2 > 2e-4 & r > 10)
+
+k <- 8
+dat <- data.frame(word = colnames(counts),
+                    x  = exp(apply(lda2@beta[-k,],2,max)),
+                    y1 = exp(lda1@beta[k,]),
+                    y2 = exp(lda2@beta[k,]))
+subset(dat,x < 1e-5 & y2 > 5e-4)
