@@ -1,0 +1,28 @@
+---
+title: A closer look at some of the results on the newsgroups data
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+Here we take a closer look at some of the results on the newsgroups data.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center")
+```
+
+Load the packages used in this analysis.
+
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+set.seed(1)
+```
+
+Load the newsgroups data.
+
+```{r load-data}
+load("../data/newsgroups.RData")
+```
