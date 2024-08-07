@@ -33,6 +33,12 @@ fit1 <- readRDS("../output/newsgroups/rds/fit-newsgroups-em-k=10.rds")$fit
 fit2 <- readRDS("../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds")$fit
 lda1 <- readRDS("../output/newsgroups/rds/lda-newsgroups-em-k=10.rds")$lda
 lda2 <- readRDS("../output/newsgroups/rds/lda-newsgroups-scd-ex-k=10.rds")$lda
+fit1 <- poisson2multinom(fit1)
+fit2 <- poisson2multinom(fit2)
+cor(as.vector(fit1$L),as.vector(lda1@gamma))
+# 0.98
+cor(as.vector(fit2$L),as.vector(lda2@gamma))
+# 0.9791
 n    <- nrow(fit1$L)
 rows <- sample(n,2000)
 fit1 <- select_loadings(fit1,rows)
