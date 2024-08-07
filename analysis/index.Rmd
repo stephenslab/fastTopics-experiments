@@ -37,3 +37,8 @@ Assessment of model fits
 + [Droplet](assess_fits_droplet.html)
 
 + [68k PBMC](assess_fits_68k_pbmc.html)
+
++ [A closer look at some results on the newsgroups data](newsgroups_more.html)
+
++ [A closer look at some results on the 68k PBMC data](pbmc68k_more.html)
+
