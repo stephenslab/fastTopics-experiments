@@ -142,3 +142,9 @@ dat <- data.frame(word = colnames(counts),
                   f2 = exp(lda2@beta[k,]))
 subset(dat,f0 < 1e-5 & f2 > 5e-4)
 ```
+
+```{r plots-for-paper echo=FALSE}
+ggsave("../plots/structure_plots_newsgroups.pdf",
+       plot_grid(p1,p2,nrow = 2,ncol = 1),
+	   height = 4.5,width = 8)
+```
