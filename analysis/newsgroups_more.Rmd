@@ -15,6 +15,7 @@ Load the packages used in this analysis.
 
 ```{r load-pkgs, message=FALSE}
 library(Matrix)
+library(topicmodels)
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
