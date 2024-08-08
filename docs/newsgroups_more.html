@@ -12,7 +12,7 @@
 <meta name="author" content="Peter Carbonetto" />
 
 
-<title>A closer look at some of the results on the newsgroups data</title>
+<title>A closer look at some results on the newsgroups data</title>
 
 <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -270,7 +270,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">A closer look at some of the results on the
+<h1 class="title toc-ignore">A closer look at some results on the
 newsgroups data</h1>
 <h4 class="author">Peter Carbonetto</h4>
 
@@ -301,7 +301,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-08-07
+<strong>Last updated:</strong> 2024-08-08
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -433,15 +433,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree269b84d6a0a856373c345bafe1cd183df2ee07b9targetblank269b84da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree4c90df6e55020282c4b691d9ff4b3f3b5d0fa660targetblank4c90df6a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/269b84d6a0a856373c345bafe1cd183df2ee07b9" target="_blank">269b84d</a>
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/4c90df6e55020282c4b691d9ff4b3f3b5d0fa660" target="_blank">4c90df6</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree269b84d6a0a856373c345bafe1cd183df2ee07b9targetblank269b84da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree4c90df6e55020282c4b691d9ff4b3f3b5d0fa660targetblank4c90df6a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -451,7 +451,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/269b84d6a0a856373c345bafe1cd183df2ee07b9" target="_blank">269b84d</a>.
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/4c90df6e55020282c4b691d9ff4b3f3b5d0fa660" target="_blank">4c90df6</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -540,6 +540,57 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/4c90df6e55020282c4b691d9ff4b3f3b5d0fa660/analysis/newsgroups_more.Rmd" target="_blank">4c90df6</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-08-08
+</td>
+<td>
+workflowr::wflow_publish("newsgroups_more.Rmd", verbose = TRUE)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/7969f43dcacbb47de8a24476ca6bd11567f715e1/analysis/newsgroups_more.Rmd" target="_blank">7969f43</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-08-07
+</td>
+<td>
+Working on new ‘newsgroups_more’ analysis.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/a72103c41714796364dcdaefb81a7b0e6fbb1690/docs/newsgroups_more.html" target="_blank">a72103c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2024-08-07
+</td>
+<td>
+First build of the newsgroups_more analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/269b84d6a0a856373c345bafe1cd183df2ee07b9/analysis/newsgroups_more.Rmd" target="_blank">269b84d</a>
 </td>
 <td>
@@ -569,6 +620,156 @@ library(cowplot)
 set.seed(1)</code></pre>
 <p>Load the newsgroups data.</p>
 <pre class="r"><code>load(&quot;../data/newsgroups.RData&quot;)</code></pre>
+<p>Load the topic models fit using the EM and CD algorithms</p>
+<pre class="r"><code>fit1 &lt;- readRDS(&quot;../output/newsgroups/rds/fit-newsgroups-em-k=10.rds&quot;)$fit
+fit2 &lt;- readRDS(&quot;../output/newsgroups/rds/fit-newsgroups-scd-ex-k=10.rds&quot;)$fit
+fit1 &lt;- poisson2multinom(fit1)
+fit2 &lt;- poisson2multinom(fit2)</code></pre>
+<p>and the LDA fits initialized using the EM and CD estimates:</p>
+<pre class="r"><code>lda1 &lt;- readRDS(&quot;../output/newsgroups/rds/lda-newsgroups-em-k=10.rds&quot;)$lda
+lda2 &lt;- readRDS(&quot;../output/newsgroups/rds/lda-newsgroups-scd-ex-k=10.rds&quot;)$lda</code></pre>
+<p>The MLEs and the approximate posterior estimates from LDA turn out to
+be very similar to each other, so there is really no need to examine
+both. Here we’ll focus on the LDA fits:</p>
+<pre class="r"><code>cor(as.vector(fit1$L),as.vector(lda1@gamma))
+cor(as.vector(fit2$L),as.vector(lda2@gamma))
+# [1] 0.9799571
+# [1] 0.9790959</code></pre>
+<p>Let’s now examine the LDA fits using Structure plots. Here is the
+EM-initialized model:</p>
+<pre class="r"><code>n &lt;- nrow(fit1$L)
+rows &lt;- sample(n,2000)
+L1 &lt;- lda1@gamma[rows,]
+topics &lt;- factor(topics,
+                 c(&quot;rec.sport.hockey&quot;,
+                   &quot;rec.sport.baseball&quot;,
+                   &quot;sci.med&quot;,
+                   &quot;comp.graphics&quot;,
+                   &quot;comp.windows.x&quot;,
+                   &quot;comp.os.ms-windows.misc&quot;,
+                   &quot;comp.sys.ibm.pc.hardware&quot;,
+                   &quot;comp.sys.mac.hardware&quot;,
+                   &quot;misc.forsale&quot;,
+                   &quot;sci.electronics&quot;,
+                   &quot;sci.space&quot;,
+                   &quot;alt.atheism&quot;,
+                   &quot;soc.religion.christian&quot;,
+                   &quot;talk.religion.misc&quot;,
+                   &quot;rec.autos&quot;,
+                   &quot;rec.motorcycles&quot;,
+                   &quot;sci.crypt&quot;,
+                   &quot;talk.politics.misc&quot;,
+                   &quot;talk.politics.guns&quot;,
+                   &quot;talk.politics.mideast&quot;))
+topic_ordering &lt;- c(2:10,1)
+topic_colors &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,
+                  &quot;#e31a1c&quot;,&quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;)
+p1 &lt;- structure_plot(L1,topics = 1:10,grouping = topics[rows],
+                     colors = topic_colors,gap = 20) +
+  ggtitle(&quot;EM without extrapolation&quot;) +
+  theme(plot.title = element_text(face = &quot;plain&quot;,size = 10))
+p1</code></pre>
+<p><img src="figure/newsgroups_more.Rmd/structure-plot-em-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>And here’s the CD-initialized model:</p>
+<pre class="r"><code>L2 &lt;- lda2@gamma[rows,]
+p2 &lt;- structure_plot(L2,topics = 1:10,grouping = topics[rows],
+                     colors = topic_colors,gap = 20) +
+  ggtitle(&quot;CD with extrapolation&quot;) +
+  theme(plot.title = element_text(face = &quot;plain&quot;,size = 10))
+p2</code></pre>
+<p><img src="figure/newsgroups_more.Rmd/structure-plot-cd-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>The most striking differences are in topics 1 and 8.</p>
+<p>Let’s now extract some “keywords” for a few selected topics by taking
+words that are at higher frequency in the given topic compared to the
+other topics. For example, top keywords for topic 9 clearly relate to
+baseball, hockey and sports more generally:</p>
+<pre class="r"><code>k &lt;- 9
+dat &lt;- data.frame(word = colnames(counts),
+                  f0 = exp(apply(lda2@beta[-k,],2,max)),
+                  f1 = exp(lda1@beta[k,]),
+                  f2 = exp(lda2@beta[k,]))
+subset(dat,f0 &lt; 1e-5 &amp; f2 &gt; 1e-3)
+#           word           f0           f1          f2
+# 1815  baseball 2.810213e-26 0.0021858183 0.002558474
+# 4306     teams 7.536962e-06 0.0014993384 0.001774011
+# 7885       bos 1.246793e-74 0.0008952049 0.001047827
+# 10219  players 7.288976e-09 0.0026286758 0.003076825
+# 11252     fans 9.865409e-06 0.0015366619 0.001798602
+# 26023   hockey 4.148975e-84 0.0028469414 0.003332311
+# 26700      det 1.551769e-37 0.0009774498 0.001144093
+# 26976  rangers 9.068849e-10 0.0009268376 0.001084851
+# 27471  detroit 8.827394e-28 0.0010660214 0.001247765
+# 32140     espn 9.498411e-85 0.0009489805 0.001110770
+# 33823      nhl 6.136341e-96 0.0013412257 0.001569889</code></pre>
+<p>The keywords for topic 1 seem to suggest a “background topic” that
+captures words that are not specific to any topic:</p>
+<pre class="r"><code>k &lt;- 1
+dat &lt;- data.frame(word = colnames(counts),
+                  f0 = exp(apply(lda2@beta[-k,],2,max)),
+                  f1 = exp(lda1@beta[k,]),
+                  f2 = exp(lda2@beta[k,]))
+subset(dat,f0 &gt; 1e-6 &amp; f2/f0 &gt; 5)
+#            word           f0           f1           f2
+# 482        sure 2.730490e-04 1.318745e-03 2.004453e-03
+# 826        just 1.104558e-03 5.767521e-03 6.867431e-03
+# 849       keeps 1.961181e-05 8.763595e-05 1.180887e-04
+# 861         don 5.529651e-04 5.307603e-03 8.014937e-03
+# 964    anything 3.229690e-04 1.166993e-03 1.667917e-03
+# 1089    happens 5.230439e-05 2.730698e-04 3.664144e-04
+# 1101     wouldn 6.308532e-05 6.959523e-04 8.960805e-04
+# 1114        isn 1.972071e-04 8.741999e-04 1.220989e-03
+# 1122      going 2.382043e-04 1.970294e-03 2.556936e-03
+# 1194      doesn 3.761664e-04 1.107042e-03 1.897569e-03
+# 1243     really 2.449082e-04 2.363712e-03 2.940275e-03
+# 1247    shouldn 4.291797e-05 1.892965e-04 3.218838e-04
+# 1343      doing 2.023907e-04 7.380913e-04 1.175773e-03
+# 1408      thing 3.595447e-04 1.748767e-03 1.818889e-03
+# 1485      maybe 1.340824e-04 1.142698e-03 1.410303e-03
+# 1542      guess 1.235434e-04 6.294977e-04 9.066628e-04
+# 1702      worse 3.962225e-05 2.558826e-04 3.919230e-04
+# 1943       glad 2.335043e-05 1.191823e-04 1.503062e-04
+# 2380        lot 2.851634e-04 1.214309e-03 1.541849e-03
+# 2511   complain 9.458426e-06 1.175283e-04 1.060635e-04
+# 2625       aren 7.708783e-05 4.339988e-04 6.015582e-04
+# 2936    wasting 1.146139e-05 5.363071e-05 5.774432e-05
+# 3643   bothered 7.647129e-06 3.171709e-05 6.446484e-05
+# 4728   homework 2.154784e-06 1.071034e-05 1.376657e-05
+# 6772      scary 9.308367e-06 4.636186e-05 5.272061e-05
+# 7946  obnoxious 3.811318e-06 1.502948e-05 2.142934e-05
+# 9386   squashed 1.336997e-06 9.301078e-06 7.420718e-06
+# 11847  figuring 6.026327e-06 2.689538e-05 3.307360e-05
+# 14900 enjoyable 1.284264e-06 5.932311e-06 6.961532e-06
+# 34566   ranting 2.708701e-06 4.813397e-22 1.498063e-05
+# 49753   gloster 1.088760e-06 1.966287e-25 5.751089e-06</code></pre>
+<p>Finally, topic 8 is a topic that is quite noticeably different
+between the EM and CD estimates, and indeed based on the keywords, only
+the CD estimates produce a topic about cars and motorcycles, with
+keywords such as wheel, riding, bmw, etc:</p>
+<pre class="r"><code>k &lt;- 8
+dat &lt;- data.frame(word = colnames(counts),
+                  f0 = exp(apply(lda2@beta[-k,],2,max)),
+                  f1 = exp(lda1@beta[k,]),
+                  f2 = exp(lda2@beta[k,]))
+subset(dat,f0 &lt; 1e-5 &amp; f2 &gt; 5e-4)
+#              word            f0           f1           f2
+# 6685        wheel  2.926216e-06 2.574153e-48 0.0008890773
+# 8379       riding  4.806729e-06 8.342523e-50 0.0010296821
+# 8848          bmw  1.420484e-70 8.974584e-35 0.0014199092
+# 10461     mustang  1.001845e-62 1.474671e-54 0.0005334919
+# 10632        ford  6.054076e-09 9.614501e-05 0.0012188125
+# 11034      helmet  7.566853e-06 6.205450e-57 0.0007346685
+# 11456          di  6.241188e-07 7.696027e-04 0.0006960997
+# 13843         mov 1.530331e-112 6.423834e-04 0.0005786335
+# 14968          cx  1.896083e-06 5.944685e-04 0.0005342605
+# 17351          ei  9.225139e-79 7.107221e-04 0.0006401903
+# 18581        bike  4.785774e-57 1.148546e-61 0.0034348671
+# 25666  motorcycle  6.819658e-06 4.778873e-48 0.0009843613
+# 25691      toyota  6.852661e-34 1.203084e-46 0.0005293881
+# 25947       honda  1.179594e-74 1.174884e-22 0.0009602854
+# 26114       brake  4.286054e-06 5.328490e-92 0.0006481378
+# 26116       tires  4.017934e-06 3.018378e-61 0.0007099675
+# 27848       bikes  2.086974e-59 1.708530e-51 0.0008084454
+# 27947 motorcycles  1.105482e-56 9.860881e-45 0.0005663222</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -603,27 +804,28 @@ Session information
 #  [4] htmlwidgets_1.6.4   ggrepel_0.9.5       lattice_0.22-5     
 #  [7] quadprog_1.5-8      vctrs_0.6.5         tools_4.3.3        
 # [10] generics_0.1.3      parallel_4.3.3      tibble_3.2.1       
-# [13] fansi_1.0.6         pkgconfig_2.0.3     data.table_1.15.2  
-# [16] SQUAREM_2021.1      RcppParallel_5.1.7  lifecycle_1.0.4    
-# [19] truncnorm_1.0-9     compiler_4.3.3      stringr_1.5.1      
-# [22] git2r_0.33.0        progress_1.2.3      munsell_0.5.0      
-# [25] RhpcBLASctl_0.23-42 httpuv_1.6.14       htmltools_0.5.7    
-# [28] sass_0.4.8          yaml_2.3.8          lazyeval_0.2.2     
-# [31] plotly_4.10.4       crayon_1.5.2        later_1.3.2        
-# [34] pillar_1.9.0        jquerylib_0.1.4     whisker_0.4.1      
-# [37] tidyr_1.3.1         uwot_0.1.16         cachem_1.0.8       
-# [40] gtools_3.9.5        tidyselect_1.2.1    digest_0.6.34      
-# [43] Rtsne_0.17          stringi_1.8.3       dplyr_1.1.4        
-# [46] purrr_1.0.2         ashr_2.2-66         rprojroot_2.0.4    
-# [49] fastmap_1.1.1       grid_4.3.3          colorspace_2.1-0   
-# [52] cli_3.6.2           invgamma_1.1        magrittr_2.0.3     
-# [55] utf8_1.2.4          withr_3.0.0         prettyunits_1.2.0  
-# [58] scales_1.3.0        promises_1.2.1      rmarkdown_2.26     
-# [61] httr_1.4.7          workflowr_1.7.1     hms_1.1.3          
-# [64] pbapply_1.7-2       evaluate_0.23       knitr_1.45         
-# [67] viridisLite_0.4.2   irlba_2.3.5.1       rlang_1.1.3        
-# [70] Rcpp_1.0.12         mixsqp_0.3-54       glue_1.7.0         
-# [73] jsonlite_1.8.8      R6_2.5.1            fs_1.6.3</code></pre>
+# [13] fansi_1.0.6         highr_0.10          pkgconfig_2.0.3    
+# [16] data.table_1.15.2   SQUAREM_2021.1      RcppParallel_5.1.7 
+# [19] lifecycle_1.0.4     truncnorm_1.0-9     farver_2.1.1       
+# [22] compiler_4.3.3      stringr_1.5.1       git2r_0.33.0       
+# [25] progress_1.2.3      munsell_0.5.0       RhpcBLASctl_0.23-42
+# [28] httpuv_1.6.14       htmltools_0.5.7     sass_0.4.8         
+# [31] yaml_2.3.8          lazyeval_0.2.2      plotly_4.10.4      
+# [34] crayon_1.5.2        later_1.3.2         pillar_1.9.0       
+# [37] jquerylib_0.1.4     whisker_0.4.1       tidyr_1.3.1        
+# [40] uwot_0.1.16         cachem_1.0.8        gtools_3.9.5       
+# [43] tidyselect_1.2.1    digest_0.6.34       Rtsne_0.17         
+# [46] stringi_1.8.3       dplyr_1.1.4         purrr_1.0.2        
+# [49] ashr_2.2-66         labeling_0.4.3      rprojroot_2.0.4    
+# [52] fastmap_1.1.1       grid_4.3.3          colorspace_2.1-0   
+# [55] cli_3.6.2           invgamma_1.1        magrittr_2.0.3     
+# [58] utf8_1.2.4          withr_3.0.0         prettyunits_1.2.0  
+# [61] scales_1.3.0        promises_1.2.1      rmarkdown_2.26     
+# [64] httr_1.4.7          workflowr_1.7.1     hms_1.1.3          
+# [67] pbapply_1.7-2       evaluate_0.23       knitr_1.45         
+# [70] viridisLite_0.4.2   irlba_2.3.5.1       rlang_1.1.3        
+# [73] Rcpp_1.0.12         mixsqp_0.3-54       glue_1.7.0         
+# [76] jsonlite_1.8.8      R6_2.5.1            fs_1.6.3</code></pre>
 </div>
 
 
