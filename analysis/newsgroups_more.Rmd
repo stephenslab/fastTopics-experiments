@@ -27,7 +27,7 @@ Load the newsgroups data.
 load("../data/newsgroups.RData")
 ```
 
-Load the topic models fit using the EM and CD algorithms,
+Load the topic models fit using the EM and CD algorithms
 
 ```{r load-fits}
 fit1 <- readRDS("../output/newsgroups/rds/fit-newsgroups-em-k=10.rds")$fit
@@ -44,15 +44,16 @@ lda2 <- readRDS("../output/newsgroups/rds/lda-newsgroups-scd-ex-k=10.rds")$lda
 ```
 
 The MLEs and the approximate posterior estimates from LDA turn out to
-be very similar to each other, so here we'll focus on the LDA fits:
+be very similar to each other, so there is really no need to examine
+both. Here we'll focus on the LDA fits:
 
 ```{r compare-mle-vs-lda}
 cor(as.vector(fit1$L),as.vector(lda1@gamma))
 cor(as.vector(fit2$L),as.vector(lda2@gamma))
 ```
 
-Let's now examine the EM and CD estimates using Structure plots. Here
-is the EM result:
+Let's now examine the LDA fits using Structure plots. Here is the
+EM-initialized model:
 
 ```{r structure-plot-em, fig.height=2.25, fig.width=8, results="hide", message=FALSE} 
 n <- nrow(fit1$L)
@@ -89,7 +90,7 @@ p1 <- structure_plot(L1,topics = 1:10,grouping = topics[rows],
 p1
 ```
 
-And here's the CD result:
+And here's the CD-initialized model:
 
 ```{r structure-plot-cd, fig.height=2.25, fig.width=8, results="hide", message=FALSE}
 L2 <- lda2@gamma[rows,]
@@ -102,27 +103,42 @@ p2
 
 The most striking differences are in topics 1 and 8.
 
-Work on this next:
+Let's now extract some "keywords" for a few selected topics by taking
+words that are at higher frequency in the given topic compared to the
+other topics. For example, top keywords for topic 9 clearly relate to
+baseball, hockey and sports more generally:
 
-```{r}
-k <- 1
-dat <- data.frame(word = colnames(counts),
-                    x  = exp(apply(lda2@beta[-k,],2,max)),
-                    y1 = exp(lda1@beta[k,]),
-                    y2 = exp(lda2@beta[k,]))
-subset(transform(dat,r = y2/y1),
-       x > 1e-6 & y2/x > 5)
+```{r keywords-topic-9}
 k <- 9
 dat <- data.frame(word = colnames(counts),
-                    x  = exp(apply(lda2@beta[-k,],2,max)),
-                    y1 = exp(lda1@beta[k,]),
-                    y2 = exp(lda2@beta[k,]))
-subset(transform(dat,r = y2/y1),
-       x < 1e-5 & y2 > 1e-3)
+                  f0 = exp(apply(lda2@beta[-k,],2,max)),
+                  f1 = exp(lda1@beta[k,]),
+                  f2 = exp(lda2@beta[k,]))
+subset(dat,f0 < 1e-5 & f2 > 1e-3)
+```
+
+The keywords for topic 1 seem to suggest a "background topic" that
+captures words that are not specific to any topic:
+
+```{r keywords-topic-1}
+k <- 1
+dat <- data.frame(word = colnames(counts),
+                  f0 = exp(apply(lda2@beta[-k,],2,max)),
+                  f1 = exp(lda1@beta[k,]),
+                  f2 = exp(lda2@beta[k,]))
+subset(dat,f0 > 1e-6 & f2/f0 > 5)
+```
+
+Finally, topic 8 is a topic that is quite noticeably different between
+the EM and CD estimates, and indeed based on the keywords, only the CD
+estimates produce a topic about cars and motorcycles, with keywords
+such as wheel, riding, bmw, etc:
+
+```{r keywords-topic-8}
 k <- 8
 dat <- data.frame(word = colnames(counts),
-                    x  = exp(apply(lda2@beta[-k,],2,max)),
-                    y1 = exp(lda1@beta[k,]),
-                    y2 = exp(lda2@beta[k,]))
-subset(dat,x < 1e-5 & y2 > 5e-4)
+                  f0 = exp(apply(lda2@beta[-k,],2,max)),
+                  f1 = exp(lda1@beta[k,]),
+                  f2 = exp(lda2@beta[k,]))
+subset(dat,f0 < 1e-5 & f2 > 5e-4)
 ```
