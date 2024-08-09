@@ -1,4 +1,7 @@
 # For paper, highlight results with K = 11.
+#
+# Or maybe highlight K = 7 instead?
+#
 library(fastTopics)
 library(cowplot)
 set.seed(1)
@@ -21,7 +24,7 @@ fit2 <- select_loadings(fit2,rows)
 # Try to cluster the cells.
 L <- lda2@gamma
 n <- nrow(L)
-clusters <- rep("T cells",n)
+clusters <- rep("T cells + other",n)
 names(clusters) <- rownames(fit1$L)
 clusters[L[,4] > 0.3]  <- "NK cells"
 clusters[L[,8] > 0.4]  <- "B cells"
@@ -72,4 +75,3 @@ dat <- data.frame(gene = genes$symbol,
                   f2 = exp(lda2@beta[k,]))
 dat <- transform(dat,lfc = log2(f2/f0))
 subset(dat,lfc > 2.5 & f2 > 0.001)
-
