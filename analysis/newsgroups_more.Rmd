@@ -46,20 +46,20 @@ lda2 <- readRDS("../output/newsgroups/rds/lda-newsgroups-scd-ex-k=10.rds")$lda
 
 The MLEs and the approximate posterior estimates from LDA turn out to
 be very similar to each other, so there is really no need to examine
-both. Here we'll focus on the LDA fits:
+both. Here we'll focus on the MLEs:
 
 ```{r compare-mle-vs-lda}
 cor(as.vector(fit1$L),as.vector(lda1@gamma))
 cor(as.vector(fit2$L),as.vector(lda2@gamma))
 ```
 
-Let's now examine the LDA fits using Structure plots. Here is the
-EM-initialized model:
+Let's now examine the results using Structure plots. Here are the EM
+estimates:
 
 ```{r structure-plot-em, fig.height=2.25, fig.width=8, results="hide", message=FALSE} 
-n <- nrow(fit1$L)
+n    <- nrow(fit1$L)
 rows <- sample(n,2000)
-L1 <- lda1@gamma[rows,]
+L1   <- select_loadings(fit1,rows)$L
 topics <- factor(topics,
                  c("rec.sport.hockey",
                    "rec.sport.baseball",
@@ -91,10 +91,10 @@ p1 <- structure_plot(L1,topics = 1:10,grouping = topics[rows],
 p1
 ```
 
-And here's the CD-initialized model:
+And here are the CD estimates:
 
 ```{r structure-plot-cd, fig.height=2.25, fig.width=8, results="hide", message=FALSE}
-L2 <- lda2@gamma[rows,]
+L2 <- select_loadings(fit1,rows)$L
 p2 <- structure_plot(L2,topics = 1:10,grouping = topics[rows],
                      colors = topic_colors,gap = 20) +
   ggtitle("CD with extrapolation") +
@@ -112,9 +112,9 @@ baseball, hockey and sports more generally:
 ```{r keywords-topic-9}
 k <- 9
 dat <- data.frame(word = colnames(counts),
-                  f0 = exp(apply(lda2@beta[-k,],2,max)),
-                  f1 = exp(lda1@beta[k,]),
-                  f2 = exp(lda2@beta[k,]))
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
 subset(dat,f0 < 1e-5 & f2 > 1e-3)
 ```
 
@@ -124,9 +124,9 @@ captures words that are not specific to any topic:
 ```{r keywords-topic-1}
 k <- 1
 dat <- data.frame(word = colnames(counts),
-                  f0 = exp(apply(lda2@beta[-k,],2,max)),
-                  f1 = exp(lda1@beta[k,]),
-                  f2 = exp(lda2@beta[k,]))
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
 subset(dat,f0 > 1e-6 & f2/f0 > 5)
 ```
 
@@ -138,13 +138,13 @@ such as wheel, riding, bmw, etc:
 ```{r keywords-topic-8}
 k <- 8
 dat <- data.frame(word = colnames(counts),
-                  f0 = exp(apply(lda2@beta[-k,],2,max)),
-                  f1 = exp(lda1@beta[k,]),
-                  f2 = exp(lda2@beta[k,]))
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
 subset(dat,f0 < 1e-5 & f2 > 5e-4)
 ```
 
-```{r plots-for-paper echo=FALSE}
+```{r plots-for-paper, echo=FALSE}
 ggsave("../plots/structure_plots_newsgroups.pdf",
        plot_grid(p1,p2,nrow = 2,ncol = 1),
 	   height = 4.5,width = 8)
