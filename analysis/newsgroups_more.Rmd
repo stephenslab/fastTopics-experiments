@@ -94,7 +94,7 @@ p1
 And here are the CD estimates:
 
 ```{r structure-plot-cd, fig.height=2.25, fig.width=8, results="hide", message=FALSE}
-L2 <- select_loadings(fit1,rows)$L
+L2 <- select_loadings(fit2,rows)$L
 p2 <- structure_plot(L2,topics = 1:10,grouping = topics[rows],
                      colors = topic_colors,gap = 20) +
   ggtitle("CD with extrapolation") +
