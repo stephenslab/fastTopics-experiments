@@ -16,6 +16,7 @@ k <- 6
 diag(cor(fit1$L,lda1@gamma))
 diag(cor(fit2$L,lda2@gamma))
 diag(cor(fit1$F,fit2$F))
+diag(cor(fit1$L,fit2$L))
 
 # Try to cluster the cells.
 L <- fit2$L
@@ -64,15 +65,6 @@ dat <- data.frame(gene = genes$symbol,
 dat <- transform(dat,lfc = log2(f2/f0))
 subset(dat,lfc > 10 & f2 > 0.001)
 
-# B cells.
-k <- 5
-dat <- data.frame(gene = genes$symbol,
-                  f0 = apply(fit2$F[,-k],1,max),
-                  f1 = fit1$F[,k],
-                  f2 = fit2$F[,k])
-dat <- transform(dat,lfc = log2(f2/f0))
-subset(dat,lfc > 4 & f2 > 0.0001)
-
 # NK cells.
 k <- 3
 dat <- data.frame(gene = genes$symbol,
@@ -82,14 +74,14 @@ dat <- data.frame(gene = genes$symbol,
 dat <- transform(dat,lfc = log2(f2/f0))
 subset(dat,lfc > 4 & f2 > 0.001)
 
-# X cells.
-k <- 2
+# B cells.
+k <- 5
 dat <- data.frame(gene = genes$symbol,
                   f0 = apply(fit2$F[,-k],1,max),
                   f1 = fit1$F[,k],
                   f2 = fit2$F[,k])
 dat <- transform(dat,lfc = log2(f2/f0))
-subset(dat,lfc > 10 & f2 > 0.001)
+subset(dat,lfc > 4 & f2 > 0.0001)
 
 # Ribosomal protein genes.
 k <- 6
@@ -99,3 +91,5 @@ dat <- data.frame(gene = genes$symbol,
                   f2 = fit2$F[,k])
 dat <- transform(dat,lfc = log2(f2/f0),r21 = f2/f1)
 subset(dat,lfc > 0.5 & f2 > 0.0001)
+
+# TO DO: Add scatterplots showing in more detail differences in topic 6.
