@@ -26,8 +26,9 @@ clusters[L[,3] > 0.4]  <- "NK cells"
 clusters[L[,1] > 0.3]  <- "myeloid"
 clusters[L[,5] > 0.2]  <- "B cells"
 clusters[L[,2] > 0.9]  <- "Megakaryocytes"
-
-clusters <- factor(clusters)
+clusters <- factor(clusters,
+                   c("Megakaryocytes","myeloid","B cells",
+                     "NK cells","T cells"))
 
 n    <- nrow(fit1$L)
 rows <- sample(n,2000)
