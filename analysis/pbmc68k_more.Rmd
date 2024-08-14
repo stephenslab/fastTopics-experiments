@@ -1,0 +1,172 @@
+---
+title: A closer look at some results on the 68K PBMC data
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+Here we take a closer look at some of the results on the 68K PBMC data.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center")
+```
+
+Load the packages used in this analysis.
+
+```{r load-pkgs, message=FALSE}
+library(Matrix)
+library(topicmodels)
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+```
+
+Load the 68K PBMC data.
+
+```{r load-data}
+load("../data/pbmc_68k.RData")
+rm(counts)
+```
+
+Load the topic models fit using the EM and CD algorithms
+
+```{r load-fits}
+fit1 <- readRDS("../output/pbmc68k/rds/fit-pbmc68k-em-k=7.rds")$fit
+fit2 <- readRDS("../output/pbmc68k/rds/fit-pbmc68k-scd-ex-k=7.rds")$fit
+fit1 <- poisson2multinom(fit1)
+fit2 <- poisson2multinom(fit2)
+```
+
+and the LDA fits initialized using the EM and CD estimates:
+
+```{r load-lda}
+lda1 <- readRDS("../output/pbmc68k/rds/lda-pbmc68k-em-k=7.rds")$lda
+lda2 <- readRDS("../output/pbmc68k/rds/lda-pbmc68k-scd-ex-k=7.rds")$lda
+```
+
+The MLEs and the approximate posterior estimates from LDA turn out to
+be very similar to each other, so there is really no need to examine
+both. Here we'll focus on the MLEs:
+
+```{r compare-mle-vs-lda}
+cor(as.vector(fit1$L),as.vector(lda1@gamma))
+cor(as.vector(fit2$L),as.vector(lda2@gamma))
+```
+
+Let's now examine the results using Structure plots. Here are the EM
+estimates:
+
+```{r structure-plot-em, fig.height=1.75, fig.width=8, results="hide", message=FALSE} 
+L <- fit2$L
+n <- nrow(L)
+clusters <- rep("T cells",n)
+names(clusters) <- rownames(fit2$L)
+clusters[L[,3] > 0.4] <- "NK cells"
+clusters[L[,1] > 0.3] <- "myeloid"
+clusters[L[,5] > 0.2] <- "B cells"
+clusters[L[,2] > 0.9] <- "Megakaryocytes"
+clusters <- factor(clusters,
+                   c("Megakaryocytes","myeloid","B cells","NK cells",
+				     "T cells"))
+n    <- nrow(fit1$L)
+rows <- sample(n,2000)
+fit1 <- select_loadings(fit1,rows)
+fit2 <- select_loadings(fit2,rows)
+k <- 7
+topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
+                  "#e31a1c","#fdbf6f")
+set.seed(1)
+p1 <- structure_plot(fit1,grouping = clusters[rows],topics = 1:7,
+                     colors = topic_colors,gap = 20)
+  ggtitle("EM without extrapolation") +
+  theme(plot.title = element_text(face = "plain",size = 10))
+p1
+```
+
+And here are the CD estimates:
+
+```{r structure-plot-cd, fig.height=1.75, fig.width=8, results="hide", message=FALSE}
+p2 <- structure_plot(fit2,grouping = clusters[rows],topics = 1:7,
+                     colors = topic_colors,gap = 20)
+  ggtitle("CD with extrapolation") +
+  theme(plot.title = element_text(face = "plain",size = 10))
+p2
+```
+
+```{r plots-for-paper, echo=FALSE}
+ggsave("../plots/structure_plots_pbmc68k.pdf",
+       plot_grid(p1,p2,nrow = 2,ncol = 1),
+	   height = 3.5,width = 8)
+```
+
+The most striking difference is the greater promenance of topic 6 (red).
+
+Let's now extract some "driving genes" for a few selected topics by
+taking genes that are at higher expression in the given topic compared
+to the other topics. For example, some of the top driving genes for
+topic 1 suggest myeloid cells (e.g., *S100A8*, *S100A9*):
+
+```{r driving-genes-topic-1}
+k <- 1
+dat <- data.frame(gene = genes$symbol,
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
+dat <- transform(dat,lfc = log2(f2/f0))
+subset(dat,lfc > 4 & f2 > 0.001)
+```
+
+The top driving genes for topic 5 suggest B cells (e.g., *CD79A*,
+*CD19*):
+
+```{r driving-genes-topic-5}
+k <- 5
+dat <- data.frame(gene = genes$symbol,
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
+dat <- transform(dat,lfc = log2(f2/f0))
+subset(dat,lfc > 10 & f2 > 0.0001)
+```
+
+The top driving genes for topic 3 suggest natural killer (NK) cells
+(e.g., *NKG7*, *GNLY*):
+
+```{r driving-genes-topic-3}
+k <- 3
+dat <- data.frame(gene = genes$symbol,
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
+dat <- transform(dat,lfc = log2(f2/f0))
+subset(dat,lfc > 4 & f2 > 0.001)
+```
+
+Topic 2 is less clear, but perhaps relates to megakaryocytes (e.g.,
+*PF4*):
+
+```{r driving-genes-topic-2}
+k <- 2
+dat <- data.frame(gene = genes$symbol,
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
+dat <- transform(dat,lfc = log2(f2/f0))
+subset(dat,lfc > 10 & f2 > 0.001)
+```
+
+Topic 6, the topic that is most different between the EM and CD
+estimates, appears to be capturing a "baseline" expression level. This
+includes ribosomal protein genes, which account for a large fraction
+of the total expression in this data set, and don't capture any
+"interesting" structure.
+
+```{r driving-genes-topic-6}
+k <- 6
+dat <- data.frame(gene = genes$symbol,
+                  f0 = apply(fit2$F[,-k],1,max),
+                  f1 = fit1$F[,k],
+                  f2 = fit2$F[,k])
+dat <- transform(dat,lfc = log2(f2/f0),r21 = f2/f1)
+subset(dat,lfc > 0.5 & f2 > 0.005)
+```
