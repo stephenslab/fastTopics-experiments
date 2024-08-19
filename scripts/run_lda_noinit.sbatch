@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --partition=mstephens
+#SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G

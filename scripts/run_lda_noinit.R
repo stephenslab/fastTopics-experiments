@@ -28,7 +28,7 @@ countsfile <- out$counts
 k          <- out$k
 outfile    <- tail(unlist(strsplit(countsfile,"/")),n = 1)
 outfile    <- substr(outfile,1,nchar(outfile) - 6)
-outfile    <- paste0("lda-",outfile,"-k=",k,".rds")
+outfile    <- paste0("lda-",outfile,"-noinit-k=",k,".rds")
 rm(parser,out)
 
 # Initialize the sequence of pseudorandom numbers.
@@ -50,7 +50,7 @@ lda <- LDA(counts,k,
            control = list(alpha = 1,
                           estimate.alpha = FALSE,
                           verbose = 1,
-                          em = list(iter.max = 10,tol = 0),
+                          em = list(iter.max = 100,tol = 0),
                           var = list(iter.max = 20,tol = 0),
                           keep = 1))
 t1 <- proc.time()
