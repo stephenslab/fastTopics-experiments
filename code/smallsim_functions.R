@@ -106,8 +106,15 @@ run_lda <- function (X, fit, numiter = 100, alpha = 1,
                                 var = list(iter.max = 10)))
 
   # Now fit the variational approximation with (i) "beta", the
-  # log-word frequencies, set to log(F) and (ii) "gamma", the topic
-  # proportions, set to L.
+  # log-word frequencies, initialized to log(F) and (ii) "gamma", the
+  # topic proportions, initialized to L.
+  #
+  # Note: It appears that setting the "initialize" option isn't
+  # strictly needed because it seems to figure out that you want to
+  # initialize to the provided model automatically (see the "model"
+  # input argument), but it is helpful to set initialize = "model" to
+  # make it more clear what we are doing here.
+  #
   F <- normalize.cols(pmax(fit$F,e))
   L <- normalize.rows(pmax(fit$L,e))
   lda@beta  <- t(log(F))
@@ -116,6 +123,7 @@ run_lda <- function (X, fit, numiter = 100, alpha = 1,
              control = list(alpha = alpha,
                             estimate.alpha = estimate.alpha,
                             verbose = verbose,
+                            initialize = "model",
                             em = list(iter.max = numiter,tol = 0),
                             var = list(iter.max = 20,tol = 0),
                             keep = 1)))
