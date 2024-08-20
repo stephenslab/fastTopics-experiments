@@ -19,3 +19,19 @@ sbatch ${MAIN_SCRIPT} newsgroups  9
 sbatch ${MAIN_SCRIPT} newsgroups 10
 sbatch ${MAIN_SCRIPT} newsgroups 11
 sbatch ${MAIN_SCRIPT} newsgroups 12
+
+# Run LDA on the nips data.
+#
+#                     data  k
+sbatch ${MAIN_SCRIPT} nips  2
+sbatch ${MAIN_SCRIPT} nips  3
+sbatch ${MAIN_SCRIPT} nips  4
+sbatch ${MAIN_SCRIPT} nips  5
+sbatch ${MAIN_SCRIPT} nips  5
+sbatch ${MAIN_SCRIPT} nips  6
+sbatch ${MAIN_SCRIPT} nips  7
+sbatch ${MAIN_SCRIPT} nips  8
+sbatch ${MAIN_SCRIPT} nips  9
+sbatch ${MAIN_SCRIPT} nips 10
+sbatch ${MAIN_SCRIPT} nips 11
+sbatch ${MAIN_SCRIPT} nips 12
