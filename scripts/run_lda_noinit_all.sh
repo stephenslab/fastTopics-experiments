@@ -35,3 +35,19 @@ sbatch ${MAIN_SCRIPT} nips  9
 sbatch ${MAIN_SCRIPT} nips 10
 sbatch ${MAIN_SCRIPT} nips 11
 sbatch ${MAIN_SCRIPT} nips 12
+
+# Run LDA on the droplet data.
+#
+#                     data     k
+sbatch ${MAIN_SCRIPT} droplet  2
+sbatch ${MAIN_SCRIPT} droplet  3
+sbatch ${MAIN_SCRIPT} droplet  4
+sbatch ${MAIN_SCRIPT} droplet  5
+sbatch ${MAIN_SCRIPT} droplet  5
+sbatch ${MAIN_SCRIPT} droplet  6
+sbatch ${MAIN_SCRIPT} droplet  7
+sbatch ${MAIN_SCRIPT} droplet  8
+sbatch ${MAIN_SCRIPT} droplet  9
+sbatch ${MAIN_SCRIPT} droplet 10
+sbatch ${MAIN_SCRIPT} droplet 11
+sbatch ${MAIN_SCRIPT} droplet 12
