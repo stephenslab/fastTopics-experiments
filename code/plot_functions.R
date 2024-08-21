@@ -5,15 +5,14 @@
 # the plot.
 create_elbo_plot <- function (fits, timings, k) {
   pdat <- prepare_elbo_plot_data(fits,timings)
-  plot_colors <- c("dodgerblue","orange","darkblue","red")
-  plot_linetypes <- c("solid","solid","dashed","dashed")
+  plot_colors <- c("dodgerblue","orange","black","darkblue","red")
+  plot_linetypes <- c("solid","solid","solid","dashed","dashed")
   return(ggplot(pdat,aes(x = runtime,y = elbo,color = method,
                          linetype = method)) +
          geom_line() +
          scale_color_manual(values = plot_colors) +
          scale_linetype_manual(values = plot_linetypes) +
          scale_y_continuous(trans = "log10",breaks = 10^seq(-8,8)) +
-         guides(color = "none",linetype = "none") +
          labs(x = "runtime (h)",y = "dist. to best ELBO",
               title = paste("K =",k)) +
          theme_cowplot(font_size = 10) +
