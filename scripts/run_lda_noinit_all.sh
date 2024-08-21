@@ -51,3 +51,19 @@ sbatch ${MAIN_SCRIPT} droplet  9
 sbatch ${MAIN_SCRIPT} droplet 10
 sbatch ${MAIN_SCRIPT} droplet 11
 sbatch ${MAIN_SCRIPT} droplet 12
+
+# Run LDA on the 68k pbmc data.
+#
+#                     data      k
+sbatch ${MAIN_SCRIPT} pbmc_68k  2
+sbatch ${MAIN_SCRIPT} pbmc_68k  3
+sbatch ${MAIN_SCRIPT} pbmc_68k  4
+sbatch ${MAIN_SCRIPT} pbmc_68k  5
+sbatch ${MAIN_SCRIPT} pbmc_68k  5
+sbatch ${MAIN_SCRIPT} pbmc_68k  6
+sbatch ${MAIN_SCRIPT} pbmc_68k  7
+sbatch ${MAIN_SCRIPT} pbmc_68k  8
+sbatch ${MAIN_SCRIPT} pbmc_68k  9
+sbatch ${MAIN_SCRIPT} pbmc_68k 10
+sbatch ${MAIN_SCRIPT} pbmc_68k 11
+sbatch ${MAIN_SCRIPT} pbmc_68k 12
