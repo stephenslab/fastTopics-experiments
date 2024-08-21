@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#SBATCH --partition=mstephens
+#SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
-#SBATCH --time=48:00:00
+#SBATCH --mem=8G
+#SBATCH --time=24:00:00
 
 # This script allocates computing resources (CPUs, memory), loads R,
 # and runs run_lda_noinit.R. See run_lda_noinit_all.sh for examples
