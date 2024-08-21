@@ -210,13 +210,16 @@ various initializations:
 ```{r elbo-plots, fig.height=6, fig.width=9}
 load("../output/newsgroups/lda-newsgroups.RData")
 p <- vector("list",12)
+runs   <- which(dat$k == 2)
+p[[1]] <- create_elbo_plot(fits[runs],dat[runs,"runtime"],2)
 for (i in 2:12) {
   runs   <- which(dat$k == i)
-  p[[i]] <- create_elbo_plot(fits[runs],dat[runs,"runtime"],i)
+  p[[i]] <- create_elbo_plot(fits[runs],dat[runs,"runtime"],i) +
+            guides(color = "none",linetype = "none")
 }
 plot_grid(p[[2]],p[[3]],p[[4]],p[[5]],
           p[[6]],p[[7]],p[[8]],p[[9]],
-          p[[10]],p[[11]],p[[12]],
+          p[[10]],p[[11]],p[[12]],p[[1]],
           nrow = 3,ncol = 4)
 ```
 
