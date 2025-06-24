@@ -12,7 +12,7 @@
 <meta name="author" content="Peter Carbonetto" />
 
 
-<title>Empirical comparisons of Poisson NMF algorithms for fitting topic models</title>
+<title>EM vs. SCD on the MCF-7 data set.</title>
 
 <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -270,8 +270,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Empirical comparisons of Poisson NMF
-algorithms for fitting topic models</h1>
+<h1 class="title toc-ignore">EM vs. SCD on the MCF-7 data set.</h1>
 <h4 class="author">Peter Carbonetto</h4>
 
 </div>
@@ -305,7 +304,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span> 0
 </p>
@@ -343,6 +342,90 @@ class="panel-collapse collapse">
 <p>Great! Since the R Markdown file has been committed to the Git
 repository, you know the exact version of the code that produced these
 results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed1code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(1)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed1code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(1)</code> was run prior to running the
+code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -423,8 +506,8 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
-(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+made to the R Markdown (<code>analysis/mcf7.Rmd</code>) and HTML
+(<code>docs/mcf7.html</code>) files. If you’ve configured a remote Git
 repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
 in the table below to view the files as they were in that past version.
 </p>
@@ -455,7 +538,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/30dff04df3807674e0c5c7800710f24a45e78b8c/analysis/index.Rmd" target="_blank">30dff04</a>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/30dff04df3807674e0c5c7800710f24a45e78b8c/analysis/mcf7.Rmd" target="_blank">30dff04</a>
 </td>
 <td>
 Peter Carbonetto
@@ -467,499 +550,6 @@ Peter Carbonetto
 wflow_publish("index.Rmd")
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/d75e3d05cf4a0229447ca648afa38ab6e32995f2/docs/index.html" target="_blank">d75e3d0</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2024-08-07
-</td>
-<td>
-Added a couple links to the overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/42a26b58f9bd5102abff62fbff7dfd05b1e6eef5/analysis/index.Rmd" target="_blank">42a26b5</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2024-08-07
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/75ce0f8a02ba0837972718059fb41fe4aaf74640/docs/index.html" target="_blank">75ce0f8</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2024-06-26
-</td>
-<td>
-Updated a link in the overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/42e1b57b786cc8f1aa85dd8076cc8c2326f5090c/analysis/index.Rmd" target="_blank">42e1b57</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2024-06-26
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/8967abf38cc5535cf1ad7d0e72e487dd9d9542a7/docs/index.html" target="_blank">8967abf</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-04-07
-</td>
-<td>
-Added links to overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/b9fb27c52c777817bda6fc2ceb8846dcf3b5c42d/analysis/index.Rmd" target="_blank">b9fb27c</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-04-07
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/101a30f27f74c25616e95f60a775dabbd410baf8/docs/index.html" target="_blank">101a30f</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-Made a few small revisions to the overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/8a38df27f6bd14fff2c5a39ef978119e558dc9ea/analysis/index.Rmd" target="_blank">8a38df2</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/c480a00e78b56dbb0f7d12ece99ca1aed5e5e02b/analysis/index.Rmd" target="_blank">c480a00</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-21
-</td>
-<td>
-Made a few improvements to the scd_vs_ccd example.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/4e7f14f8b427ff4fdc67d08dd4fe71d2de83a673/docs/index.html" target="_blank">4e7f14f</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-21
-</td>
-<td>
-Added link to overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/a8c2422f87ec6a21ad57e533e3823574678be46c/analysis/index.Rmd" target="_blank">a8c2422</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-21
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd", view = FALSE)
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/affab6caad983efc0596e5d34d2860510b17616b/docs/index.html" target="_blank">affab6c</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-Added links to overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/2d9d3d54733ea8c33f853e9d472f0e78779d7b2d/analysis/index.Rmd" target="_blank">2d9d3d5</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/9d85e9e7952638ed6d30b9fb085a0069de65f335/docs/index.html" target="_blank">9d85e9e</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-Fixed link in overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/525e9828caf78eef6af377db4bc92f89e46137af/analysis/index.Rmd" target="_blank">525e982</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/fd6ee65f364ab4c8f3b36537a5eed90241ab8190/docs/index.html" target="_blank">fd6ee65</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/b556dad1f196333fafccad1111b858b29a97ac8d/analysis/index.Rmd" target="_blank">b556dad</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/5fea715966350febd013bc4a38f1ab6cb46ff991/docs/index.html" target="_blank">5fea715</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-Revised main title.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/d87967cfa004e81adc3797aa71c5a9ba9a34f529/analysis/index.Rmd" target="_blank">d87967c</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/e2b5d54b726aabf9e0d528aad02f60e9439c8d7c/docs/index.html" target="_blank">e2b5d54</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-Added links to overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/d9c5df90bce256f74f1122ab09adfcdcb9875571/analysis/index.Rmd" target="_blank">d9c5df9</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-10
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/eff0954624ad6d61a3479b4037fb29294cfca200/analysis/index.Rmd" target="_blank">eff0954</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-06
-</td>
-<td>
-Added some explanatory text to smallsim.Rmd.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/619712db7412e8f95e17a5ae1a925efd0b02c285/docs/index.html" target="_blank">619712d</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-05
-</td>
-<td>
-Fixed link.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/65a2d61cbc151848f29eb319867ca68453a25c1e/analysis/index.Rmd" target="_blank">65a2d61</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-05
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/60ee4bf2efa365bafea2dbdb615a043dcada1ffa/docs/index.html" target="_blank">60ee4bf</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-05
-</td>
-<td>
-Added link to overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/d1d4be7c8ec8102829c90a66a37b79634ed414d0/analysis/index.Rmd" target="_blank">d1d4be7</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-05
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/2d864582437e902f07d52b44ddb9a43931fbdff4/docs/index.html" target="_blank">2d86458</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-05
-</td>
-<td>
-Built first draft of overview page.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/2773cd175182cfd90104d5e74244215f586763a9/analysis/index.Rmd" target="_blank">2773cd1</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-05
-</td>
-<td>
-workflowr::wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/fastTopics-experiments/blob/3ea52ced6b4fa6c16b424c2208abe11b4900a085/analysis/index.Rmd" target="_blank">3ea52ce</a>
-</td>
-<td>
-Peter Carbonetto
-</td>
-<td>
-2021-03-05
-</td>
-<td>
-Added workflowr files.
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -967,41 +557,69 @@ Added workflowr files.
 </div>
 </div>
 </div>
-<p>Follow the links below to see the results of the numerical
-experiments and the accompanying code.</p>
-<div id="simulations" class="section level2">
-<h2>Simulations</h2>
-<ul>
-<li><p><a href="scd_vs_ccd.html">Example in which the SCD and CCD
-updates produce the same sequence of iterates.</a></p></li>
-<li><p><a href="smallsim_hard.html">EM vs. SCD in a small, simulated
-data set.</a></p></li>
-<li><p><a href="mcf7.html">EM vs. SCD on the MCF-7 data
-set.</a></p></li>
-</ul>
-</div>
-<div id="data-preparation" class="section level2">
-<h2>Data preparation</h2>
-<ul>
-<li><p><a href="prepare_nips_data.html">NIPS data</a></p></li>
-<li><p><a href="prepare_newsgroups.html">Newsgroups data</a></p></li>
-<li><p><a href="prepare_droplet.html">Droplet</a></p></li>
-<li><p><a href="prepare_68k_pbmc.html">68k PBMC</a></p></li>
-</ul>
-</div>
-<div id="assessment-of-model-fits" class="section level2">
-<h2>Assessment of model fits</h2>
-<ul>
-<li><p><a href="assess_fits_nips.html">NIPS data</a></p></li>
-<li><p><a href="assess_fits_newsgroups.html">Newsgroups
-data</a></p></li>
-<li><p><a href="assess_fits_droplet.html">Droplet</a></p></li>
-<li><p><a href="assess_fits_68k_pbmc.html">68k PBMC</a></p></li>
-<li><p><a href="newsgroups_more.html">A closer look at some results on
-the newsgroups data</a></p></li>
-<li><p><a href="pbmc68k_more.html">A closer look at some results on the
-68k PBMC data</a></p></li>
-</ul>
+<p>See <a
+href="https://stephenslab.github.io/single-cell-jamboree/mcf7.html">here</a>
+for background on the MCF-7 data set.</p>
+<p>Load the packages used in this example</p>
+<pre class="r"><code>library(fastTopics)
+library(ggplot2)
+library(cowplot)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()
+# R version 4.3.3 (2024-02-29)
+# Platform: aarch64-apple-darwin20 (64-bit)
+# Running under: macOS 15.5
+# 
+# Matrix products: default
+# BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
+# LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# time zone: America/Chicago
+# tzcode source: internal
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] cowplot_1.1.3     ggplot2_3.5.0     fastTopics_0.7-25
+# 
+# loaded via a namespace (and not attached):
+#  [1] gtable_0.3.4        xfun_0.42           bslib_0.6.1        
+#  [4] htmlwidgets_1.6.4   ggrepel_0.9.5       lattice_0.22-5     
+#  [7] quadprog_1.5-8      vctrs_0.6.5         tools_4.3.3        
+# [10] generics_0.1.3      parallel_4.3.3      tibble_3.2.1       
+# [13] fansi_1.0.6         pkgconfig_2.0.3     Matrix_1.6-5       
+# [16] data.table_1.17.4   SQUAREM_2021.1      RcppParallel_5.1.10
+# [19] lifecycle_1.0.4     truncnorm_1.0-9     compiler_4.3.3     
+# [22] stringr_1.5.1       git2r_0.33.0        progress_1.2.3     
+# [25] munsell_0.5.0       RhpcBLASctl_0.23-42 httpuv_1.6.14      
+# [28] htmltools_0.5.8.1   sass_0.4.9          yaml_2.3.8         
+# [31] lazyeval_0.2.2      plotly_4.10.4       crayon_1.5.2       
+# [34] later_1.3.2         pillar_1.9.0        jquerylib_0.1.4    
+# [37] whisker_0.4.1       tidyr_1.3.1         uwot_0.2.3         
+# [40] cachem_1.0.8        gtools_3.9.5        tidyselect_1.2.1   
+# [43] digest_0.6.34       Rtsne_0.17          stringi_1.8.3      
+# [46] reshape2_1.4.4      dplyr_1.1.4         purrr_1.0.2        
+# [49] ashr_2.2-66         rprojroot_2.0.4     fastmap_1.1.1      
+# [52] grid_4.3.3          colorspace_2.1-0    cli_3.6.4          
+# [55] invgamma_1.1        magrittr_2.0.3      utf8_1.2.4         
+# [58] withr_3.0.2         prettyunits_1.2.0   scales_1.3.0       
+# [61] promises_1.2.1      rmarkdown_2.26      httr_1.4.7         
+# [64] workflowr_1.7.1     hms_1.1.3           pbapply_1.7-2      
+# [67] evaluate_1.0.3      knitr_1.45          viridisLite_0.4.2  
+# [70] irlba_2.3.5.1       rlang_1.1.5         Rcpp_1.0.12        
+# [73] mixsqp_0.3-54       glue_1.8.0          jsonlite_1.8.8     
+# [76] plyr_1.8.9          R6_2.5.1            fs_1.6.5</code></pre>
 </div>
 
 
