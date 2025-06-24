@@ -4,19 +4,143 @@ author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
 
-See
+This will be the new in-depth example for the paper illustrating the
+differences in performance of the EM and SCD methods. See
 [here](https://stephenslab.github.io/single-cell-jamboree/mcf7.html)
-for background on the MCF-7 data set.
+for background on the MCF-7 data set, including steps taken to prepare
+the data.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
                       fig.align = "center",dpi = 120)
 ```
 
-Load the packages used in this example
+First load the packages used in the code below:
 
 ```{r load-pkgs, message=FALSE}
 library(fastTopics)
 library(ggplot2)
 library(cowplot)
+```
+
+Set the seed to ensure that the results are reproducible:
+
+```{r set-seed}
+set.seed(1)
+```
+
+Load the MCF-7 data set and initial estimate of the topic proportions:
+
+```{r load-data}
+load("../data/mcf7.RData")
+dim(counts)
+```
+
+I obtain a "smart" initialization by running 4 EM iterations:
+
+```{r initialize-topic-model}
+L <- L[,2:4]
+control <- list(extrapolate = FALSE,numiter = 4,nc = 8)
+fit0 <- init_poisson_nmf(counts,L = L,init.method = "random")
+fit0 <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 4,method = "em",
+                        control = control,verbose = "none")
+```
+
+This "smart" initialization will be used as the starting point for
+all the comparisons.
+
+This is what the smart initialization looks like:
+
+```{r structure-plot-initial, fig.height=1.25, fig.width=4}
+topic_colors <- c("darkblue","dodgerblue","tomato")
+n <- nrow(samples)
+p1 <- structure_plot(fit0,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors,loadings_order = 1:n) +
+  labs(y = "topic prop.") +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+print(p1)
+```
+
+Now let's run the extrapolated SCD algorithm for a decently long time
+to obtain a high-quality fit:
+
+```{r fit-poisson-nmf-high-quality, cache=TRUE}
+control$extrapolate <- FALSE
+fit_best <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 100,method = "scd",
+                            control = control,verbose = "none")
+control$extrapolate <- TRUE
+fit_best <- fit_poisson_nmf(counts,fit0 = fit_best,numiter = 200,
+                            method = "scd",control = control,
+							verbose = "none")
+```
+
+Here's what it looks like:
+
+```{r structure-plot-high-quality, fig.height=1.25, fig.width=4}
+p2 <- structure_plot(fit_best,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors,loadings_order = 1:n) +
+  labs(y = "topic prop.") +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+print(p2)
+```
+
+Fit the topic model by performing either (i) 80 EM updates or (ii)
+80 SCD updates. Both of the fits are first initialized by running 20
+EM updates.
+
+```{r fit-poisson-nmf-more, cache=TRUE}
+control$extrapolate <- FALSE
+fit_em  <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 100,method = "em",
+                           control = control,verbose = "none")
+fit_scd <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 200,method = "scd",
+                           control = control,verbose = "none")
+fit_scd_ex <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 50,method = "scd",
+                              control = control,verbose = "none")
+control$extrapolate <- TRUE
+fit_scd_ex <- fit_poisson_nmf(counts,fit0 = fit_scd_ex,numiter = 50,
+                              method = "scd",control = control,
+							  verbose = "none")
+fit_em_scd <- fit_poisson_nmf(counts,fit0 = fit_em,numiter = 100,
+                              method = "scd",control = control,
+							  verbose = "none")
+control$extrapolate <- FALSE
+fit_em  <- fit_poisson_nmf(counts,fit0 = fit_em,numiter = 100,method = "em",
+                           control = control,verbose = "none")
+```
+
+Progress plots:
+
+```{r progress-plots, fig.height=2.5, fig.width=4}
+plot_progress(list(best = fit_best,em_scd_ex = fit_em_scd,em = fit_em,
+                   scd = fit_scd,scd_ex = fit_scd_ex),
+              x = "iter")
+```
+
+Compare the fits in Structure plots:
+
+```{r structure-plots, fig.width=6, fig.height=8, eval=FALSE}
+p1 <- structure_plot(fit1,grouping = samples$label,topics = 1:3,
+                     colors = topic_colors) +
+  labs(y = "",title = "EM")
+p2 <- structure_plot(fit2,grouping = samples$label,topics = 1:3,
+                     colors = topic_colors) +
+  labs(y = "",title = "SCD")
+p3 <- structure_plot(fit3,grouping = samples$label,topics = 1:3,
+                     colors = topic_colors) +
+  labs(y = "",title = "SCD + extrapolate")
+p4 <- structure_plot(fit3,grouping = samples$label,topics = 1:3,
+                     colors = topic_colors,loadings_order = 1:n) +
+  labs(y = "",title = "best")
+print(plot_grid(p0,p1,p2,p3,p4,nrow = 5,ncol = 1))
+```
+
+Compare the log-likelihoods:
+
+```{r logliks, eval=FALSE}
+logliks <- c("initial" = sum(loglik_multinom_topic_model(counts,fit0)),
+             "em"      = sum(loglik_multinom_topic_model(counts,fit1)),
+             "scd"     = sum(loglik_multinom_topic_model(counts,fit2)),
+             "scd+ex"  = sum(loglik_multinom_topic_model(counts,fit3)),
+             "best"    = sum(loglik_multinom_topic_model(counts,fit4)))
+print(logliks["best"] - logliks[1:4])
 ```
