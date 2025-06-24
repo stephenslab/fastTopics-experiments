@@ -129,7 +129,7 @@ various initializations:
 
 ```{r elbo-plots, fig.height=6, fig.width=9}
 load("../output/nips/lda-nips.RData")
-p <- vector("list",12)
+p      <- vector("list",12)
 runs   <- which(dat$k == 2)
 p[[1]] <- create_elbo_plot(fits[runs],dat[runs,"runtime"],2)
 for (i in 2:12) {

@@ -1,0 +1,22 @@
+---
+title: EM vs. SCD on the MCF-7 data set.
+author: Peter Carbonetto
+output: workflowr::wflow_html
+---
+
+See
+[here](https://stephenslab.github.io/single-cell-jamboree/mcf7.html)
+for background on the MCF-7 data set.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center",dpi = 120)
+```
+
+Load the packages used in this example
+
+```{r load-pkgs, message=FALSE}
+library(fastTopics)
+library(ggplot2)
+library(cowplot)
+```

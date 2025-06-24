@@ -16,6 +16,8 @@ Simulations
 
 + [EM vs. SCD in a small, simulated data set.](smallsim_hard.html)
 
++ [EM vs. SCD on the MCF-7 data set.](mcf7.html)
+
 Data preparation
 ----------------
 
