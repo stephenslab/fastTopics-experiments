@@ -74,7 +74,13 @@ fit_best <- fit_poisson_nmf(counts,fit0 = fit_best,numiter = 200,
 							verbose = "none")
 ```
 
-Here's what it looks like:
+These are the max. residuals in the last iterations:
+
+```{r check-high-quality-fit}
+tail(fit_best$progress$res,n = 4)
+```
+
+Here's what the topic model looks like:
 
 ```{r structure-plot-high-quality, fig.height=1.25, fig.width=4}
 p2 <- structure_plot(fit_best,grouping = samples$label,topics = c(3,1,2),
