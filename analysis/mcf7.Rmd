@@ -90,9 +90,8 @@ p2 <- structure_plot(fit_best,grouping = samples$label,topics = c(3,1,2),
 print(p2)
 ```
 
-Fit the topic model by performing either (i) 80 EM updates or (ii)
-80 SCD updates. Both of the fits are first initialized by running 20
-EM updates.
+Fit the topic model by performing EM updates or SCD updates, with or
+without extrapolation.
 
 ```{r fit-poisson-nmf-more, cache=TRUE}
 control$extrapolate <- FALSE
@@ -114,12 +113,28 @@ fit_em  <- fit_poisson_nmf(counts,fit0 = fit_em,numiter = 100,method = "em",
                            control = control,verbose = "none")
 ```
 
-Progress plots:
+This plot shows the improvement in the solution over time for the
+different methods:
 
 ```{r progress-plots, fig.height=2.5, fig.width=4}
-plot_progress(list(best = fit_best,em_scd_ex = fit_em_scd,em = fit_em,
-                   scd = fit_scd,scd_ex = fit_scd_ex),
-              x = "iter")
+progress_plot_colors <- c("dodgerblue","darkblue","darkorange","magenta")
+ll_best <- tail(fit_best$progress$loglik.multinom,n = 1)
+pdat <- rbind(cbind(fit_em$progress,data.frame(method = "em")),
+              cbind(fit_scd$progress,data.frame(method = "scd")),
+			  cbind(fit_scd_ex$progress,data.frame(method = "scd+ex")),
+			  cbind(fit_em_scd$progress,data.frame(method = "em+scd+ex")))
+pdat <- transform(pdat,
+                  loglik.multinom = ll_best - loglik.multinom,
+                  method = factor(method))
+pdat2 <- subset(pdat,iter %% 50 == 1)
+p3 <- ggplot(pdat,aes(x = iter,y = loglik.multinom,color = method)) +
+  geom_line() +
+  geom_point(data = pdat2,size = 1) +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-3,7)) +
+  scale_color_manual(values = progress_plot_colors) +
+  labs(x = "iteration",y = "distance from best loglik") +
+  theme_cowplot(font_size = 12)
+print(p3)
 ```
 
 Compare the fits in Structure plots:
