@@ -155,13 +155,14 @@ p4 <- structure_plot(fit3,grouping = samples$label,topics = 1:3,
 print(plot_grid(p0,p1,p2,p3,p4,nrow = 5,ncol = 1))
 ```
 
-Compare the log-likelihoods:
+Compare the log-likelihoods obtained by the different methods
+(relative to the log-likelihood at the "high-quality" solution):
 
-```{r logliks, eval=FALSE}
-logliks <- c("initial" = sum(loglik_multinom_topic_model(counts,fit0)),
-             "em"      = sum(loglik_multinom_topic_model(counts,fit1)),
-             "scd"     = sum(loglik_multinom_topic_model(counts,fit2)),
-             "scd+ex"  = sum(loglik_multinom_topic_model(counts,fit3)),
-             "best"    = sum(loglik_multinom_topic_model(counts,fit4)))
-print(logliks["best"] - logliks[1:4])
+```{r logliks}
+logliks <- c("initial"   = sum(loglik_multinom_topic_model(counts,fit0)),
+             "em"        = sum(loglik_multinom_topic_model(counts,fit_em)),
+             "scd"       = sum(loglik_multinom_topic_model(counts,fit_scd)),
+             "scd+ex"    = sum(loglik_multinom_topic_model(counts,fit_scd_ex)),
+             "em+scd+ex" = sum(loglik_multinom_topic_model(counts,fit_em_scd)))
+ll_best - logliks
 ```
