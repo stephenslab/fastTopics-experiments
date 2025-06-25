@@ -137,24 +137,6 @@ p3 <- ggplot(pdat,aes(x = iter,y = loglik.multinom,color = method)) +
 print(p3)
 ```
 
-Compare the fits in Structure plots:
-
-```{r structure-plots, fig.width=6, fig.height=8, eval=FALSE}
-p1 <- structure_plot(fit1,grouping = samples$label,topics = 1:3,
-                     colors = topic_colors) +
-  labs(y = "",title = "EM")
-p2 <- structure_plot(fit2,grouping = samples$label,topics = 1:3,
-                     colors = topic_colors) +
-  labs(y = "",title = "SCD")
-p3 <- structure_plot(fit3,grouping = samples$label,topics = 1:3,
-                     colors = topic_colors) +
-  labs(y = "",title = "SCD + extrapolate")
-p4 <- structure_plot(fit3,grouping = samples$label,topics = 1:3,
-                     colors = topic_colors,loadings_order = 1:n) +
-  labs(y = "",title = "best")
-print(plot_grid(p0,p1,p2,p3,p4,nrow = 5,ncol = 1))
-```
-
 Compare the log-likelihoods obtained by the different methods
 (relative to the log-likelihood at the "high-quality" solution):
 
@@ -166,3 +148,27 @@ logliks <- c("initial"   = sum(loglik_multinom_topic_model(counts,fit0)),
              "em+scd+ex" = sum(loglik_multinom_topic_model(counts,fit_em_scd)))
 ll_best - logliks
 ```
+
+Compare the fit obtained by each method in Structure plots:
+
+```{r morestructure-plots, fig.width=4, fig.height=5.5}
+p4 <- structure_plot(fit_em,grouping = samples$label,topics = c(3,1,2),
+                    colors = topic_colors,loadings_order = 1:n) +
+  labs(y = "topic prop.",title = "EM") +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+p5 <- structure_plot(fit_scd,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors,loadings_order = 1:n) +
+  labs(y = "topic prop.",title = "SCD") +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+p6 <- structure_plot(fit_scd_ex,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors) +
+  labs(y = "topic prop.",title = "SCD + extrapolate") +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+p7 <- structure_plot(fit_em_scd,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors) +
+  labs(y = "topic prop.",title = "EM + SCD + extrapolate") +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+print(plot_grid(p4,p5,p6,p7,nrow = 4,ncol = 1))
+```
+
+TO DO: Save the plots as PDFs.
