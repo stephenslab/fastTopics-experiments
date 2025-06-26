@@ -1,5 +1,5 @@
 ---
-title: EM vs. SCD on the MCF-7 data set.
+title: EM vs. SCD on the MCF-7 data set
 author: Peter Carbonetto
 output: workflowr::wflow_html
 ---
@@ -151,7 +151,7 @@ ll_best - logliks
 
 Compare the fit obtained by each method in Structure plots:
 
-```{r morestructure-plots, fig.width=4, fig.height=5.5}
+```{r more-structure-plots, fig.width=4, fig.height=5.5}
 p4 <- structure_plot(fit_em,grouping = samples$label,topics = c(3,1,2),
                     colors = topic_colors,loadings_order = 1:n) +
   labs(y = "topic prop.",title = "EM") +
@@ -171,6 +171,37 @@ p7 <- structure_plot(fit_em_scd,grouping = samples$label,topics = c(3,1,2),
 print(plot_grid(p4,p5,p6,p7,nrow = 4,ncol = 1))
 ```
 
+Also, let's check that the EM updates *eventually* converge to the
+same fixed point:
+
+```{r fit-poisson-nmf-em-long, cache=TRUE}
+control$extrapolate <- FALSE
+fit_em_long  <- fit_poisson_nmf(counts,fit0 = fit0,numiter = 4000,
+                                method = "em",control = control,
+                                verbose = "none")
+```
+
+Indeed, they do:
+
+```{r check-em-long}
+cor(poisson2multinom(fit_best)$L,poisson2multinom(fit_em_long)$L)
+```
+
+Plot the improvement in the EM updates over time:
+
+```{r progress-plot, fig.height=2, fig.width=3}
+pdat <- fit_em_long$progress
+pdat <- transform(pdat,loglik.multinom = ll_best - loglik.multinom)
+pdat2 <- subset(pdat,iter %% 50 == 1)
+p8 <- ggplot(pdat,aes(x = iter,y = loglik.multinom)) +
+  geom_line(color = "darkorange") +
+  geom_point(data = pdat2,size = 1,color = "darkorange") +
+  scale_y_continuous(trans = "log10",breaks = 10^seq(-2,+7)) +
+  labs(x = "iteration",y = "dist. from best loglik") +
+  theme_cowplot(font_size = 12)
+print(p8)
+```
+
 Finally, save the key plots to PDF:
 
 ```{r ggsave}
@@ -182,4 +213,5 @@ ggsave("mcf7_structure_plots.pdf",
 				 nrow = 4,ncol = 1),
 	   height = 5.5,width = 4)
 ggsave("mcf7_progress_plot.pdf",p3,height = 2.5,width = 4)
+ggsave("mcf7_progress_plot_em.pdf",p8,height = 2,width = 3)
 ```
