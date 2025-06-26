@@ -279,7 +279,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -290,8 +290,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -300,13 +300,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-06-23
+<strong>Last updated:</strong> 2025-06-25
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -401,16 +401,27 @@ versions is critical for reproducibility.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
 </p>
 </div>
-<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div id="strongCachestrongdetected" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be
-confident that you successfully produced the results during this
-run.</p>
+The following chunks had caches available:
+<ul>
+<li>
+fit-poisson-nmf-high-quality
+</li>
+<li>
+fit-poisson-nmf-more
+</li>
+</ul>
+<p>To ensure reproducibility of the results, delete the cache directory
+<code>mcf7_cache</code> and re-run the analysis. To have workflowr
+automatically delete the cache directory prior to building the file, set
+<code>delete_cache = TRUE</code> when running <code>wflow_build()</code>
+or <code>wflow_publish()</code>.</p>
 </div>
 </div>
 </div>
@@ -432,15 +443,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree30dff04df3807674e0c5c7800710f24a45e78b8ctargetblank30dff04a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree05adfb4aa7178e0e42a6d19a8a93ea28607cf8c0targetblank05adfb4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/30dff04df3807674e0c5c7800710f24a45e78b8c" target="_blank">30dff04</a>
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/05adfb4aa7178e0e42a6d19a8a93ea28607cf8c0" target="_blank">05adfb4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree30dff04df3807674e0c5c7800710f24a45e78b8ctargetblank30dff04a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree05adfb4aa7178e0e42a6d19a8a93ea28607cf8c0targetblank05adfb4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -450,7 +461,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/30dff04df3807674e0c5c7800710f24a45e78b8c" target="_blank">30dff04</a>.
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/05adfb4aa7178e0e42a6d19a8a93ea28607cf8c0" target="_blank">05adfb4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -481,13 +492,16 @@ Ignored files:
     Ignored:    output/pbmc68k/rds/
 
 Untracked files:
+    Untracked:  .DS_Store
     Untracked:  analysis/lda-eb-newsgroups-em-k=10.rds
     Untracked:  analysis/lda-eb-newsgroups-scd-ex-k=10.rds
     Untracked:  analysis/lda-newsgroups-em-k=10.rds
     Untracked:  analysis/lda-newsgroups-scd-ex-k=10.rds
     Untracked:  analysis/maptpx-newsgroups-em-k=10.rds
     Untracked:  analysis/maptpx-newsgroups-scd-ex-k=10.rds
-    Untracked:  data/mcf7.RData
+    Untracked:  analysis/mcf7_cache/
+    Untracked:  analysis/mcf7_progress_plot.pdf
+    Untracked:  analysis/mcf7_structure_plots.pdf
     Untracked:  plots/
 
 </code></pre>
@@ -538,6 +552,126 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/05adfb4aa7178e0e42a6d19a8a93ea28607cf8c0/analysis/mcf7.Rmd" target="_blank">05adfb4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-25
+</td>
+<td>
+wflow_publish("mcf7.Rmd", verbose = T, view = F)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/727d65cb24f27f98b82f7ab35509ff9f8ca0bd68/analysis/mcf7.Rmd" target="_blank">727d65c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-25
+</td>
+<td>
+Added more structure plots to the mcf7 example.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/092a88163413148a39588a1ebbdb7cec58c7a416/analysis/mcf7.Rmd" target="_blank">092a881</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-25
+</td>
+<td>
+Added the relative logliks to the mcf7 example.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/8a1835c042de417c13122911d280cabd0a212384/analysis/mcf7.Rmd" target="_blank">8a1835c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-25
+</td>
+<td>
+Improved the progress plot in the mcf7 analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/94ffd457b462d273f7503d4418cf3300d896c9ae/analysis/mcf7.Rmd" target="_blank">94ffd45</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-24
+</td>
+<td>
+A couple small edits to the mcf7 example.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/88ac4b72bc8ddcbcb0d7607d5ccb694ac9e268a9/analysis/mcf7.Rmd" target="_blank">88ac4b7</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-24
+</td>
+<td>
+I have a rough draft of the MCF-7 example; now I need to polish it up
+and put together nice figures.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/8791b2601dbe3563555a31e1b76a1b27e382a99f/docs/mcf7.html" target="_blank">8791b26</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-23
+</td>
+<td>
+Added link to the overview page.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/30dff04df3807674e0c5c7800710f24a45e78b8c/analysis/mcf7.Rmd" target="_blank">30dff04</a>
 </td>
 <td>
@@ -557,13 +691,164 @@ wflow_publish("index.Rmd")
 </div>
 </div>
 </div>
-<p>See <a
+<p>This will be the new in-depth example for the paper illustrating the
+differences in performance of the EM and SCD methods. See <a
 href="https://stephenslab.github.io/single-cell-jamboree/mcf7.html">here</a>
-for background on the MCF-7 data set.</p>
-<p>Load the packages used in this example</p>
+for background on the MCF-7 data set, including steps taken to prepare
+the data.</p>
+<p>First load the packages used in the code below:</p>
 <pre class="r"><code>library(fastTopics)
 library(ggplot2)
 library(cowplot)</code></pre>
+<p>Set the seed to ensure that the results are reproducible:</p>
+<pre class="r"><code>set.seed(1)</code></pre>
+<p>Load the MCF-7 data set and initial estimate of the topic
+proportions:</p>
+<pre class="r"><code>load(&quot;../data/mcf7.RData&quot;)
+dim(counts)
+# [1]    41 16773</code></pre>
+<p>I obtain a “smart” initialization by running 4 EM iterations:</p>
+<pre class="r"><code>L &lt;- L[,2:4]
+control &lt;- list(extrapolate = FALSE,numiter = 4,nc = 8)
+fit0 &lt;- init_poisson_nmf(counts,L = L,init.method = &quot;random&quot;)
+fit0 &lt;- fit_poisson_nmf(counts,fit0 = fit0,numiter = 4,method = &quot;em&quot;,
+                        control = control,verbose = &quot;none&quot;)</code></pre>
+<p>This “smart” initialization will be used as the starting point for
+all the comparisons.</p>
+<p>This is what the smart initialization looks like:</p>
+<pre class="r"><code>topic_colors &lt;- c(&quot;darkblue&quot;,&quot;dodgerblue&quot;,&quot;tomato&quot;)
+n &lt;- nrow(samples)
+p1 &lt;- structure_plot(fit0,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors,loadings_order = 1:n) +
+  labs(y = &quot;topic prop.&quot;) +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+print(p1)</code></pre>
+<p><img src="figure/mcf7.Rmd/structure-plot-initial-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Now let’s run the extrapolated SCD algorithm for a decently long time
+to obtain a high-quality fit:</p>
+<pre class="r"><code>control$extrapolate &lt;- FALSE
+fit_best &lt;- fit_poisson_nmf(counts,fit0 = fit0,numiter = 100,method = &quot;scd&quot;,
+                            control = control,verbose = &quot;none&quot;)
+control$extrapolate &lt;- TRUE
+fit_best &lt;- fit_poisson_nmf(counts,fit0 = fit_best,numiter = 200,
+                            method = &quot;scd&quot;,control = control,
+                            verbose = &quot;none&quot;)</code></pre>
+<div class="alert alert-warning">
+<p>
+<strong>Warning:</strong> The above code chunk cached its results, but
+it won’t be re-run if previous chunks it depends on are updated. If you
+need to use caching, it is highly recommended to also set
+<code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the
+file (in a chunk that is not cached). Alternatively, you can customize
+the option <code>dependson</code> for each individual chunk that is
+cached. Using either <code>autodep</code> or <code>dependson</code> will
+remove this warning. See the
+<a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
+</p>
+</div>
+<p>These are the max. residuals in the last iterations:</p>
+<pre class="r"><code>tail(fit_best$progress$res,n = 4)
+# [1] 0.1081849 0.1081849 0.1081849 0.1011945</code></pre>
+<p>Here’s what the topic model looks like:</p>
+<pre class="r"><code>p2 &lt;- structure_plot(fit_best,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors,loadings_order = 1:n) +
+  labs(y = &quot;topic prop.&quot;) +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+print(p2)</code></pre>
+<p><img src="figure/mcf7.Rmd/structure-plot-high-quality-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Fit the topic model by performing EM updates or SCD updates, with or
+without extrapolation.</p>
+<pre class="r"><code>control$extrapolate &lt;- FALSE
+fit_em  &lt;- fit_poisson_nmf(counts,fit0 = fit0,numiter = 100,method = &quot;em&quot;,
+                           control = control,verbose = &quot;none&quot;)
+fit_scd &lt;- fit_poisson_nmf(counts,fit0 = fit0,numiter = 200,method = &quot;scd&quot;,
+                           control = control,verbose = &quot;none&quot;)
+fit_scd_ex &lt;- fit_poisson_nmf(counts,fit0 = fit0,numiter = 50,method = &quot;scd&quot;,
+                              control = control,verbose = &quot;none&quot;)
+control$extrapolate &lt;- TRUE
+fit_scd_ex &lt;- fit_poisson_nmf(counts,fit0 = fit_scd_ex,numiter = 50,
+                              method = &quot;scd&quot;,control = control,
+                              verbose = &quot;none&quot;)
+fit_em_scd &lt;- fit_poisson_nmf(counts,fit0 = fit_em,numiter = 100,
+                              method = &quot;scd&quot;,control = control,
+                              verbose = &quot;none&quot;)
+control$extrapolate &lt;- FALSE
+fit_em  &lt;- fit_poisson_nmf(counts,fit0 = fit_em,numiter = 100,method = &quot;em&quot;,
+                           control = control,verbose = &quot;none&quot;)</code></pre>
+<div class="alert alert-warning">
+<p>
+<strong>Warning:</strong> The above code chunk cached its results, but
+it won’t be re-run if previous chunks it depends on are updated. If you
+need to use caching, it is highly recommended to also set
+<code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the
+file (in a chunk that is not cached). Alternatively, you can customize
+the option <code>dependson</code> for each individual chunk that is
+cached. Using either <code>autodep</code> or <code>dependson</code> will
+remove this warning. See the
+<a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
+</p>
+</div>
+<p>This plot shows the improvement in the solution over time for the
+different methods:</p>
+<pre class="r"><code>progress_plot_colors &lt;- c(&quot;dodgerblue&quot;,&quot;darkblue&quot;,&quot;darkorange&quot;,&quot;magenta&quot;)
+ll_best &lt;- tail(fit_best$progress$loglik.multinom,n = 1)
+pdat &lt;- rbind(cbind(fit_em$progress,data.frame(method = &quot;em&quot;)),
+              cbind(fit_scd$progress,data.frame(method = &quot;scd&quot;)),
+              cbind(fit_scd_ex$progress,data.frame(method = &quot;scd+ex&quot;)),
+              cbind(fit_em_scd$progress,data.frame(method = &quot;em+scd+ex&quot;)))
+pdat &lt;- transform(pdat,
+                  loglik.multinom = ll_best - loglik.multinom,
+                  method = factor(method))
+pdat2 &lt;- subset(pdat,iter %% 50 == 1)
+p3 &lt;- ggplot(pdat,aes(x = iter,y = loglik.multinom,color = method)) +
+  geom_line() +
+  geom_point(data = pdat2,size = 1) +
+  scale_y_continuous(trans = &quot;log10&quot;,breaks = 10^seq(-3,7)) +
+  scale_color_manual(values = progress_plot_colors) +
+  labs(x = &quot;iteration&quot;,y = &quot;distance from best loglik&quot;) +
+  theme_cowplot(font_size = 12)
+print(p3)</code></pre>
+<p><img src="figure/mcf7.Rmd/progress-plots-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Compare the log-likelihoods obtained by the different methods
+(relative to the log-likelihood at the “high-quality” solution):</p>
+<pre class="r"><code>logliks &lt;- c(&quot;initial&quot;   = sum(loglik_multinom_topic_model(counts,fit0)),
+             &quot;em&quot;        = sum(loglik_multinom_topic_model(counts,fit_em)),
+             &quot;scd&quot;       = sum(loglik_multinom_topic_model(counts,fit_scd)),
+             &quot;scd+ex&quot;    = sum(loglik_multinom_topic_model(counts,fit_scd_ex)),
+             &quot;em+scd+ex&quot; = sum(loglik_multinom_topic_model(counts,fit_em_scd)))
+ll_best - logliks
+#      initial           em          scd       scd+ex    em+scd+ex 
+# 4.995810e+06 1.551685e+05 7.850426e-02 7.498864e-03 2.696458e-03</code></pre>
+<p>Compare the fit obtained by each method in Structure plots:</p>
+<pre class="r"><code>p4 &lt;- structure_plot(fit_em,grouping = samples$label,topics = c(3,1,2),
+                    colors = topic_colors,loadings_order = 1:n) +
+  labs(y = &quot;topic prop.&quot;,title = &quot;EM&quot;) +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+p5 &lt;- structure_plot(fit_scd,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors,loadings_order = 1:n) +
+  labs(y = &quot;topic prop.&quot;,title = &quot;SCD&quot;) +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+p6 &lt;- structure_plot(fit_scd_ex,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors) +
+  labs(y = &quot;topic prop.&quot;,title = &quot;SCD + extrapolate&quot;) +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+p7 &lt;- structure_plot(fit_em_scd,grouping = samples$label,topics = c(3,1,2),
+                     colors = topic_colors) +
+  labs(y = &quot;topic prop.&quot;,title = &quot;EM + SCD + extrapolate&quot;) +
+  theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
+print(plot_grid(p4,p5,p6,p7,nrow = 4,ncol = 1))</code></pre>
+<p><img src="figure/mcf7.Rmd/morestructure-plots-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Finally, save the key plots to PDF:</p>
+<pre class="r"><code>ggsave(&quot;mcf7_structure_plots.pdf&quot;,
+       plot_grid(p1 + ggtitle(&quot;initial&quot;),
+                 p2 + ggtitle(&quot;solution&quot;),
+                 p4,
+                 p5,
+                 nrow = 4,ncol = 1),
+       height = 5.5,width = 4)
+ggsave(&quot;mcf7_progress_plot.pdf&quot;,p3,height = 2.5,width = 4)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -598,28 +883,30 @@ Session information
 #  [4] htmlwidgets_1.6.4   ggrepel_0.9.5       lattice_0.22-5     
 #  [7] quadprog_1.5-8      vctrs_0.6.5         tools_4.3.3        
 # [10] generics_0.1.3      parallel_4.3.3      tibble_3.2.1       
-# [13] fansi_1.0.6         pkgconfig_2.0.3     Matrix_1.6-5       
-# [16] data.table_1.17.4   SQUAREM_2021.1      RcppParallel_5.1.10
-# [19] lifecycle_1.0.4     truncnorm_1.0-9     compiler_4.3.3     
-# [22] stringr_1.5.1       git2r_0.33.0        progress_1.2.3     
-# [25] munsell_0.5.0       RhpcBLASctl_0.23-42 httpuv_1.6.14      
-# [28] htmltools_0.5.8.1   sass_0.4.9          yaml_2.3.8         
-# [31] lazyeval_0.2.2      plotly_4.10.4       crayon_1.5.2       
-# [34] later_1.3.2         pillar_1.9.0        jquerylib_0.1.4    
-# [37] whisker_0.4.1       tidyr_1.3.1         uwot_0.2.3         
-# [40] cachem_1.0.8        gtools_3.9.5        tidyselect_1.2.1   
-# [43] digest_0.6.34       Rtsne_0.17          stringi_1.8.3      
-# [46] reshape2_1.4.4      dplyr_1.1.4         purrr_1.0.2        
-# [49] ashr_2.2-66         rprojroot_2.0.4     fastmap_1.1.1      
-# [52] grid_4.3.3          colorspace_2.1-0    cli_3.6.4          
-# [55] invgamma_1.1        magrittr_2.0.3      utf8_1.2.4         
-# [58] withr_3.0.2         prettyunits_1.2.0   scales_1.3.0       
-# [61] promises_1.2.1      rmarkdown_2.26      httr_1.4.7         
-# [64] workflowr_1.7.1     hms_1.1.3           pbapply_1.7-2      
-# [67] evaluate_1.0.3      knitr_1.45          viridisLite_0.4.2  
-# [70] irlba_2.3.5.1       rlang_1.1.5         Rcpp_1.0.12        
-# [73] mixsqp_0.3-54       glue_1.8.0          jsonlite_1.8.8     
-# [76] plyr_1.8.9          R6_2.5.1            fs_1.6.5</code></pre>
+# [13] fansi_1.0.6         highr_0.10          pkgconfig_2.0.3    
+# [16] Matrix_1.6-5        data.table_1.17.4   SQUAREM_2021.1     
+# [19] RcppParallel_5.1.10 lifecycle_1.0.4     truncnorm_1.0-9    
+# [22] farver_2.1.1        compiler_4.3.3      stringr_1.5.1      
+# [25] git2r_0.33.0        textshaping_0.3.7   progress_1.2.3     
+# [28] munsell_0.5.0       RhpcBLASctl_0.23-42 httpuv_1.6.14      
+# [31] htmltools_0.5.8.1   sass_0.4.9          yaml_2.3.8         
+# [34] lazyeval_0.2.2      plotly_4.10.4       crayon_1.5.2       
+# [37] later_1.3.2         pillar_1.9.0        jquerylib_0.1.4    
+# [40] whisker_0.4.1       tidyr_1.3.1         uwot_0.2.3         
+# [43] cachem_1.0.8        gtools_3.9.5        tidyselect_1.2.1   
+# [46] digest_0.6.34       Rtsne_0.17          stringi_1.8.3      
+# [49] reshape2_1.4.4      dplyr_1.1.4         purrr_1.0.2        
+# [52] ashr_2.2-66         labeling_0.4.3      rprojroot_2.0.4    
+# [55] fastmap_1.1.1       grid_4.3.3          colorspace_2.1-0   
+# [58] cli_3.6.4           invgamma_1.1        magrittr_2.0.3     
+# [61] utf8_1.2.4          withr_3.0.2         prettyunits_1.2.0  
+# [64] scales_1.3.0        promises_1.2.1      rmarkdown_2.26     
+# [67] httr_1.4.7          workflowr_1.7.1     ragg_1.2.7         
+# [70] hms_1.1.3           pbapply_1.7-2       evaluate_1.0.3     
+# [73] knitr_1.45          viridisLite_0.4.2   irlba_2.3.5.1      
+# [76] rlang_1.1.5         Rcpp_1.0.12         mixsqp_0.3-54      
+# [79] glue_1.8.0          jsonlite_1.8.8      plyr_1.8.9         
+# [82] R6_2.5.1            systemfonts_1.0.6   fs_1.6.5</code></pre>
 </div>
 
 
