@@ -171,4 +171,15 @@ p7 <- structure_plot(fit_em_scd,grouping = samples$label,topics = c(3,1,2),
 print(plot_grid(p4,p5,p6,p7,nrow = 4,ncol = 1))
 ```
 
-TO DO: Save the plots as PDFs.
+Finally, save the key plots to PDF:
+
+```{r ggsave}
+ggsave("mcf7_structure_plots.pdf",
+       plot_grid(p1 + ggtitle("initial"),
+	             p2 + ggtitle("solution"),
+				 p4,
+				 p5,
+				 nrow = 4,ncol = 1),
+	   height = 5.5,width = 4)
+ggsave("mcf7_progress_plot.pdf",p3,height = 2.5,width = 4)
+```
