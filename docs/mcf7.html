@@ -446,15 +446,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree2e4ce294279ff4596691d548b5a3998c1ac1d628targetblank2e4ce29a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreed2d8cb0ca5bca848972af351abe841cef7922d11targetblankd2d8cb0a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/2e4ce294279ff4596691d548b5a3998c1ac1d628" target="_blank">2e4ce29</a>
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/d2d8cb0ca5bca848972af351abe841cef7922d11" target="_blank">d2d8cb0</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree2e4ce294279ff4596691d548b5a3998c1ac1d628targetblank2e4ce29a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreed2d8cb0ca5bca848972af351abe841cef7922d11targetblankd2d8cb0a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -464,7 +464,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/2e4ce294279ff4596691d548b5a3998c1ac1d628" target="_blank">2e4ce29</a>.
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/d2d8cb0ca5bca848972af351abe841cef7922d11" target="_blank">d2d8cb0</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -503,13 +503,7 @@ Untracked files:
     Untracked:  analysis/maptpx-newsgroups-em-k=10.rds
     Untracked:  analysis/maptpx-newsgroups-scd-ex-k=10.rds
     Untracked:  analysis/mcf7_cache/
-    Untracked:  analysis/mcf7_progress_plot.pdf
-    Untracked:  analysis/mcf7_progress_plot_em.pdf
-    Untracked:  analysis/mcf7_structure_plots.pdf
     Untracked:  plots/
-
-Unstaged changes:
-    Modified:   analysis/temp.R
 
 </code></pre>
 <p>
@@ -554,6 +548,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/d2d8cb0ca5bca848972af351abe841cef7922d11/analysis/mcf7.Rmd" target="_blank">d2d8cb0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-26
+</td>
+<td>
+wflow_publish("mcf7.Rmd", verbose = T, view = F)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/1144f1100d7f754177e2d2ed47339ca3d747d484/docs/mcf7.html" target="_blank">1144f11</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-26
+</td>
+<td>
+Added another progress plot to the mcf7 example showing that the EM
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -992,6 +1020,43 @@ p7 &lt;- structure_plot(fit_em_scd,grouping = samples$label,topics = c(3,1,2),
   theme(axis.text.x = element_text(angle = 0,hjust = 0.5))
 print(plot_grid(p4,p5,p6,p7,nrow = 4,ncol = 1))</code></pre>
 <p><img src="figure/mcf7.Rmd/more-structure-plots-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-more-structure-plots-1">
+Past versions of more-structure-plots-1.png
+</button>
+</p>
+<div id="fig-more-structure-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1144f1100d7f754177e2d2ed47339ca3d747d484/docs/figure/mcf7.Rmd/more-structure-plots-1.png" target="_blank">1144f11</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Also, let’s check that the EM updates <em>eventually</em> converge to
 the same fixed point:</p>
 <pre class="r"><code>control$extrapolate &lt;- FALSE
@@ -1023,13 +1088,50 @@ remove this warning. See the
 pdat &lt;- transform(pdat,loglik.multinom = ll_best - loglik.multinom)
 pdat2 &lt;- subset(pdat,iter %% 50 == 1)
 p8 &lt;- ggplot(pdat,aes(x = iter,y = loglik.multinom)) +
-  geom_line(color = &quot;darkorange&quot;) +
-  geom_point(data = pdat2,size = 1,color = &quot;darkorange&quot;) +
+  geom_line(color = &quot;dodgerblue&quot;) +
+  geom_point(data = pdat2,size = 1,color = &quot;dodgerblue&quot;) +
   scale_y_continuous(trans = &quot;log10&quot;,breaks = 10^seq(-2,+7)) +
   labs(x = &quot;iteration&quot;,y = &quot;dist. from best loglik&quot;) +
   theme_cowplot(font_size = 12)
 print(p8)</code></pre>
 <p><img src="figure/mcf7.Rmd/progress-plot-1.png" width="360" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-progress-plot-1">
+Past versions of progress-plot-1.png
+</button>
+</p>
+<div id="fig-progress-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/1144f1100d7f754177e2d2ed47339ca3d747d484/docs/figure/mcf7.Rmd/progress-plot-1.png" target="_blank">1144f11</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-06-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Finally, save the key plots to PDF:</p>
 <pre class="r"><code>ggsave(&quot;mcf7_structure_plots.pdf&quot;,
        plot_grid(p1 + ggtitle(&quot;initial&quot;),
