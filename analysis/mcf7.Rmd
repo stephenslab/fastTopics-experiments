@@ -194,8 +194,8 @@ pdat <- fit_em_long$progress
 pdat <- transform(pdat,loglik.multinom = ll_best - loglik.multinom)
 pdat2 <- subset(pdat,iter %% 50 == 1)
 p8 <- ggplot(pdat,aes(x = iter,y = loglik.multinom)) +
-  geom_line(color = "darkorange") +
-  geom_point(data = pdat2,size = 1,color = "darkorange") +
+  geom_line(color = "dodgerblue") +
+  geom_point(data = pdat2,size = 1,color = "dodgerblue") +
   scale_y_continuous(trans = "log10",breaks = 10^seq(-2,+7)) +
   labs(x = "iteration",y = "dist. from best loglik") +
   theme_cowplot(font_size = 12)
