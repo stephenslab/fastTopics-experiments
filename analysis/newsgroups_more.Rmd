@@ -58,7 +58,7 @@ estimates:
 
 ```{r structure-plot-em, fig.height=2.25, fig.width=8, results="hide", message=FALSE} 
 n    <- nrow(fit1$L)
-rows <- sample(n,2000)
+rows <- sample(n,1000)
 L1   <- select_loadings(fit1,rows)$L
 topics <- factor(topics,
                  c("rec.sport.hockey",
@@ -85,7 +85,7 @@ topic_ordering <- c(2:10,1)
 topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
                   "#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a")
 p1 <- structure_plot(L1,topics = 1:10,grouping = topics[rows],
-                     colors = topic_colors,gap = 20) +
+                     colors = topic_colors,gap = 10) +
   ggtitle("EM without extrapolation") +
   theme(plot.title = element_text(face = "plain",size = 10))
 p1
@@ -96,7 +96,7 @@ And here are the CD estimates:
 ```{r structure-plot-cd, fig.height=2.25, fig.width=8, results="hide", message=FALSE}
 L2 <- select_loadings(fit2,rows)$L
 p2 <- structure_plot(L2,topics = 1:10,grouping = topics[rows],
-                     colors = topic_colors,gap = 20) +
+                     colors = topic_colors,gap = 10) +
   ggtitle("CD with extrapolation") +
   theme(plot.title = element_text(face = "plain",size = 10))
 p2
