@@ -69,7 +69,8 @@ clusters <- factor(clusters,
                    c("Megakaryocytes","myeloid","B cells","NK cells",
 				     "T cells"))
 n    <- nrow(fit1$L)
-rows <- sample(n,2000)
+rows <- c(sample(which(clusters == "T cells"),400),
+          sample(which(clusters != "T cells"),650))
 fit1 <- select_loadings(fit1,rows)
 fit2 <- select_loadings(fit2,rows)
 k <- 7
@@ -77,7 +78,7 @@ topic_colors <- c("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99",
                   "#e31a1c","#fdbf6f")
 set.seed(1)
 p1 <- structure_plot(fit1,grouping = clusters[rows],topics = 1:7,
-                     colors = topic_colors,gap = 20)
+                     colors = topic_colors,gap = 10)
   ggtitle("EM without extrapolation") +
   theme(plot.title = element_text(face = "plain",size = 10))
 p1
@@ -87,7 +88,7 @@ And here are the CD estimates:
 
 ```{r structure-plot-cd, fig.height=1.75, fig.width=8, results="hide", message=FALSE}
 p2 <- structure_plot(fit2,grouping = clusters[rows],topics = 1:7,
-                     colors = topic_colors,gap = 20)
+                     colors = topic_colors,gap = 10)
   ggtitle("CD with extrapolation") +
   theme(plot.title = element_text(face = "plain",size = 10))
 p2
