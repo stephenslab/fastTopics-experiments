@@ -433,15 +433,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreefbfb49de6bf1dbdab596484b845b796118b9a04btargetblankfbfb49da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree27deae0706e3e4b6be81ea3dd34ea5972474ce0dtargetblank27deae0a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/fbfb49de6bf1dbdab596484b845b796118b9a04b" target="_blank">fbfb49d</a>
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/27deae0706e3e4b6be81ea3dd34ea5972474ce0d" target="_blank">27deae0</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstreefbfb49de6bf1dbdab596484b845b796118b9a04btargetblankfbfb49da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabfastTopicsexperimentstree27deae0706e3e4b6be81ea3dd34ea5972474ce0dtargetblank27deae0a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -451,7 +451,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/fastTopics-experiments/tree/fbfb49de6bf1dbdab596484b845b796118b9a04b" target="_blank">fbfb49d</a>.
+<a href="https://github.com/stephenslab/fastTopics-experiments/tree/27deae0706e3e4b6be81ea3dd34ea5972474ce0d" target="_blank">27deae0</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -536,6 +536,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/27deae0706e3e4b6be81ea3dd34ea5972474ce0d/analysis/newsgroups_more.Rmd" target="_blank">27deae0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-07-01
+</td>
+<td>
+wflow_publish("newsgroups_more.Rmd", verbose = T, view = F)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/fastTopics-experiments/2341f05da33bb9e5375d183a8ea352b39c78acf4/docs/newsgroups_more.html" target="_blank">2341f05</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-07-01
+</td>
+<td>
+Rebuilt the newsgroups_more analysis with the latest version of
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -759,7 +793,7 @@ cor(as.vector(fit2$L),as.vector(lda2@gamma))
 <p>Let’s now examine the results using Structure plots. Here are the EM
 estimates:</p>
 <pre class="r"><code>n    &lt;- nrow(fit1$L)
-rows &lt;- sample(n,2000)
+rows &lt;- sample(n,1000)
 L1   &lt;- select_loadings(fit1,rows)$L
 topics &lt;- factor(topics,
                  c(&quot;rec.sport.hockey&quot;,
@@ -786,7 +820,7 @@ topic_ordering &lt;- c(2:10,1)
 topic_colors &lt;- c(&quot;#a6cee3&quot;,&quot;#1f78b4&quot;,&quot;#b2df8a&quot;,&quot;#33a02c&quot;,&quot;#fb9a99&quot;,
                   &quot;#e31a1c&quot;,&quot;#fdbf6f&quot;,&quot;#ff7f00&quot;,&quot;#cab2d6&quot;,&quot;#6a3d9a&quot;)
 p1 &lt;- structure_plot(L1,topics = 1:10,grouping = topics[rows],
-                     colors = topic_colors,gap = 20) +
+                     colors = topic_colors,gap = 10) +
   ggtitle(&quot;EM without extrapolation&quot;) +
   theme(plot.title = element_text(face = &quot;plain&quot;,size = 10))
 p1</code></pre>
@@ -813,6 +847,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/2341f05da33bb9e5375d183a8ea352b39c78acf4/docs/figure/newsgroups_more.Rmd/structure-plot-em-1.png" target="_blank">2341f05</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-07-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/2b1b3d5171792963d78a06f627559b46e732403c/docs/figure/newsgroups_more.Rmd/structure-plot-em-1.png" target="_blank">2b1b3d5</a>
@@ -842,7 +887,7 @@ Peter Carbonetto
 <p>And here are the CD estimates:</p>
 <pre class="r"><code>L2 &lt;- select_loadings(fit2,rows)$L
 p2 &lt;- structure_plot(L2,topics = 1:10,grouping = topics[rows],
-                     colors = topic_colors,gap = 20) +
+                     colors = topic_colors,gap = 10) +
   ggtitle(&quot;CD with extrapolation&quot;) +
   theme(plot.title = element_text(face = &quot;plain&quot;,size = 10))
 p2</code></pre>
@@ -869,6 +914,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/fastTopics-experiments/blob/2341f05da33bb9e5375d183a8ea352b39c78acf4/docs/figure/newsgroups_more.Rmd/structure-plot-cd-1.png" target="_blank">2341f05</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2025-07-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/fastTopics-experiments/blob/d30514992ab6944f806e1ef754ca109f37f90d15/docs/figure/newsgroups_more.Rmd/structure-plot-cd-1.png" target="_blank">d305149</a>
