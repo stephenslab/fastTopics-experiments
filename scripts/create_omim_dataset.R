@@ -1,21 +1,5 @@
-# Script to generate a topic modeling data set using the OMIM
-# database. This idea comes from Eraslan et al, Science (2022),
-# doi:10.1126/science.abl4290 (see in particular "Topic modeling of
-# OMIM diseases" in the supplementary text).
-#
-# See https://api.omim.org/api/html/ 
-#
-# Also see https://omim.org/help/faq for an explanation of the
-# "prefix" for each entry.
-#
-# See https://www.omim.org/entry/272800 for an example OMIM entry
-# (for Tay-Sachs disease).
-#
-# First I downloaded mim2gene.txt from 
-# https://www.omim.org/downloads/
-# 
-# Also, need to set "apikey" variable before running.
-#
+# First run get_omim_tokens.R to retrieve the text data using the OMIM
+# API.
 library(Matrix)
 library(tools)
 library(httr)
@@ -28,9 +12,8 @@ names(mim2gene) <- c("mim","entry_type","gene_entrez","gene_hgnc","ensembl")
 mim2gene <- transform(mim2gene,entry_type = factor(entry_type))
 mim2gene <- subset(mim2gene,entry_type == "phenotype")
 
-# Query the OMIM API to retrieve the disease descriptions.
-# n <- nrow(mim2gene)
-n <- 2000 # *** TESTING ***
+# Query the OMIM API to first retrieve disease prefix and status.
+n <- nrow(mim2gene)
 meta_data <- data.frame(prefix         = rep(as.character(NA),n),
                         mim            = rep(0,n),
                         status         = rep(as.character(NA),n),
@@ -41,15 +24,21 @@ cat("Querying OMIM API: ")
 for (i in 1:n) {
   mim <- mim2gene[i,"mim"]
   cat(mim,"")
+  # TO DO: Try without the "include=text".
+  # out <- GET(sprintf(paste("https://api.omim.org/api/entry?mimNumber=%d",
+  #                       "include=text","format=json","apiKey=%s",sep="&"),
+  #                    mim,apikey))
+  # dat <- dat[[1]]$entryList$entry
   out <- GET(sprintf(paste("https://api.omim.org/api/entry?mimNumber=%d",
-                           "include=text","format=json","apiKey=%s",sep="&"),
+                           "format=json","apiKey=%s",sep="&"),
                      mim,apikey))
   dat <- fromJSON(rawToChar(out$content))
-  dat <- dat[[1]]$entryList$entry
-  meta_data[i,"prefix"] <- dat$prefix
-  meta_data[i,"mim"]  <- dat$mimNumber
-  meta_data[i,"status"] <- dat$status
-  meta_data[i,"preferredTitle"] <- dat$titles$preferredTitle
+  meta_data[i,"prefix"] <- dat$omim$entryList[[1]][1,"prefix"]
+  meta_data[i,"mim"]    <- dat$omim$entryList[[1]][1,"mimNumber"]
+  meta_data[i,"status"] <- dat$omim$entryList[[1]][1,"status"]
+  meta_data[i,"preferredTitle"] <- 
+    unlist(dat$omim$entryList[[1]])["titles.preferredTitle"]
+  stop()
   s <- dat$textSectionList[[1]]$textSection$textSectionContent
   s <- tolower(s)
   s <- str_remove_all(s,fixed("."))
