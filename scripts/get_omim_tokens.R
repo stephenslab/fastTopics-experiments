@@ -55,5 +55,11 @@ for (start in seq(0,n,20)) {
 }
 cat("\n")
 
+#
 # TO DO: Check that the MIM numbers agree.
+#
 print(all(meta_data$mim == mims))
+
+#
+# TO DO: Save the tokens to an .RData file.
+#
