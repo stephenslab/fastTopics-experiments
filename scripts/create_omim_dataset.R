@@ -1,46 +1,15 @@
-# First run get_omim_tokens.R to retrieve the text data using the OMIM
-# API.
+# First run get_omim_tokens.R to query the OMIM API and retrieve the
+# text data. This will create the input "omim_tokens.RData".
 library(Matrix)
 library(tools)
-library(httr)
-library(jsonlite)
+library(stringr)
+load("omim_tokens.RData")
 
-# Get the list of phenotypes.
-mim2gene <- read.table("../data/mim2gene.txt.gz",sep = "\t",
-                       header = FALSE)
-names(mim2gene) <- c("mim","entry_type","gene_entrez","gene_hgnc","ensembl")
-mim2gene <- transform(mim2gene,entry_type = factor(entry_type))
-mim2gene <- subset(mim2gene,entry_type == "phenotype")
-
-# Query the OMIM API to first retrieve disease prefix and status.
-n <- nrow(mim2gene)
-meta_data <- data.frame(prefix         = rep(as.character(NA),n),
-                        mim            = rep(0,n),
-                        status         = rep(as.character(NA),n),
-                        preferredTitle = rep(as.character(NA),n),
-                        stringsAsFactors = FALSE)
-tokens <- vector("list",n)
-cat("Querying OMIM API: ")
+# Process the text data.
+n <- nrow(meta_data)
 for (i in 1:n) {
-  mim <- mim2gene[i,"mim"]
-  cat(mim,"")
-  # TO DO: Try without the "include=text".
-  # out <- GET(sprintf(paste("https://api.omim.org/api/entry?mimNumber=%d",
-  #                       "include=text","format=json","apiKey=%s",sep="&"),
-  #                    mim,apikey))
-  # dat <- dat[[1]]$entryList$entry
-  out <- GET(sprintf(paste("https://api.omim.org/api/entry?mimNumber=%d",
-                           "format=json","apiKey=%s",sep="&"),
-                     mim,apikey))
-  dat <- fromJSON(rawToChar(out$content))
-  meta_data[i,"prefix"] <- dat$omim$entryList[[1]][1,"prefix"]
-  meta_data[i,"mim"]    <- dat$omim$entryList[[1]][1,"mimNumber"]
-  meta_data[i,"status"] <- dat$omim$entryList[[1]][1,"status"]
-  meta_data[i,"preferredTitle"] <- 
-    unlist(dat$omim$entryList[[1]])["titles.preferredTitle"]
-  stop()
-  s <- dat$textSectionList[[1]]$textSection$textSectionContent
-  s <- unlist(s)
+  cat(meta_data[i,"mim"],"")
+  s <- unlist(tokens[[i]])
   s <- tolower(s)
   s <- str_remove_all(s,fixed("."))
   s <- str_remove_all(s,fixed(","))
@@ -61,21 +30,12 @@ for (i in 1:n) {
 }
 cat("\n")
 
-# Keep only the entries with the "#" prefix which are "live"
-i         <- which(with(meta_data,prefix == "#" & status == "live"))
-meta_data <- meta_data[i,]
-tokens    <- tokens[i]
-meta_data <- transform(meta_data,
-                       prefix = factor(prefix),
-                       status = factor(status))
-
 # Build the vocabulary.
 cat("Building vocabulary: ")
 vocabulary <- NULL
 n <- nrow(meta_data)
 for (i in 1:n) {
-  mim <- mim2gene[i,"mim"]
-  cat(mim,"")
+  cat(meta_data[i,"mim"],"")
   vocabulary <- c(vocabulary,unique(tokens[[i]]))
 }
 cat("\n")
@@ -88,8 +48,7 @@ rows   <- NULL
 cols   <- NULL
 values <- NULL
 for (i in 1:n) {
-  mim <- mim2gene[i,"mim"]
-  cat(mim,"")
+  cat(meta_data[i,"mim"],"")
   x      <- table(tokens[[i]])
   m      <- length(x)
   j      <- match(names(x),vocabulary)
