@@ -33,24 +33,27 @@ meta_data <-
     title  = dat$omim$searchResponse$entryList$entry$titles$preferredTitle,
     stringsAsFactors = FALSE)
 
-stop()
-
 # Retreive the text from the OMIM entries.
-#
-# NOTE: When doing this, make sure that the MIM numbers are the same
-# as in the meta_data.
-# 
-n <- nrow(meta_data)
+# n <- nrow(meta_data)
+n <- 100 # *** TESTING ***
 tokens <- NULL
-for (start in seq(0,100,20)) {
-  start_text <- paste0("start=",start)
+mims   <- NULL
+for (start in seq(0,n,20)) {
+  cat(start,"")
   out <- GET(paste0(omim_url,
                     paste("/entry/search?search=prefix%3A%23",
-                          "include=text","format=json",start_text,
+                          "include=text","format=json",
+                          paste0("start=",start),
                           "limit=20","apiKey=",sep="&"),
                     apikey))
   dat <- fromJSON(rawToChar(out$content))
-tokens_batch <- 
-  lapply(dat$omim$searchResponse$entryList$entry$textSectionList,
-         function (x) x$textSection$textSectionContent)
+  mims <- c(mims,dat$omim$searchResponse$entryList$entry$mimNumber)
+  tokens_batch <- 
+    lapply(dat$omim$searchResponse$entryList$entry$textSectionList,
+           function (x) x$textSection$textSectionContent)
+  tokens <- c(tokens,tokens_batch)
 }
+cat("\n")
+
+# TO DO: Check that the MIM numbers agree.
+print(all(meta_data$mim == mims))

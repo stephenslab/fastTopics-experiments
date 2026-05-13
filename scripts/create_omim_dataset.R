@@ -40,6 +40,7 @@ for (i in 1:n) {
     unlist(dat$omim$entryList[[1]])["titles.preferredTitle"]
   stop()
   s <- dat$textSectionList[[1]]$textSection$textSectionContent
+  s <- unlist(s)
   s <- tolower(s)
   s <- str_remove_all(s,fixed("."))
   s <- str_remove_all(s,fixed(","))
@@ -54,7 +55,6 @@ for (i in 1:n) {
   s <- str_remove_all(s,fixed("}"))
   s <- str_replace_all(s,fixed("\n")," ")
   s <- strsplit(s," ")
-  s <- unlist(s)
   s <- s[nchar(s) > 0]
   s <- s[is.element(substr(s,1,1),letters)]
   tokens[[i]] <- s
