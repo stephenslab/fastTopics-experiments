@@ -16,38 +16,41 @@
 # 
 # Also, need to set "apikey" variable before running.
 #
-library(Matrix)
-library(tools)
 library(httr)
 library(jsonlite)
 
-# Get the list of phenotypes.
-mim2gene <- read.table("../data/mim2gene.txt.gz",sep = "\t",
-                       header = FALSE)
-names(mim2gene) <- c("mim","entry_type","gene_entrez","gene_hgnc","ensembl")
-mim2gene <- transform(mim2gene,entry_type = factor(entry_type))
-mim2gene <- subset(mim2gene,entry_type == "phenotype")
+# Search the OMIM API for all "live" entries with the "#" prefix.
+omim_url <- "https://api.omim.org/api"
+out <- GET(paste0(omim_url,
+                  paste("/entry/search?search=prefix%3A%23",
+                        "status=live","format=json","limit=10000",
+                        "apiKey=",sep="&"),
+                  apikey))
+dat <- fromJSON(rawToChar(out$content))
+meta_data <- 
+  data.frame(
+    mim    = dat$omim$searchResponse$entryList$entry$mimNumber,
+    title  = dat$omim$searchResponse$entryList$entry$titles$preferredTitle,
+    stringsAsFactors = FALSE)
 
-# Query the OMIM API to first retrieve diseases' prefix and status.
-n <- nrow(mim2gene)
-meta_data <- data.frame(prefix         = rep(as.character(NA),n),
-                        mim            = rep(0,n),
-                        status         = rep(as.character(NA),n),
-                        preferredTitle = rep(as.character(NA),n),
-                        stringsAsFactors = FALSE)
-tokens <- vector("list",n)
-cat("Querying OMIM API: ")
-for (i in 1:n) {
-  mim <- mim2gene[i,"mim"]
-  cat(mim,"")
-  out <- GET(sprintf(paste("https://api.omim.org/api/entry?mimNumber=%d",
-                           "format=json","apiKey=%s",sep="&"),mim,apikey))
+stop()
+
+# Retreive the text from the OMIM entries.
+#
+# NOTE: When doing this, make sure that the MIM numbers are the same
+# as in the meta_data.
+# 
+n <- nrow(meta_data)
+tokens <- NULL
+for (start in seq(0,100,20)) {
+  start_text <- paste0("start=",start)
+  out <- GET(paste0(omim_url,
+                    paste("/entry/search?search=prefix%3A%23",
+                          "include=text","format=json",start_text,
+                          "limit=20","apiKey=",sep="&"),
+                    apikey))
   dat <- fromJSON(rawToChar(out$content))
-  meta_data[i,"prefix"] <- dat$omim$entryList$entry$prefix
-  meta_data[i,"mim"]    <- dat$omim$entryList$entry$mimNumber
-  meta_data[i,"status"] <- dat$omim$entryList$entry$status
-  meta_data[i,"preferredTitle"] <- 
-    dat$omim$entryList$entry$titles$preferredTitle
+tokens_batch <- 
+  lapply(dat$omim$searchResponse$entryList$entry$textSectionList,
+         function (x) x$textSection$textSectionContent)
 }
-cat("\n")
-
