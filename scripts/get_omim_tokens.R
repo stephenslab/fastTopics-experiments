@@ -14,7 +14,9 @@
 # First I downloaded mim2gene.txt from 
 # https://www.omim.org/downloads/
 # 
-# Also, need to set "apikey" variable before running.
+# Also, need to set "apikey" variable before running. However, it
+# seems that one API keys is not enough; I need two API keys to handle
+# all the requests because of OMIM's limits on individual API keys.
 #
 library(httr)
 library(jsonlite)
@@ -34,8 +36,8 @@ meta_data <-
     stringsAsFactors = FALSE)
 
 # Retreive the text from the OMIM entries.
-# n <- nrow(meta_data)
-n <- 100 # *** TESTING ***
+n <- nrow(meta_data)
+# n <- 100 # *** TESTING ***
 tokens <- NULL
 mims   <- NULL
 for (start in seq(0,n,20)) {
@@ -54,12 +56,11 @@ for (start in seq(0,n,20)) {
   tokens <- c(tokens,tokens_batch)
 }
 cat("\n")
+names(tokens) <- mims
 
-#
-# TO DO: Check that the MIM numbers agree.
-#
+# Check that the MIM numbers agree.
 print(all(meta_data$mim == mims))
 
-#
-# TO DO: Save the tokens to an .RData file.
-#
+# Save the tokens to an .RData file.
+save(list = c("meta_data","tokens"),
+     file = "omim_tokens.RData")
