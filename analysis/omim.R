@@ -22,7 +22,10 @@ pdat <- cbind(data.frame(umap1 = Y[,1],umap2 = Y[,2]),L)
 p1 <- ggplot(pdat,aes(x = umap1,y = umap2,color = k8)) +
   geom_point() +
   scale_color_gradient(low = "gainsboro",high = "black") +
-  theme_cowplot(font_size = 12)
+    theme_cowplot(font_size = 12)
+i <- which(L[,8] > 0.5)
+ks <- which(colSums(L[i,]) > 1)
+p2 <- structure_plot(L[i,],topics = ks,n = Inf)
 
 stop()
 
