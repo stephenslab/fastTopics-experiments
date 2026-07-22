@@ -1,5 +1,5 @@
 # sinteractive -p mstephens --mem=16G -c 8 --nodelist=midway2-0440 \
-#   --time=36:00:00
+#   --time=12:00:00
 # module load R/4.2.0
 # export OMP_NUM_THREADS=8
 # export OPENBLAS_NUM_THREADS=1
