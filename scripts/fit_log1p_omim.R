@@ -12,4 +12,4 @@ fit_log1p <- fit_poisson_log1p_nmf(counts,k,s,cc = 1,loglik = "approx",
                                                   verbose = TRUE))
 # Save the model fit to an .Rdata file.
 save(list = "fit_log1p",file = "omim_log1p_k=40.RData")
-# resaveRdaFiles("omim_log1p_k=40.RData")
+resaveRdaFiles("omim_log1p_k=40.RData")
